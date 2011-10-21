@@ -15,6 +15,11 @@ jQuery("#ad_frame, #ad_container").live(function(){
 });
 */
 
+jQuery(".still_listening").live(function(){
+	console.log("still listening? doesn't matter. there's no more 40 hour limit!");
+	$(this).click();
+});
+
 
 setInterval(function(){
 	jQuery("#ad_frame").css({"display":"none !important"});
