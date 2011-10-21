@@ -1,6 +1,6 @@
 {
   "name": "Pandora Enhancer", 
-  "version": "0.0.4.1",
+  "version": "0.0.5",
   "description": "Adds cool new features to Pandora's awesome new HTML5 interface.",
   "background_page": "background.html",
   "icons": {
@@ -24,7 +24,7 @@
   "page_action":
     {
 	"default_title"	: "Pandora Enhancer",
-    "default_icon"	: "images/logo-16.png",
-    "default_popup" : "settings.html"
+	"default_icon"	: "images/logo-16.png",
+	"default_popup" : "settings.html"
     }
 }
