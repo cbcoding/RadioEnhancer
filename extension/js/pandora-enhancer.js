@@ -10,8 +10,9 @@ var extendStationList = function()
 {
 	jQuery('#promobox').remove();
 	jQuery('.platformPromo').remove();
-    jQuery(".stationListHolder").css("height", "665px !important");
-    jQuery(".jspContainer").css("height", "655px !important");
+	jQuery('.stationListHolder').css('height', '740px !important');
+	jQuery('.stationContent').css('height', '100% !important');
+	jQuery('.jspContainer').css('height', '100% !important');
 }
 
 /*chrome.extension.sendRequest({}, function(response) { //json
@@ -28,7 +29,7 @@ jQuery(document).ready(function(){
 		hideAds();
 	});
 
-	jQuery("#ad_container, #ad_frame, #adContainer").livequery(function(){
+	jQuery("#ad_container, #ad_frame, #adContainer, #videoPlayerContainer").livequery(function(){
 		jQuery(this).remove();
 	});
 
