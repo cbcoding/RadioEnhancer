@@ -15,9 +15,9 @@ var extendStationList = function()
 	jQuery('.jspContainer').css('height', '100% !important');
 }
 
-/*chrome.extension.sendRequest({}, function(response) { //json
+chrome.extension.sendRequest({}, function(response) { //json
     //console.log("pandora-enhancer.js response: " + response);
-});*/
+});
 
 jQuery(document).ready(function(){
 	jQuery(".still_listening").livequery(function(){
@@ -29,9 +29,16 @@ jQuery(document).ready(function(){
 		hideAds();
 	});
 
-	jQuery("#ad_container, #ad_frame, #adContainer, #videoPlayerContainer").livequery(function(){
+	jQuery("#ad_container, #ad_frame, #adContainer").livequery(function(){
 		jQuery(this).remove();
 	});
+    
+    jQuery("#videoPlayerContainer").livequery(function(){
+        console.log("removing video ad...");
+        //jQuery(this).remove();
+        jQuery(this).addClass("hideVideoAd");
+        console.log("video ad removed!");
+    });
 
 	hideAds();
 	extendStationList();
