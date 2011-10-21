@@ -16,18 +16,27 @@ chrome.extension.sendRequest({}, function(response) { //json
     //console.log("pandora-enhancer.js response: " + response);
 });
 
-jQuery(".still_listening").livequery(function(){
-    console.log("still listening? doesn't matter. there's no more 40 hour limit!");
-    jQuery(this).click();
-});
+jQuery(document).ready(function(){
+	jQuery(".still_listening").livequery(function(){
+		console.log("still listening? doesn't matter. there's no more 40 hour limit!");
+		jQuery(this).click();
+	});
 
-jQuery("#mainContentContainer, #mainContainer").livequery(function(){
-    hideAds();
-});
+	jQuery("#mainContentContainer, #mainContainer").livequery(function(){
+		hideAds();
+	});
 
-jQuery("#ad_container, #ad_frame, #adContainer, .contextual_help_container, #promobox").livequery(function(){
-    jQuery(this).remove();
-});
+	jQuery("#ad_container, #ad_frame, #adContainer").livequery(function(){
+		jQuery(this).remove();
+	});
+
+	hideAds();
+
+	jQuery('#promobox').remove();
+	jQuery('.platformPromo').remove();
+	jQuery('.stationListHolder').css('height', '700px');
+	jQuery('.stationContent').css('height', '100%');
+	jQuery('.jspContainer').css('height', '100%');
 
 hideAds();
-extendStationList();
+});extendStationList();
