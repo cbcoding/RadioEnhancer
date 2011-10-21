@@ -1,5 +1,5 @@
 {
-  "name": "Pandora Enhancer", 
+  "name": "Pandora Enhancer",
   "version": "0.0.5.5",
   "description": "Removes ads, and improves Pandora's awesome HTML5 interface.",
   "background_page": "background.html",
@@ -13,6 +13,7 @@
     {
       "js": [
         "js/jquery-1.6.4.min.js",
+	"js/jquery.livequery.min.js",
 	"js/pandora-enhancer.js"
       ],
       "matches": [

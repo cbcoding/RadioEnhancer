@@ -1,13 +1,14 @@
-    <script>
-      // Called when a message is passed from the content script (pandora-enhancer.js - i need to rename that too) - json
-      function showPageAction(request, sender, sendResponse) {
-        //console.log(sender);
+<script>
+	// Called when a message is passed from the content script (pandora-enhancer.js - i need to rename that too) - json
+	function showPageAction(request, sender, sendResponse)
+	{
+		//console.log(sender);
 		chrome.pageAction.show(sender.tab.id);
 
 		//sendResponse json
-        sendResponse({});
-      };
+		sendResponse({});
+	};
 
-      // Listen for the content script to send a message to the background page.
-      chrome.extension.onRequest.addListener(showPageAction);
-    </script>
+	// Listen for the content script to send a message to the background page.
+	chrome.extension.onRequest.addListener(showPageAction);
+</script>
