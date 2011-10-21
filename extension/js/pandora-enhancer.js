@@ -1,7 +1,7 @@
 console.log("Pandora Ad Remover Loaded");
 
 chrome.extension.sendRequest({}, function(response) { //json
-	console.log("pandora-enhancer.js response: " + response);
+	//console.log("pandora-enhancer.js response: " + response);
 });
 
 //set an interval, because pandora sideloads its player after the DOM is done loading
@@ -15,12 +15,14 @@ jQuery("#ad_frame, #ad_container").live(function(){
 });
 */
 
-jQuery(".still_listening").live(function(){
+jQuery(".still_listening").live('load', function(){
 	console.log("still listening? doesn't matter. there's no more 40 hour limit!");
-	$(this).click();
+	jQuery(this).click();
 });
 
+//TODO: figure out the event they use to load new ads
 
+/**/
 setInterval(function(){
 	jQuery("#ad_frame").css({"display":"none !important"});
 	jQuery("#ad_container").css({"display":"none !important"});
