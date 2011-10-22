@@ -1,7 +1,9 @@
 console.log("Pandora Enhancer loaded.");
 
 //page action icon
-chrome.extension.sendRequest({}, function(response) { //json
+chrome.extension.sendRequest({
+    showPageAction: true
+}, function(response) { //json
     //console.log("pandora-enhancer.js response: " + response);
 });
 
@@ -38,33 +40,34 @@ var selectableLyrics = function()
             "-moz-user-select": "auto !important",
             "cursor":           "auto !important"
         }
-    ).removeClass("unselectable").parents().append(
-        //'<div id="PE-copyLyrics">Copy Lyrics to Clipboard</div>'
-    );
-    
-    /*
-    jQuery("<div id=\"PE-copyLyrics\">Copy Lyrics to Clipboard</div>").css({
-        height:     "auto",
-        width:      "auto",
-        padding:    "5px",
-        border:     "1px solid #012650", //change
-        position:   "absolute",
-        top:        "200px",
-        background: "#09102a",
-        "-moz-border-radius": "8px"
-    });
-    */
+    ).removeClass("unselectable");
 }
 
 var copyLyricsToClipboard = function()
 {
-    //you need to click the "more lyrics" link. it loads the rest afterwards, it's not hidden or something
-    //jQuery(".showMoreLyrics").html("BONER!").click();
+    //you need to click the "more lyrics" link. it loads the rest afterwards, it's not just hidden
+    //jQuery(".showMoreLyrics").triggerHandler("showMoreLyricsClick");
     
-    //remove the <br>'s from the lyrics. if you just use .text(), you get just one long line of lyrics. this preserves line breaks
-    var lyrics = jQuery(".lyricsText").html().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
-    lyrics += "\nCopied by Pandora Enhancer";
-    alert(lyrics);
+    var link = jQuery('.showMoreLyrics')[0];
+    var event = document.createEvent('MouseEvents');
+    event.initEvent( 'click', true, true );
+    link.dispatchEvent(event);
+    
+    setTimeout(function(){
+        //this is a temporary way to do this, as you need to wait for the animation to complete for some reason.
+        //or i may be wrong about that. whatever.
+        
+        //remove the <br>'s from the lyrics. if you just use .text(), you get just one long line of lyrics. this preserves line breaks
+        var lyrics = jQuery(".lyricsText").html().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
+        lyrics += "\nCopied by Pandora Enhancer for Chrome";
+
+        chrome.extension.sendRequest({
+            copyLyrics: true,
+            lyricText: lyrics
+        }, function(response){
+            alert("Lyrics copied to clipboard!");
+        });
+    },1000);
 }
 
 
@@ -79,7 +82,7 @@ jQuery(document).ready(function(){
 		hideAds();
 	});
 
-	jQuery("#ad_container, #ad_frame, #adContainer").livequery(function(){
+	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo").livequery(function(){
 		jQuery(this).remove();
 	});
     
@@ -99,15 +102,13 @@ jQuery(document).ready(function(){
         //console.log("removing copyLyrics div");
     });
     
-    jQuery("#PE-copyLyrics").live('click', function(){
-        
+    jQuery("#PE-copyLyrics").live('click', function(){        
         copyLyricsToClipboard();
     });
     
     jQuery("#videoPlayerContainer").livequery(function(){
-        console.log("removing video ad...");
         jQuery(this).addClass("hideVideoAd").remove(); //nope
-        console.log("video ad removed!");
+        console.log("removing video ad...");
     });
 
 	hideAds();

@@ -1,14 +1,47 @@
-<script>
-	// Called when a message is passed from the content script (pandora-enhancer.js - i need to rename that too) - json
-	function showPageAction(request, sender, sendResponse)
-	{
-		//console.log(sender);
-		chrome.pageAction.show(sender.tab.id);
+<html>
+    <head>
+        <script src="js/jquery-1.6.4.min.js"></script>
+        <script type="text/javascript">
+            var status;
+            
+            // Called when a message is passed from the content script (pandora-enhancer.js - i need to rename that too) - json
+            function showPageAction(tabID)
+            {
+                chrome.pageAction.show(tabID);
+                return {'message':'showing pageaction icon'};
+            }
 
-		//sendResponse json
-		sendResponse({});
-	};
+            function copyLyrics(lyrics)
+            {
+                console.log(lyrics);
+                var textarea = jQuery("#tmp-clipboard");
 
-	// Listen for the content script to send a message to the background page.
-	chrome.extension.onRequest.addListener(showPageAction);
-</script>
+                // now we put the message in the textarea
+                textarea.val(lyrics);
+
+                // and copy the text from the textarea
+                textarea.select();
+                document.execCommand("copy");
+
+                // finally, cleanup / close the connection
+                return {'status':'true'}
+            }
+
+            // Listen for the content script to send a message to the background page.
+            chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
+            {
+                if (request.showPageAction === true){
+                    status = showPageAction(sender.tab.id);
+                } else if (request.copyLyrics === true){
+                    status = copyLyrics(request.lyricText);
+                }
+                
+                sendResponse(status);
+            });
+        </script>
+    </head>
+
+    <body>
+        <textarea id="tmp-clipboard"></textarea>
+    </body>
+</html>
