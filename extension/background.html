@@ -4,7 +4,6 @@
         <script type="text/javascript">
             var status;
             
-            // Called when a message is passed from the content script (pandora-enhancer.js - i need to rename that too) - json
             function showPageAction(tabID)
             {
                 chrome.pageAction.show(tabID);
@@ -13,17 +12,10 @@
 
             function copyLyrics(lyrics)
             {
-                console.log(lyrics);
-                var textarea = jQuery("#tmp-clipboard");
-
-                // now we put the message in the textarea
-                textarea.val(lyrics);
-
-                // and copy the text from the textarea
-                textarea.select();
+                var clip = jQuery("#PE-clipboard-temp");
+                clip.val(lyrics);
+                clip.select();
                 document.execCommand("copy");
-
-                // finally, cleanup / close the connection
                 return {'status':'true'}
             }
 
@@ -42,6 +34,6 @@
     </head>
 
     <body>
-        <textarea id="tmp-clipboard"></textarea>
+        <textarea id="PE-clipboard-temp"></textarea>
     </body>
 </html>

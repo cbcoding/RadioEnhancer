@@ -1,6 +1,6 @@
 {
   "name": "Pandora Enhancer",
-  "version": "0.0.5.6",
+  "version": "0.0.5.7",
   "description": "Removes ads and improves Pandora's awesome HTML5 interface.",
   "background_page": "background.html",
   "icons": {

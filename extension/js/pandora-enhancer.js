@@ -46,7 +46,6 @@ var selectableLyrics = function()
 var copyLyricsToClipboard = function()
 {
     //you need to click the "more lyrics" link. it loads the rest afterwards, it's not just hidden
-    //jQuery(".showMoreLyrics").triggerHandler("showMoreLyricsClick");
     
     var link = jQuery('.showMoreLyrics')[0];
     var event = document.createEvent('MouseEvents');
