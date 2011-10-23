@@ -3,7 +3,7 @@
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
             var status;
-            
+
             function showPageAction(tabID)
             {
                 chrome.pageAction.show(tabID);
@@ -18,6 +18,38 @@
                 document.execCommand("copy");
                 return {'status':'true'}
             }
+            
+            function showSongChangeNotification(info)
+            {
+                console.log(info);
+                //standard notifications can only have 2 lines of text-only content.
+                var notification = webkitNotifications.createNotification(
+                    info.albumArt,
+                    info.songName,
+                    info.artistName + " (" + info.albumName + ")"
+                );
+                
+                /*
+                //html notifications are the new shit
+                var notification = webkitNotifications.createHTMLNotification(
+                    'notification.html?'
+                    +'albumArt='+info.albumArt
+                    +'&artistName='+info.artistName
+                    +'&songName='+info.songName
+                    +'&albumName='+info.albumName
+                );
+                */
+                
+                notification.show();
+                    
+                //dismiss after a few seconds
+                setTimeout(function(){
+                    console.log("hiding notification...");
+                    notification.cancel();
+                }, 3500); //can make this a setting, choose how long you want the notification to stay
+                    
+                return {'message':'PE Notification shown'}
+            }
 
             // Listen for the content script to send a message to the background page.
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
@@ -26,8 +58,24 @@
                     status = showPageAction(sender.tab.id);
                 } else if (request.copyLyrics === true){
                     status = copyLyrics(request.lyricText);
+                } else if (request.songChange === true){
+                    status = showSongChangeNotification({
+                        albumArt:   request.albumArt,
+                        artistName: request.artistName,
+                        songName:   request.songName,
+                        albumName:  request.albumName
+                    });
+                    
+                    /*
+                    //dismiss after 5 seconds
+                    setTimeout(function(){
+                        notification.cancel();
+                    }, 3500); //can make this a setting, choose how long you want the notification to stay
+                    
+                    status = {'message':'notification-shown'}
+                    */
                 }
-                
+
                 sendResponse(status);
             });
         </script>

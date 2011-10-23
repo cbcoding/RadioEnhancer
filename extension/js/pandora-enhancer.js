@@ -10,13 +10,15 @@ chrome.extension.sendRequest({
 //settings
 var settings = {
     background_image:   'http://www.pandora.com/static/valances/pandora/default/skin_background.jpg',
-    background_color:   '#09102a'
+    background_color:   '#09102a',
+    oldAlbumArt:    '',
+    newAlbumArt:    ''
 };
-
 
 //functions
 var hideAds = function()
 {
+    jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
 };
@@ -96,13 +98,72 @@ var totallyStillListening = function()
 }
 
 
+var didSongChange = function(){
+    var currentAlbumArt = jQuery(".playerBarArt")[0];
+    if(currentAlbumArt != null)
+    {
+        settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
+        if(settings.oldAlbumArt != settings.newAlbumArt)
+        {
+            settings.newAlbumArt = settings.oldAlbumArt;
+                        
+            //idunno if it matters, but i prefer artist - song (album)
+            var artistName  = jQuery(".playerBarArtist")[0].textContent,
+                songName    = jQuery(".playerBarSong")[0].textContent,
+                albumName   = jQuery(".playerBarAlbum")[0].textContent;
+            
+            console.log("sending request");
+            chrome.extension.sendRequest(
+            {
+                songChange: true,
+                albumArt:   settings.oldAlbumArt,
+                artistName: artistName,
+                songName:   songName,
+                albumName:  albumName
+            }, function(response) {
+                console.log(response.message);
+            });
+        }
+    }    
+}
 
 jQuery(document).ready(function()
-{        
+{
+    
+    //i want to trigger the function only when the song changes. find songChange event, or monitor .nowplaying and compare or something
+    //either way, i dislike this being on an interval. feels like cheating.
+    setInterval(function(){
+        didSongChange();
+    }, 1500);
+    
+    /*
+    //failures
+    setInterval(function(){
+        var info = jQuery(".nowplaying > .info");
+        $.each(jQuery(".nowplaying > .info div"), function(){
+            console.log(this);
+        });
+    },1000);
+    
+    jQuery(".playerBarSong").livequery(function(){
+        console.log("song changed");
+        console.log(this.html());
+    });
+    
+    jQuery("#playerBar > .info").livequery(function(){
+        console.log("song changed - livequery");
+    }).live('change', function(){
+        console.log("song changed - change live");
+    });
+    */
+    
+    /*
+    //not quite there yet
 	jQuery("#stillListeningTmpl").livequery(function(){
         console.log('still_listening livequery event - fire cannons!');
 		totallyStillListening();
 	});
+    */
 
 	jQuery("#mainContentContainer, #mainContainer").livequery(function(){
 		hideAds();

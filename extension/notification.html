@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script src="js/jquery-1.6.4.min.js"></script>
+        <script type="text/javascript">
+            //http://code.google.com/chrome/extensions/notifications.html
+            function param(name) {
+                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            }
+
+            console.log(param('albumArt'));
+
+            /**/
+            jQuery("#albumArt").text('<img src="' + param('albumArt') + '">');
+            jQuery("#songName").text(param('songName'));
+            jQuery("#artistName").text(param('artistName'));
+            jQuery("#albumName").text(param('artistName'));
+        </script>
+    </head>
+
+    <body>
+        <div id="test"></div>
+    
+        <table border="0" border-style="collapse">
+            <tbody>
+                <tr>
+                    <td rowspan="3" id="albumArt"></td>
+                    <td id="songName"></td>
+                </tr>
+                <tr>
+                    <td id="artistName"></td>
+                </tr>
+                <tr>
+                    <td id="albumName"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
