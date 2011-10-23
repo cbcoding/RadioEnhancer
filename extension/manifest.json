@@ -1,6 +1,6 @@
 {
     "name": "Pandora Enhancer",
-    "version": "0.5.7",
+    "version": "0.5.8",
     "description": "Removes ads, displays song change notifications, and improves Pandora's awesome HTML5 interface.",
     "background_page": "background.html",
     "icons": {

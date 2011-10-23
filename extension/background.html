@@ -19,6 +19,23 @@
                 return {'status':'true'}
             }
             
+            function hideVideoAdNotification()
+            {
+                //show notification, send response, hide after 5 seconds
+                var notification = webkitNotifications.createNotification(
+                    'images/logo-32.png',
+                    'Video Ad Blocked',
+                    'Please wait until music continues...'
+                );
+                
+                notification.show();
+                setTimeout(function(){
+                    notification.cancel();
+                },5000);
+                
+                return {'message':'video-ad-hidden'};
+            }
+            
             function showSongChangeNotification(info)
             {
                 console.log(info);
@@ -58,6 +75,8 @@
                     status = showPageAction(sender.tab.id);
                 } else if (request.copyLyrics === true){
                     status = copyLyrics(request.lyricText);
+                } else if (request.hideVideoAd === true){
+                    status = hideVideoAdNotification();
                 } else if (request.songChange === true){
                     status = showSongChangeNotification({
                         albumArt:   request.albumArt,
@@ -65,15 +84,6 @@
                         songName:   request.songName,
                         albumName:  request.albumName
                     });
-                    
-                    /*
-                    //dismiss after 5 seconds
-                    setTimeout(function(){
-                        notification.cancel();
-                    }, 3500); //can make this a setting, choose how long you want the notification to stay
-                    
-                    status = {'message':'notification-shown'}
-                    */
                 }
 
                 sendResponse(status);

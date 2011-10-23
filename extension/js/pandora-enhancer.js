@@ -15,6 +15,7 @@ var settings = {
     newAlbumArt:    ''
 };
 
+
 //functions
 var hideAds = function()
 {
@@ -23,6 +24,17 @@ var hideAds = function()
     jQuery("#mainContentContainer").css("float", "none !important");
 };
 
+var hideVideoAd = function()
+{
+    //this removes the ad window, but does NOT resume playing music automatically. it takes a few seconds
+    chrome.extension.sendRequest({
+        hideVideoAd:    true
+    }, function(response){
+        jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
+        console.log("removing video ad...");
+    });
+}
+
 var extendStationList = function()
 {
 	jQuery('#promobox').remove();
@@ -30,7 +42,7 @@ var extendStationList = function()
 	jQuery('.stationListHolder').css('height', '740px !important');
 	jQuery('.stationContent').css('height', '100% !important');
 	jQuery('.jspContainer').css('height', '100% !important');
-}
+};
 
 var selectableLyrics = function()
 {
@@ -60,7 +72,7 @@ var selectableLyrics = function()
         }
     ).removeClass("unselectable");    
     console.log("lyrics selectable...");
-}
+};
 
 var copyLyricsToClipboard = function()
 {
@@ -84,7 +96,7 @@ var copyLyricsToClipboard = function()
             alert("Lyrics copied to clipboard!");
         });
     },1000);
-}
+};
 
 var totallyStillListening = function()
 {
@@ -95,7 +107,7 @@ var totallyStillListening = function()
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
     still_listening.dispatchEvent(event);    
-}
+};
 
 
 var didSongChange = function(){
@@ -112,20 +124,16 @@ var didSongChange = function(){
                 songName    = jQuery(".playerBarSong")[0].textContent,
                 albumName   = jQuery(".playerBarAlbum")[0].textContent;
             
-            console.log("sending request");
-            chrome.extension.sendRequest(
-            {
+            chrome.extension.sendRequest({
                 songChange: true,
                 albumArt:   settings.oldAlbumArt,
                 artistName: artistName,
                 songName:   songName,
                 albumName:  albumName
-            }, function(response) {
-                console.log(response.message);
-            });
+            }, function(response) {});
         }
     }    
-}
+};
 
 jQuery(document).ready(function()
 {
@@ -185,8 +193,7 @@ jQuery(document).ready(function()
     });
     
     jQuery("#videoPlayerContainer").livequery(function(){
-        jQuery(this).addClass("hideVideoAd").remove(); //this ain't it
-        console.log("removing video ad...");
+        hideVideoAd();
     });
 
 	hideAds();
