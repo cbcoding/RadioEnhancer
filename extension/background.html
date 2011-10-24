@@ -2,7 +2,6 @@
     <head>
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
-
             function showPageAction(tabID)
             {
                 chrome.pageAction.show(tabID);
@@ -20,7 +19,6 @@
 
 			function stillListeningNotification()
 			{
-				//show notification, send response, hide after 5 seconds
                 var notification = webkitNotifications.createNotification(
                     'images/logo-32.png',
                     'Still listening...',
@@ -37,7 +35,6 @@
             
             function hideVideoAdNotification()
             {
-                //show notification, send response, hide after 5 seconds
                 var notification = webkitNotifications.createNotification(
                     'images/logo-32.png',
                     'Video Ad Blocked',
@@ -54,7 +51,6 @@
             
             function showSongChangeNotification(info)
             {
-                console.log(info);
                 //standard notifications can only have 2 lines of text-only content.
                 var notification = webkitNotifications.createNotification(
                     info.albumArt,
@@ -102,7 +98,7 @@
                 return {'message':settings};
             }
 
-            // Listen for the content script to send a message to the background page.
+            //message listener
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             {
 				var notificationType	= request.notificationType;

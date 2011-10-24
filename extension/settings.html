@@ -38,7 +38,7 @@
 
         <script type="text/javascript">
             function loadCurrentOptions(){
-                //load options and set checkboxes
+                //load options and set values
                 $("input").each(function(index){
                     var name = $(this).prop("name");
                     var value = localStorage[name];
@@ -91,9 +91,7 @@
 
         <div id="about_pandora_enhancer">
             Pandora Enhancer by Brandon Sachs & Curt Hostetter
-            <!-- normal links wont work dude. you need to send a message to create a new tab process first (chrome.tabs.create) -->
         </div>
-
 
         <div id="pe-settings">
             <form id="settings">
@@ -116,21 +114,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Forthcoming settings: notification timeout, custom background image/color, toggle hide ads, toggle lyric selectability -->
-        <!--
-        <pre style="display: block">
-        pandora ad remover, by brandon
-        -----
-        todo
-        - top horizontal ad is horrible. stretches mainContent to its width. fix that ad.
-        - bug where album art on top right appears off-screen (appears to not be related to this extension - happens when its disabled)
-
-        stuff i'd like to learn
-        - local storage for settings
-        - in general, more of the chrome extension and tab api
-        </pre>
-        -->
 
     </body>
 </html>
