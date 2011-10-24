@@ -1,11 +1,12 @@
 //init
 console.log("Pandora Enhancer loaded.");
 chrome.extension.sendRequest({
-    showPageAction: true
+	notificationType: 'showPageAction'
 }, function(response) { //json
     //console.log("pandora-enhancer.js response: " + response);
 });
 
+var songChangeTries = 0;
 
 //settings
 var settings = {
@@ -14,7 +15,6 @@ var settings = {
     oldAlbumArt:    '',
     newAlbumArt:    ''
 };
-
 
 //functions
 var hideAds = function()
@@ -28,7 +28,7 @@ var hideVideoAd = function()
 {
     //this removes the ad window, but does NOT resume playing music automatically. it takes a few seconds
     chrome.extension.sendRequest({
-        hideVideoAd:    true
+        notificationType: 'hideVideoAd'
     }, function(response){
         jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
         console.log("removing video ad...");
@@ -101,58 +101,78 @@ var copyLyricsToClipboard = function()
 var totallyStillListening = function()
 {
     console.log("still listening? doesn't matter. there's no more 40 hour limit!");
-    //element - .still_listening
-    //event - stillListeningClick
     var still_listening = jQuery('.still_listening')[0];
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
     still_listening.dispatchEvent(event);    
 };
 
+var doSongChange = function(){
+    var currentAlbumArt = jQuery(".playerBarArt")[0];  
+	if(currentAlbumArt == null)
+	{
+		if(songChangeTries < 5)
+		{
+			songChangeTries++;
+			setTimeout("doSongChange()", 100); //try again in 1/10 of second.
+		}
+		return;
+	}
 
-var didSongChange = function(){
-    var currentAlbumArt = jQuery(".playerBarArt")[0];
-    if(currentAlbumArt != null)
-    {
-        settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
-        if(settings.oldAlbumArt != settings.newAlbumArt)
-        {
-            settings.newAlbumArt = settings.oldAlbumArt;
-                        
-            //idunno if it matters, but i prefer artist - song (album)
-            var artistName  = jQuery(".playerBarArtist")[0].textContent,
-                songName    = jQuery(".playerBarSong")[0].textContent,
-                albumName   = jQuery(".playerBarAlbum")[0].textContent;
-            
-            chrome.extension.sendRequest({
-                songChange: true,
-                albumArt:   settings.oldAlbumArt,
-                artistName: artistName,
-                songName:   songName,
-                albumName:  albumName
-            }, function(response) {});
-        }
-    }    
+	songChangeTries = 0;
+	setTimeout("showNewSongPopup()", 100);
+};
+
+var showNewSongPopup = function(){
+	var currentAlbumArt = jQuery(".playerBarArt")[0]; 
+	settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
+	if(settings.oldAlbumArt != settings.newAlbumArt)
+	{
+		settings.newAlbumArt = settings.oldAlbumArt;
+					
+		//idunno if it matters, but i prefer artist - song (album) //setting?
+		var artistName  = jQuery(".playerBarArtist")[0].textContent,
+			songName    = jQuery(".playerBarSong")[0].textContent,
+			albumName   = jQuery(".playerBarAlbum")[0].textContent;
+		
+		chrome.extension.sendRequest({
+			notificationType: 'songChange',
+			notificationParams: {
+				albumArt:   settings.oldAlbumArt,
+				artistName: artistName,
+				songName:   songName,
+				albumName:  albumName
+			}
+		}, function(response) {});
+	}
+};
+
+var showStillListeningNotification = function(){
+	chrome.extension.sendRequest({
+        notificationType: 'stillListening',
+		notificationParams: {}
+    }, 
+	function(response){});
 };
 
 jQuery(document).ready(function()
 {
-    
-    //i want to trigger the function only when the song changes. find songChange event, or monitor .nowplaying and compare or something
-    //either way, i dislike this being on an interval. feels like cheating.
-    setInterval(function(){
-        didSongChange();
-    }, 1500);
+   	jQuery('.info').live('DOMNodeInserted', function(event) {
+		doSongChange();
+	});
+
+	jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
+		if(jQuery('.still_listening').length > 0)
+		{
+			showStillListeningNotification();
+			setTimeout("totallyStillListening()", 5000);
+		}
+	});
+
+
     
     /*
     //failures
-    setInterval(function(){
-        var info = jQuery(".nowplaying > .info");
-        $.each(jQuery(".nowplaying > .info div"), function(){
-            console.log(this);
-        });
-    },1000);
-    
     jQuery(".playerBarSong").livequery(function(){
         console.log("song changed");
         console.log(this.html());
