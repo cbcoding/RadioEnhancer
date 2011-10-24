@@ -211,7 +211,7 @@ jQuery(document).ready(function()
 		hideAds();
 	});
 
-	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo").livequery(function(){
+	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
 		jQuery(this).remove();
 	});
     
