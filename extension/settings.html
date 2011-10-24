@@ -28,43 +28,60 @@
                 font-size: 14pt;
                 font-weight: strong;
             }
+            
+            input[type="text"]{
+                width: 35px;
+                text-align: center;
+                margin-right: 5px;
+            }
         </style>
-        
+
         <script type="text/javascript">
             function loadCurrentOptions(){
                 //load options and set checkboxes
-                $("input[type='checkbox']").each(function(index){
+                $("input").each(function(index){
                     var name = $(this).prop("name");
                     var value = localStorage[name];
-                    
+
                     if (value == undefined){
                         console.log("No setting found, setting default...");
                         localStorage[name] = true;
+                        
+                        if (name == "notification_timeout") localStorage[name] = 3.5;
                     }
                     
-                    if (value == "true"){
-                        $(this).prop("checked", true); //should check all options saved as enabled
+                    if (value != "true" || value != "false"){
+                        $(this).val(value);
+                    } else if (value == "true"){
+                        $(this).prop("checked", true);
                     } else {
-                        $(this).prop("checked", false)
-                    }
-                    
+                        $(this).prop("checked", false);
+                    }                    
                 });
             }
-        
-        
-        
+
             $(document).ready(function(){
                 loadCurrentOptions();
-                
-                //console.log("setting: " + localStorage["remove_ads"]);
-                
-                
+
                 $("input[type='checkbox']").click(function(){
                     var name = $(this).prop("name");
                     var value = $(this).prop("checked");
-                    
+
                     console.log("saving change " + name + ' - ' + value);
-                    localStorage[name] = value;                    
+                    localStorage[name] = value;
+                });
+                
+                $("input[type='text']").change(function(){
+                    var name = $(this).prop("name");
+                    var value = $(this).val();
+                    
+                    if (isNaN(value)){
+                        alert("Invalid timeout value - use a number this time.");
+                        $(this).val('').focus();
+                    } else {
+                        console.log("saving change " + name + ' - ' + value);
+                        localStorage[name] = value;
+                    }
                 });
             });
         </script>
@@ -92,6 +109,7 @@
                 <br>
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
+                    <input type="text" name="notification_timeout" maxlength="4"><label for="notification_timeout">Notification window timeout (in seconds)</label><br>
                     <input type="checkbox" name="notification_song_change" checked><label for="notification_song_change">on Song Change</label><br>
                     <input type="checkbox" name="notification_still_listening" checked><label for="notification_still_listening">on "Still Listening" bypass</label><br>
                     <input type="checkbox" name="notification_video_ad" checked><label for="notification_video_ad">on Video Ad Block</label><br>
@@ -101,21 +119,6 @@
 
         <!-- Forthcoming settings: notification timeout, custom background image/color, toggle hide ads, toggle lyric selectability -->
         <!--
-        crossfirecurt: remove ads
-        crossfirecurt: remove tool tips
-        crossfirecurt: supress video ads
-        antizeph: yup
-        crossfirecurt: suppress
-        crossfirecurt: desktop notifications:
-        crossfirecurt: song change
-        crossfirecurt: still listening
-        crossfirecurt: blocking video ad
-
-
-
-
-
-
         <pre style="display: block">
         pandora ad remover, by brandon
         -----

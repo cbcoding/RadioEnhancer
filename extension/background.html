@@ -30,7 +30,7 @@
                 notification.show();
                 setTimeout(function(){
                     notification.cancel();
-                },5000);
+                },(localStorage["notification_timeout"]*1000));
                 
                 return {'message':'still-listening'};
 			}
@@ -47,7 +47,7 @@
                 notification.show();
                 setTimeout(function(){
                     notification.cancel();
-                },5000);
+                },(localStorage["notification_timeout"]*1000));
                 
                 return {'message':'video-ad-hidden'};
             }
@@ -79,7 +79,7 @@
                 setTimeout(function(){
                     console.log("hiding notification...");
                     notification.cancel();
-                }, 3500); //can make this a setting, choose how long you want the notification to stay
+                }, (localStorage["notification_timeout"]*1000)); //can make this a setting, choose how long you want the notification to stay
                     
                 return {'message':'PE Notification shown'};
             }
@@ -93,6 +93,7 @@
                     remove_videos:      localStorage["remove_videos"],
                     remove_tooltips:    localStorage["remove_tooltips"],
                     remove_still_listening:         localStorage["remove_still_listening"],
+                    notification_timeout:           localStorage["notification_timeout"],
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
                     notification_still_listening:   localStorage["notification_still_listening"]

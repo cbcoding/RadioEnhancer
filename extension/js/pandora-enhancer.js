@@ -9,13 +9,14 @@ chrome.extension.sendRequest({
 
 //settings
 var settings = {
-    ads_hidden:         0,
-    song_skip_tries:    0,
     background_image:   'http://www.pandora.com/static/valances/pandora/default/skin_background.jpg',
     background_color:   '#09102a',
     oldAlbumArt:        '',
     newAlbumArt:        ''
 };
+var ads_hidden = 0;
+var song_skip_tries = 0;
+
 //request localStorage settings
 chrome.extension.sendRequest({
     notificationType: 'getLocalStorage',
@@ -67,7 +68,7 @@ var getScrobbleSignature = function(songData)
     return md5(scrobbleSignature);
 };
 
-var scrobbleAuth =     function() {
+var scrobbleAuth = function() {
     chrome.tabs.create({
         url: "http://www.last.fm/api/auth/?api_key=" + scrobbleKey + "&cb=" + chrome.extension.getURL("scroblr-access-granted.html")
     });
@@ -80,7 +81,7 @@ var hideAds = function()
     jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
-    settings.ads_hidden++;
+    ads_hidden++;
 };
 
 var hideVideoAd = function()
@@ -181,9 +182,9 @@ var doSongChange = function()
 
     if(currentAlbumArt == null || settings.oldAlbumArt == settings.newAlbumArt)
     {
-        if(settings.song_skip_tries < 5)
+        if(song_skip_tries < 5)
         {
-            settings.song_skip_tries++;
+            song_skip_tries++;
             setTimeout("doSongChange()", 100); //try again in 1/10 of second.
         }
         return;
@@ -191,7 +192,7 @@ var doSongChange = function()
 
     console.log('Song changed.');
 
-    settings.song_skip_tries = 0;
+    song_skip_tries = 0;
     setTimeout("showNewSongPopup()", 100);
 };
 
@@ -248,7 +249,7 @@ jQuery(document).ready(function()
     jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
         if (settings.pe.remove_ads == "false") return false;
         jQuery(this).remove();
-        settings.ads_hidden++;
+        ads_hidden++;
     });
 
 
@@ -264,7 +265,7 @@ jQuery(document).ready(function()
 
     jQuery("#videoPlayerContainer").livequery(function(){
         if (settings.pe.remove_videos == "false") return false;
-        (settings.ads_hidden < 7) ? settings.ads_hidden++ : hideVideoAd(); //6 are blocked immediately
+        (ads_hidden < 7) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
     });
 
     hideAds();
