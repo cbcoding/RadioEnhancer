@@ -217,7 +217,7 @@ jQuery(document).ready(function()
     });
     
     jQuery("#videoPlayerContainer").livequery(function(){
-        (settings.ads_hidden == 0) ? settings.ads_hidden++ : hideVideoAd();
+        (settings.ads_hidden < 7) ? settings.ads_hidden++ : hideVideoAd(); //6 are blocked immediately
     });
 
 	hideAds();
