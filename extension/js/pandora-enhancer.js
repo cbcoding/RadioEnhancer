@@ -1,5 +1,53 @@
 //init
 console.log("Pandora Enhancer loaded.");
+
+var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';
+var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
+var scrobbleUrl = "http://ws.audioscrobbler.com/2.0/";
+
+
+var sendScrobble = function (songData) {
+	var requestParams = songData;
+    var requestMethod = 'POST';
+
+    //$.inArray(requestType, ["track.love", "track.scrobble", "track.unlove", "track.updateNowPlaying"]) >= 0 && (requestMethod = "POST");
+
+    requestParams.method = 'track.scrobble';
+    requestParams.api_sig = getScrobbleSignature(songData);
+
+
+    $.ajax({
+        url: scrobbleUrl,
+        type: requestMethod,
+        data: requestParams,
+        success: function (data) {
+            console.log(data);
+        },
+        failure: function (data) {
+            console.log(data);
+        },
+    });
+}
+
+var getScrobbleSignature = function(songData) 
+{
+	var scrobbleSignature = '';
+
+    for (var songAttribute in songData) 
+	{
+		scrobbleSignature += songAttribute + songData[songAttribute];
+	}
+	
+    scrobbleSignature += scrobbleSecret;
+    return md5(scrobbleSignature);
+};
+
+var scrobbleAuth = 	function() {
+	chrome.tabs.create({
+		url: "http://www.last.fm/api/auth/?api_key=" + scrobbleKey + "&cb=" + chrome.extension.getURL("scroblr-access-granted.html")
+	});
+};
+
 chrome.extension.sendRequest({
 	notificationType: 'showPageAction'
 }, function(response) { //json
@@ -173,39 +221,6 @@ jQuery(document).ready(function()
 			setTimeout("totallyStillListening()", 5000);
 		}
 	});
-
-	jQuery.post(
-		"http://curthostetter.com", 
-		{ 
-			name: "John", 
-			time: "2pm" 
-		},
-		function(data) {
-			alert("Data Loaded: " + data);
-		}
-	);
-
-    /*
-    //failures
-    jQuery(".playerBarSong").livequery(function(){
-        console.log("song changed");
-        console.log(this.html());
-    });
-    
-    jQuery("#playerBar > .info").livequery(function(){
-        console.log("song changed - livequery");
-    }).live('change', function(){
-        console.log("song changed - change live");
-    });
-    */
-    
-    /*
-    //not quite there yet
-	jQuery("#stillListeningTmpl").livequery(function(){
-        console.log('still_listening livequery event - fire cannons!');
-		totallyStillListening();
-	});
-    */
 
 	jQuery("#mainContentContainer, #mainContainer").livequery(function(){
 		hideAds();
