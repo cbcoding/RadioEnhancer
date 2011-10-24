@@ -157,7 +157,7 @@ var showStillListeningNotification = function(){
 
 jQuery(document).ready(function()
 {
-   	jQuery('.info').live('DOMNodeInserted', function(event) {
+   	jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
 		doSongChange();
 	});
 
