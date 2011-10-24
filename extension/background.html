@@ -81,7 +81,24 @@
                     notification.cancel();
                 }, 3500); //can make this a setting, choose how long you want the notification to stay
                     
-                return {'message':'PE Notification shown'}
+                return {'message':'PE Notification shown'};
+            }
+            
+            function localStorageSettings()
+            {
+                var settings = {
+                    selectable_lyrics:  localStorage["selectable_lyrics"],
+                    remove_ads:         localStorage["remove_ads"],
+                    remove_promobox:    localStorage["remove_promobox"],
+                    remove_videos:      localStorage["remove_videos"],
+                    remove_tooltips:    localStorage["remove_tooltips"],
+                    remove_still_listening:         localStorage["remove_still_listening"],
+                    notification_song_change:        localStorage["notification_song_change"],
+                    notification_video_ad:          localStorage["notification_video_ad"],
+                    notification_still_listening:   localStorage["notification_still_listening"]
+                }
+                
+                return {'message':settings};
             }
 
             // Listen for the content script to send a message to the background page.
@@ -90,6 +107,11 @@
 				var notificationType	= request.notificationType;
 				var notificationParams	= request.notificationParams;
 				var returnStatus		= false;
+                
+                if(notificationType == 'getLocalStorage')
+                {
+                    returnStatus = localStorageSettings();
+                }
 
 				if(notificationType == 'showPageAction')
 				{
