@@ -10,10 +10,11 @@ var songChangeTries = 0;
 
 //settings
 var settings = {
+    ads_hidden:         0,
     background_image:   'http://www.pandora.com/static/valances/pandora/default/skin_background.jpg',
     background_color:   '#09102a',
-    oldAlbumArt:    '',
-    newAlbumArt:    ''
+    oldAlbumArt:        '',
+    newAlbumArt:        ''
 };
 
 //functions
@@ -213,7 +214,7 @@ jQuery(document).ready(function()
     });
     
     jQuery("#videoPlayerContainer").livequery(function(){
-        hideVideoAd();
+        (settings.ads_shown == 0) ? settings.ads_shown++ : hideVideoAd();
     });
 
 	hideAds();
