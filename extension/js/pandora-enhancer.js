@@ -92,7 +92,7 @@ var hideVideoAd = function()
         notificationType: 'hideVideoAd'
     }, function(response){
         jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
-        console.log("removing video ad...");
+        console.log("Pandora Enhancer - Removing video ad...");
     });
 }
 
@@ -132,7 +132,7 @@ var selectableLyrics = function()
         "-moz-user-select": "auto !important",
         "cursor":           "auto !important"
     }).removeClass("unselectable");    
-    console.log("lyrics selectable...");
+    ("Pandora Enhancer - lyrics selectable.");
 };
 
 var copyLyricsToClipboard = function()
@@ -163,7 +163,7 @@ var copyLyricsToClipboard = function()
 var totallyStillListening = function()
 {
     if (settings.pe.remove_still_listening == "false") return false;
-    console.log("still listening? doesn't matter. there's no more 40 hour limit!");
+    console.log("Pandora Enhancer - Still Listening bypass");
     var still_listening = jQuery('.still_listening')[0];
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
@@ -190,7 +190,7 @@ var doSongChange = function()
         return;
     }
 
-    console.log('Song changed.');
+    console.log('Pandora Enhancer - Song changed.');
 
     song_skip_tries = 0;
     setTimeout("showNewSongPopup()", 100);
