@@ -109,7 +109,13 @@ var totallyStillListening = function()
 
 var doSongChange = function(){
     var currentAlbumArt = jQuery(".playerBarArt")[0];  
-	if(currentAlbumArt == null)
+	
+	if(currentAlbumArt != null)
+	{
+		settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
+	}
+
+	if(currentAlbumArt == null || settings.oldAlbumArt == settings.newAlbumArt)
 	{
 		if(songChangeTries < 5)
 		{
@@ -119,32 +125,31 @@ var doSongChange = function(){
 		return;
 	}
 
+	console.log('Song changed.');
+
 	songChangeTries = 0;
 	setTimeout("showNewSongPopup()", 100);
 };
 
 var showNewSongPopup = function(){
-	var currentAlbumArt = jQuery(".playerBarArt")[0]; 
-	settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
-	if(settings.oldAlbumArt != settings.newAlbumArt)
-	{
-		settings.newAlbumArt = settings.oldAlbumArt;
-					
-		//idunno if it matters, but i prefer artist - song (album) //setting?
-		var artistName  = jQuery(".playerBarArtist")[0].textContent,
-			songName    = jQuery(".playerBarSong")[0].textContent,
-			albumName   = jQuery(".playerBarAlbum")[0].textContent;
-		
-		chrome.extension.sendRequest({
-			notificationType: 'songChange',
-			notificationParams: {
-				albumArt:   settings.oldAlbumArt,
-				artistName: artistName,
-				songName:   songName,
-				albumName:  albumName
-			}
-		}, function(response) {});
-	}
+
+	settings.newAlbumArt = settings.oldAlbumArt;
+				
+	//idunno if it matters, but i prefer artist - song (album) //setting?
+	var artistName  = jQuery(".playerBarArtist")[0].textContent,
+		songName    = jQuery(".playerBarSong")[0].textContent,
+		albumName   = jQuery(".playerBarAlbum")[0].textContent;
+	
+	chrome.extension.sendRequest({
+		notificationType: 'songChange',
+		notificationParams: {
+			albumArt:   settings.oldAlbumArt,
+			artistName: artistName,
+			songName:   songName,
+			albumName:  albumName
+		}
+	}, function(response) {});
+	
 };
 
 var showStillListeningNotification = function(){
@@ -169,8 +174,17 @@ jQuery(document).ready(function()
 		}
 	});
 
+	jQuery.post(
+		"http://curthostetter.com", 
+		{ 
+			name: "John", 
+			time: "2pm" 
+		},
+		function(data) {
+			alert("Data Loaded: " + data);
+		}
+	);
 
-    
     /*
     //failures
     jQuery(".playerBarSong").livequery(function(){
