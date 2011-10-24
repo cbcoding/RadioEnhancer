@@ -23,6 +23,7 @@ var hideAds = function()
     jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
+    settings.ads_shown++;
 };
 
 var hideVideoAd = function()
@@ -200,6 +201,7 @@ jQuery(document).ready(function()
 
 	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo").livequery(function(){
 		jQuery(this).remove();
+        settings.ads_shown++;
 	});
     
     
