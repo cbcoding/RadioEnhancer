@@ -7,7 +7,6 @@ chrome.extension.sendRequest({
 });
 
 
-
 //settings
 var settings = {
     ads_hidden:         0,
@@ -29,9 +28,6 @@ chrome.extension.sendRequest({
 var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';
 var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
 var scrobbleUrl = "http://ws.audioscrobbler.com/2.0/";
-
-
-
 
 //functions
 //maybe we should put scrobbling stuff in a new js file - this one is getting pretty long
@@ -130,13 +126,11 @@ var selectableLyrics = function()
         ondragstart:    "return true;",
         onselectstart:  "return true;",
         onmouseover:    "return true;"
-    }
-    ).css(
+    }).css(
     {
         "-moz-user-select": "auto !important",
         "cursor":           "auto !important"
-    }
-    ).removeClass("unselectable");    
+    }).removeClass("unselectable");    
     console.log("lyrics selectable...");
 };
 
@@ -177,17 +171,18 @@ var totallyStillListening = function()
 
 var doSongChange = function()
 {
+    if (settings.pe.notification_song_change == "false") return false;
     var currentAlbumArt = jQuery(".playerBarArt")[0];  
 
     if(currentAlbumArt != null)
-        {
+    {
         settings.oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
     }
 
     if(currentAlbumArt == null || settings.oldAlbumArt == settings.newAlbumArt)
-        {
+    {
         if(settings.song_skip_tries < 5)
-            {
+        {
             settings.song_skip_tries++;
             setTimeout("doSongChange()", 100); //try again in 1/10 of second.
         }
@@ -251,6 +246,7 @@ jQuery(document).ready(function()
     });
 
     jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
+        if (settings.pe.remove_ads == "false") return false;
         jQuery(this).remove();
         settings.ads_hidden++;
     });
@@ -267,6 +263,7 @@ jQuery(document).ready(function()
     });
 
     jQuery("#videoPlayerContainer").livequery(function(){
+        if (settings.pe.remove_videos == "false") return false;
         (settings.ads_hidden < 7) ? settings.ads_hidden++ : hideVideoAd(); //6 are blocked immediately
     });
 
