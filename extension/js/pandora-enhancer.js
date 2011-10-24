@@ -255,17 +255,17 @@ jQuery(document).ready(function()
 
     //TODO: do this automatically, without having to mouseover the lyrics
     //monitoring change event does not work
-    jQuery(".lyricsText").live('mouseover', function(){
-        selectableLyrics();      
+    jQuery(".lyricsText").live('DOMNodeInserted', function(){
+        selectableLyrics();
     });
 
     jQuery("#PE-copyLyrics").live('click', function(){        
         copyLyricsToClipboard();
     });
 
-    jQuery("#videoPlayerContainer").livequery(function(){
+    jQuery("#videoPlayerContainer").live('DOMNodeInserted', function(event){
         if (settings.pe.remove_videos == "false") return false;
-        (ads_hidden < 7) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
+        (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
     });
 
     hideAds();
