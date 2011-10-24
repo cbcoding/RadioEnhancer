@@ -23,7 +23,7 @@ var hideAds = function()
     jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
-    settings.ads_shown++;
+    settings.ads_hidden++;
 };
 
 var hideVideoAd = function()
@@ -199,9 +199,10 @@ jQuery(document).ready(function()
 		hideAds();
 	});
 
-	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo").livequery(function(){
+	jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
+        console.log("generic ad or tooltip blocked");
 		jQuery(this).remove();
-        settings.ads_shown++;
+        settings.ads_hidden++;
 	});
     
     
@@ -216,7 +217,7 @@ jQuery(document).ready(function()
     });
     
     jQuery("#videoPlayerContainer").livequery(function(){
-        (settings.ads_shown == 0) ? settings.ads_shown++ : hideVideoAd();
+        (settings.ads_hidden == 0) ? settings.ads_hidden++ : hideVideoAd();
     });
 
 	hideAds();
