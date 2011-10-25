@@ -64,7 +64,7 @@
 			{
                 //load options and set values
                 $("input").each(function(index){
-                    var name = $(this).attr("name");
+                    var name = $(this).prop("name");
                     var value = localStorage[name];
 
                     if (value == undefined)
@@ -86,7 +86,7 @@
                     if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
                         $(this).val(value);
                     } else if (value == "true"){
-                        $(this).attr('checked','checked');
+                        $(this).prop('checked', true);
                     } else {
                         $(this).prop("checked", false);
                     }             
@@ -97,7 +97,7 @@
                 loadCurrentOptions();
 
                 $(".setting_checkbox").live('change', function(){
-                    var name = $(this).attr("name");
+                    var name = $(this).prop("name");
                     var value = $(this).is(":checked");
 
 					console.log(localStorage[name]);
@@ -108,7 +108,7 @@
                 });
                 
                 $(".setting_textbox").live('change', function(){
-                    var name = $(this).attr("name");
+                    var name = $(this).prop("name");
                     var value = $(this).val();
                     
                     if (isNaN(value)){
