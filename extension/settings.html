@@ -6,14 +6,15 @@
                 font-family: "Arial", "Sans-Serif";
                 font-size: 10pt;
                 overflow: hidden;
-				width: 300px;
+                width: 300px;
             }
 
             #about_pandora_enhancer{
                 font-weight: bold;
                 padding-top: 10px;
-				font-size: 7pt;
-				border-top: 1px solid black;
+                margin-left: 10px;
+                font-size: 7pt;
+                border-top: 1px solid black;
             }
 
             #pe-settings{
@@ -25,80 +26,81 @@
                 font-size: 10pt;
                 font-weight: bold;
             }
-            
+
             input[type="text"]{
                 width: 35px;
                 text-align: center;
-				margin-right: 10px;
+                margin-right: 10px;
             }
 
-			label{
-				font-size: 8pt;
-				padding-left: 5px;
-			}
+            label{
+                font-size: 8pt;
+                padding-left: 5px;
+            }
 
-			.settings-list{
-				margin-left: 10px;
-			}
-			
-			#settings-notifications, #settings-general{
-				padding: 5px;
-				border: 1px solid #d9e0ea;
+            .settings-list{
+                margin-left: 10px;
+            }
+
+            #settings-notifications, #settings-general{
+                padding: 5px;
+                border: 1px solid #d9e0ea;
                 -webkit-border-radius: 8px;
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
-			}
+            }
 
-			.actions{
-				width: 290px;
-				text-align: right;
-			}
-            
+            .actions{
+                width: 290px;
+                text-align: right;
+            }
+
             button{
+                width: 49%;
                 padding: 5px 20;
                 border: 1px solid #d9e0ea;
                 -webkit-border-radius: 8px;
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
             }
-            
+
             button:hover{
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#F2F2F2 100%);
             }
-            
+
             button:active{
                 background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
             }
         </style>
 
         <script type="text/javascript">
-			var debugLog = function(text)
-			{
-				if(localStorage['debug_mode'] == "false") return;
-				console.log(text);
-			};
+            var debugLog = function(text)
+            {
+                if(localStorage['debug_mode'] == "false") return;
+                console.log(text);
+            };
 
             var loadCurrentOptions = function()
-			{
+            {
                 //load options and set values
                 $("input").each(function(index){
                     var name = $(this).prop("name");
                     var value = localStorage[name];
 
                     if (value == undefined)
-					{
+                        {
                         debugLog("No setting found, setting default...");
-						localStorage[name] = true;
+                        localStorage[name] = true;
 
-						if(name == 'debug_mode')
-						{
-							localStorage[name] = false;
-						}
-						
+                        if(name == 'debug_mode')
+                            {
+                            localStorage[name] = false;
+                        }
+
                         if (name == "notification_timeout")
-						{
-							localStorage[name] = 3.5;
-						}
+                            {
+                            localStorage[name] = 3.5;
+                        }
                     }
-                    
+
                     if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
                         $(this).val(value);
                     } else if (value == "true"){
@@ -109,59 +111,56 @@
                 });
             };
 
-			var saveCurrentOptions = function()
-			{
-				if (isNaN($('input[name="notification_timeout"]').val()))
-				{
-					alert("Display length must be a number.");
-					$('input[name="notification_timeout"]').val('').focus();
-					return false;
-				} 
+            var saveCurrentOptions = function()
+            {
+                if (isNaN($('input[name="notification_timeout"]').val()))
+                    {
+                    alert("Display length must be a number.");
+                    $('input[name="notification_timeout"]').val('').focus();
+                    return false;
+                } 
 
                 //load options and set values
                 $("input").each(function(index){
                     var name = $(this).prop("name");
-					var value = false;
+                    var value = false;
 
-					if($(this).prop('type') == 'checkbox')
-					{
-						value = $(this).prop('checked');
-					}
+                    if($(this).prop('type') == 'checkbox')
+                        {
+                        value = $(this).prop('checked');
+                    }
 
-					if($(this).prop('type') == 'text')
-					{
-						value = $(this).val();
-					}
+                    if($(this).prop('type') == 'text')
+                        {
+                        value = $(this).val();
+                    }
 
-					localStorage[name] = value;          
+                    localStorage[name] = value;          
                 });
 
-				return true;
+                return true;
             };
 
-			var enableSaveButton = function()
-			{
-				$('#saveButton').prop('disabled', false);
-				$("#saveButton").click(function(){
-					var saved = saveCurrentOptions();
-					
-					if(saved)
-					{
-						//location.reload();
-						
-						var views = chrome.extension.getViews();
-						for (var i = 0; i < views.length; i++) 
-						{
-							views[i].location.href = views[i].location.href;
-						}
-					}
-				});
-			}
+            var enableSaveButton = function()
+            {
+                $('#saveButton').prop('disabled', false);
+                $("#saveButton").click(function(){
+                    var saved = saveCurrentOptions();
 
-			var disableSaveButton = function()
-			{
-				$('#saveButton').prop('disabled', true);
-			}
+                    if(saved)
+                    {
+                        debugLog("saved settings");
+                        chrome.extension.getBackgroundPage().refreshPandora();
+                    } else {
+                        debugLog("did not save settings - uh oh!");
+                    }
+                });
+            }
+
+            var disableSaveButton = function()
+            {
+                $('#saveButton').prop('disabled', true);
+            }
 
             $(document).ready(function(){
                 loadCurrentOptions();
@@ -169,14 +168,14 @@
                 $(".setting_checkbox").live('change', function(){
                     enableSaveButton();
                 });
-                
+
                 $(".setting_textbox").live('change', function(){
                     enableSaveButton();
                 });
 
-				$("#cancelButton").click(function(){
-					window.close();
-				});
+                $("#cancelButton").click(function(){
+                    window.close();
+                });
             });
         </script>
     </head>
@@ -186,33 +185,33 @@
             <form id="settings">
                 <div id="settings-general">
                     <div class="settings-title">General</div>
-					<div class="settings-list">
-						<input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
-						<input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
-						<input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
-					</div>
+                    <div class="settings-list">
+                        <input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
+                    </div>
                 </div>
                 <br />
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
-					<div class="settings-list">
-						<input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
-						<input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-						<input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
-						<label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
-					</div>
+                    <div class="settings-list">
+                        <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
+                        <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
+                    </div>
                 </div>
             </form>
 
-			<div class="actions">
-				<button id="saveButton" disabled>Save</button> <button id="cancelButton">Cancel</button>
-			</div>
+            <div class="actions">
+                <button id="saveButton" disabled>Save</button> <button id="cancelButton">Cancel</button>
+            </div>
         </div>
-		<div id="about_pandora_enhancer">
+        <div id="about_pandora_enhancer">
             Pandora Enhancer (v0.5.8) by Brandon Sachs & Curt Hostetter
         </div>
     </body>

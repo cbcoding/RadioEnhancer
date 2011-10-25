@@ -17,73 +17,71 @@
                 return {'status':'true'};
             }
 
-			function stillListeningNotification()
-			{
+            function stillListeningNotification()
+            {
                 var notification = webkitNotifications.createNotification(
-                    'images/logo-32.png',
-                    'Still listening...',
-                    'Please wait until music continues...'
+                'images/logo-32.png',
+                'Still listening...',
+                'Please wait until music continues...'
                 );
-                
+
                 notification.show();
                 setTimeout(function(){
                     notification.cancel();
                 },(localStorage["notification_timeout"]*1000));
-                
+
                 return {'message':'still-listening'};
-			}
-            
+            }
+
             function hideVideoAdNotification()
             {
                 var notification = webkitNotifications.createNotification(
-                    'images/logo-32.png',
-                    'Video Ad Blocked',
-                    'Please wait until music continues...'
+                'images/logo-32.png',
+                'Video Ad Blocked',
+                'Please wait until music continues...'
                 );
-                
+
                 notification.show();
                 setTimeout(function(){
                     notification.cancel();
                 },(localStorage["notification_timeout"]*1000));
-                
+
                 return {'message':'video-ad-hidden'};
             }
-            
+
             function showSongChangeNotification(info)
             {
                 //standard notifications can only have 2 lines of text-only content.
                 var notification = webkitNotifications.createNotification(
-                    info.albumArt,
-                    info.songName,
-                    info.artistName + " (" + info.albumName + ")"
+                info.albumArt,
+                info.songName,
+                info.artistName + " (" + info.albumName + ")"
                 );
-                
+
                 /*
                 //html notifications are the new shit
                 var notification = webkitNotifications.createHTMLNotification(
-                    'notification.html?'
-                    +'albumArt='+info.albumArt
-                    +'&artistName='+info.artistName
-                    +'&songName='+info.songName
-                    +'&albumName='+info.albumName
+                'notification.html?'
+                +'albumArt='+info.albumArt
+                +'&artistName='+info.artistName
+                +'&songName='+info.songName
+                +'&albumName='+info.albumName
                 );
                 */
-                
+
                 notification.show();
-                    
+
                 //dismiss after a few seconds
                 setTimeout(function(){
-                    console.log("hiding notification...");
                     notification.cancel();
                 }, (localStorage["notification_timeout"]*1000)); //can make this a setting, choose how long you want the notification to stay
-                    
+
                 return {'message':'PE Notification shown'};
             }
-            
+
             function localStorageSettings()
             {
-
-				var settings = {
+                var settings = {
                     selectable_lyrics:				localStorage["selectable_lyrics"],
                     remove_ads:						localStorage["remove_ads"],
                     remove_promobox:				localStorage["remove_promobox"],
@@ -94,59 +92,73 @@
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
                     notification_still_listening:   localStorage["notification_still_listening"],
-					debug_mode:						localStorage["debug_mode"]
+                    debug_mode:						localStorage["debug_mode"]
                 };
-
-				console.log(settings);
                 
                 return {'message': settings};
             }
+            
+            var tabID, currentURL;
+            function refreshPandora(){
+                update = {
+                    url:        currentURL,
+                    selected:   true,
+                    pinned:     false
+                };
+                chrome.tabs.update(tabID, update, function(){});
+            }
 
-            //message listener
+            //message listeners
+            chrome.extension.getViews({type:"notification"}).forEach(function(win) {
+                win.refreshPandora();
+            });
+            
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             {
-				var notificationType	= request.notificationType;
-				var notificationParams	= request.notificationParams;
-				var returnStatus		= false;
-                
+                var notificationType	= request.notificationType;
+                var notificationParams	= request.notificationParams;
+                var returnStatus		= false;
+                    tabID               = sender.tab.id;
+                    currentURL          = sender.tab.url;
+
                 if(notificationType == 'getLocalStorage')
-                {
+                    {
                     returnStatus = localStorageSettings();
                 }
 
-				if(notificationType == 'showPageAction')
-				{
-					returnStatus = showPageAction(sender.tab.id);
-				}
+                if(notificationType == 'showPageAction')
+                    {
+                    returnStatus = showPageAction(sender.tab.id);
+                }
 
-				if(notificationType == 'stillListening')
-				{
-					returnStatus = stillListeningNotification();
-				}
+                if(notificationType == 'stillListening')
+                    {
+                    returnStatus = stillListeningNotification();
+                }
 
-				if(notificationType == 'hideVideoAd')
-				{
-					returnStatus = hideVideoAdNotification();
-				}
+                if(notificationType == 'hideVideoAd')
+                    {
+                    returnStatus = hideVideoAdNotification();
+                }
 
-				if(notificationType == 'songChange')
-				{
-					returnStatus = showSongChangeNotification({
+                if(notificationType == 'songChange')
+                    {
+                    returnStatus = showSongChangeNotification({
                         albumArt:   notificationParams.albumArt,
                         artistName: notificationParams.artistName,
                         songName:   notificationParams.songName,
                         albumName:  notificationParams.albumName
                     });
-				}
+                }
 
-				if(!request.notificationType)
-				{
-					if(request.showPageAction)
-					{
-						returnStatus = showPageAction(sender.tab.id);
-					}
-				}
-				
+                if(!request.notificationType)
+                    {
+                    if(request.showPageAction)
+                        {
+                        returnStatus = showPageAction(sender.tab.id);
+                    }
+                }
+
                 sendResponse(returnStatus);
             });
         </script>
