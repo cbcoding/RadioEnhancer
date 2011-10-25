@@ -43,7 +43,9 @@
 
 			#settings-notifications, #settings-general{
 				padding: 5px;
-				border: 1px solid #DADADA;
+				border: 1px solid #d9e0ea;
+                -webkit-border-radius: 8px;
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
 			}
 
 			.notice{
@@ -51,6 +53,21 @@
 				font-size: 7pt;
 				margin-top: 2px;
 			}
+            
+            button{
+                padding: 5px 20;
+                border: 1px solid #d9e0ea;
+                -webkit-border-radius: 8px;
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+            }
+            
+            button:hover{
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#F2F2F2 100%);
+            }
+            
+            button:active{
+                background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
+            }
         </style>
 
         <script type="text/javascript">
@@ -129,22 +146,22 @@
                 <div id="settings-general">
                     <div class="settings-title">General</div>
 					<div class="settings-list">
-						<input class="setting_checkbox" type="checkbox" name="remove_ads"><label for="remove_ads">remove banner ads</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_videos"><label for="remove_videos">remove video ads</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
-						<input class="setting_checkbox" type="checkbox" name="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
-						<input class="setting_checkbox" type="checkbox" name="debug_mode"><label for="debug_mode">debug mode</label>
+						<input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
+						<input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+						<input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
 					</div>
                 </div>
                 <br />
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
 					<div class="settings-list">
-						<input class="setting_checkbox" type="checkbox" name="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
-						<input class="setting_checkbox" type="checkbox" name="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-						<input class="setting_checkbox" type="checkbox" name="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
+						<input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
+						<input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+						<input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
 						<label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
 					</div>
                 </div>
