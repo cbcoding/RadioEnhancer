@@ -88,17 +88,18 @@
                     var value = localStorage[name];
 
                     if (value == undefined)
-                        {
+                    {
                         debugLog("No setting found, setting default...");
                         localStorage[name] = true;
+						value = true;
 
                         if(name == 'debug_mode')
-                            {
+                        {
                             localStorage[name] = false;
                         }
 
                         if (name == "notification_timeout")
-                            {
+                        {
                             localStorage[name] = 3.5;
                         }
                     }
