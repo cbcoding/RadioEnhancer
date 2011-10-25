@@ -117,11 +117,8 @@
                     var name = $(this).prop("name");
                     var value = $(this).is(":checked");
 
-					console.log(localStorage[name]);
-
                     debugLog("saving change " + name + ' - ' + value);
                     localStorage[name] = value;
-					console.log(localStorage[name]);
                 });
                 
                 $(".setting_textbox").live('change', function(){
