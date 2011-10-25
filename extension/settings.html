@@ -3,51 +3,83 @@
         <script src="js/jquery-1.6.4.min.js"></script>
         <style>
             body {
-                min-width: 357px;
                 font-family: "Arial", "Sans-Serif";
                 font-size: 10pt;
-                overflow-x: hidden;
+                overflow: hidden;
+				width: 300px;
             }
 
             #about_pandora_enhancer{
                 font-weight: bold;
-                padding: 10px 0;
+                padding-top: 10px;
+				font-size: 7pt;
+				border-top: 1px solid black;
             }
 
             #pe-settings{
-                border: 1px solid #d0d0d0;
                 padding: 5px;
-                margin: 5px;
-                -webkit-border-radius: 8px;
-                -webkit-box-shadow: 5px 5px 5px #d0d0d0;
             }
 
             .settings-title{
-                margin-bottom: 5px;
-                text-decoration: underline;
-                font-size: 14pt;
-                font-weight: strong;
+                margin-bottom: 0px;
+                font-size: 10pt;
+                font-weight: bold;
             }
             
             input[type="text"]{
                 width: 35px;
                 text-align: center;
-                margin-right: 5px;
+				margin-right: 10px;
             }
+
+			label{
+				font-size: 8pt;
+				padding-left: 5px;
+			}
+
+			.settings-list{
+				margin-left: 10px;
+			}
+
+			#settings-notifications, #settings-general{
+				padding: 5px;
+				border: 1px solid #DADADA;
+			}
+
+			.notice{
+				color: red;
+				font-size: 7pt;
+				margin-top: 2px;
+			}
         </style>
 
         <script type="text/javascript">
-            function loadCurrentOptions(){
+			var debugLog = function(text)
+			{
+				if(localStorage['debug_mode'] == "false") return;
+				console.log(text);
+			};
+
+            var loadCurrentOptions = function()
+			{
                 //load options and set values
                 $("input").each(function(index){
                     var name = $(this).prop("name");
                     var value = localStorage[name];
 
                     if (value == undefined){
-                        console.log("No setting found, setting default...");
-                        localStorage[name] = true;
-                        
-                        if (name == "notification_timeout") localStorage[name] = 3.5;
+                        debugLog("No setting found, setting default...");
+						localStorage[name] = true;
+
+						if(name == 'debug_mode')
+						{
+							localStorage[name] = false;
+						}
+						
+                        if (name == "notification_timeout")
+						{
+							localStorage[name] = 3.5;
+						}
                     }
                     
                     if (value != "true" || value != "false"){
@@ -58,7 +90,7 @@
                         $(this).prop("checked", false);
                     }                    
                 });
-            }
+            };
 
             $(document).ready(function(){
                 loadCurrentOptions();
@@ -67,7 +99,7 @@
                     var name = $(this).prop("name");
                     var value = $(this).prop("checked");
 
-                    console.log("saving change " + name + ' - ' + value);
+                    debugLog("saving change " + name + ' - ' + value);
                     localStorage[name] = value;
                 });
                 
@@ -79,7 +111,7 @@
                         alert("Invalid timeout value - use a number this time.");
                         $(this).val('').focus();
                     } else {
-                        console.log("saving change " + name + ' - ' + value);
+                        debugLog("saving change " + name + ' - ' + value);
                         localStorage[name] = value;
                     }
                 });
@@ -88,32 +120,38 @@
     </head>
 
     <body>
-
-        <div id="about_pandora_enhancer">
-            Pandora Enhancer by Brandon Sachs & Curt Hostetter
-        </div>
-
         <div id="pe-settings">
             <form id="settings">
                 <div id="settings-general">
                     <div class="settings-title">General</div>
-                    <input type="checkbox" name="selectable_lyrics" checked><label for="selectable_lyrics">Selectable/Copy Lyrics</label><br>
-                    <input type="checkbox" name="remove_still_listening" checked><label for="remove_still_listening">Bypass "Still Listening?"</label><br>
-                    <input type="checkbox" name="remove_ads" checked><label for="remove_ads">Remove Ads</label><br>
-                    <input type="checkbox" name="remove_tooltips" checked><label for="remove_tooltips">Remove Tooltips</label><br>
-                    <input type="checkbox" name="remove_videos" checked><label for="remove_videos">Remove Video Ads</label><br>
-                    <input type="checkbox" name="remove_promobox" checked><label for="remove_promobox">Remove Promobox & Extend Station List</label>
+					<div class="settings-list">
+						<input type="checkbox" name="remove_ads" checked><label for="remove_ads">remove banner ads</label><br />
+						<input type="checkbox" name="remove_videos" checked><label for="remove_videos">remove video ads</label><br />
+						<input type="checkbox" name="remove_still_listening" checked><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+						<input type="checkbox" name="remove_promobox" checked><label for="remove_promobox">remove promobox + extend Station List</label><br />
+						<input type="checkbox" name="remove_tooltips" checked><label for="remove_tooltips">remove tooltips</label><br />
+						<input type="checkbox" name="selectable_lyrics" checked><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+						<input type="checkbox" name="debug_mode"><label for="debug_mode">debug mode</label>
+					</div>
                 </div>
-                <br>
+                <br />
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
-                    <input type="text" name="notification_timeout" maxlength="4"><label for="notification_timeout">Notification window timeout (in seconds)</label><br>
-                    <input type="checkbox" name="notification_song_change" checked><label for="notification_song_change">on Song Change</label><br>
-                    <input type="checkbox" name="notification_still_listening" checked><label for="notification_still_listening">on "Still Listening" bypass</label><br>
-                    <input type="checkbox" name="notification_video_ad" checked><label for="notification_video_ad">on Video Ad Block</label><br>
+					<div class="settings-list">
+						<input type="checkbox" name="notification_song_change" checked><label for="notification_song_change">when the song has changed</label><br />
+						<input type="checkbox" name="notification_still_listening" checked><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+						<input type="checkbox" name="notification_video_ad" checked><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
+						<label for="notification_timeout">Display length (seconds):</label><input type="text" name="notification_timeout" maxlength="4">
+					</div>
                 </div>
             </form>
-        </div>
 
+			<div class="notice">
+				** a page refresh is required for changes to take affect.
+			</div>
+        </div>
+		<div id="about_pandora_enhancer">
+            Pandora Enhancer (v0.5.8) by Brandon Sachs & Curt Hostetter
+        </div>
     </body>
 </html>

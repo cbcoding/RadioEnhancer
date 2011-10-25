@@ -82,20 +82,24 @@
             
             function localStorageSettings()
             {
-                var settings = {
-                    selectable_lyrics:  localStorage["selectable_lyrics"],
-                    remove_ads:         localStorage["remove_ads"],
-                    remove_promobox:    localStorage["remove_promobox"],
-                    remove_videos:      localStorage["remove_videos"],
-                    remove_tooltips:    localStorage["remove_tooltips"],
+
+				var settings = {
+                    selectable_lyrics:				localStorage["selectable_lyrics"],
+                    remove_ads:						localStorage["remove_ads"],
+                    remove_promobox:				localStorage["remove_promobox"],
+                    remove_videos:					localStorage["remove_videos"],
+                    remove_tooltips:				localStorage["remove_tooltips"],
                     remove_still_listening:         localStorage["remove_still_listening"],
                     notification_timeout:           localStorage["notification_timeout"],
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
-                    notification_still_listening:   localStorage["notification_still_listening"]
-                }
+                    notification_still_listening:   localStorage["notification_still_listening"],
+					debug_mode:						localStorage["debug_mode"]
+                };
+
+				console.log(settings);
                 
-                return {'message':settings};
+                return {'message': settings};
             }
 
             //message listener
