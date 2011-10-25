@@ -40,7 +40,7 @@
 			.settings-list{
 				margin-left: 10px;
 			}
-
+			
 			#settings-notifications, #settings-general{
 				padding: 5px;
 				border: 1px solid #d9e0ea;
@@ -48,10 +48,9 @@
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
 			}
 
-			.notice{
-				color: red;
-				font-size: 7pt;
-				margin-top: 2px;
+			.actions{
+				width: 290px;
+				text-align: right;
 			}
             
             button{
@@ -110,29 +109,74 @@
                 });
             };
 
+			var saveCurrentOptions = function()
+			{
+				if (isNaN($('input[name="notification_timeout"]').val()))
+				{
+					alert("Display length must be a number.");
+					$('input[name="notification_timeout"]').val('').focus();
+					return false;
+				} 
+
+                //load options and set values
+                $("input").each(function(index){
+                    var name = $(this).prop("name");
+					var value = false;
+
+					if($(this).prop('type') == 'checkbox')
+					{
+						value = $(this).prop('checked');
+					}
+
+					if($(this).prop('type') == 'text')
+					{
+						value = $(this).val();
+					}
+
+					localStorage[name] = value;          
+                });
+
+				return true;
+            };
+
+			var enableSaveButton = function()
+			{
+				$('#saveButton').prop('disabled', false);
+				$("#saveButton").click(function(){
+					var saved = saveCurrentOptions();
+					
+					if(saved)
+					{
+						//location.reload();
+						
+						var views = chrome.extension.getViews();
+						for (var i = 0; i < views.length; i++) 
+						{
+							views[i].location.href = views[i].location.href;
+						}
+					}
+				});
+			}
+
+			var disableSaveButton = function()
+			{
+				$('#saveButton').prop('disabled', true);
+			}
+
             $(document).ready(function(){
                 loadCurrentOptions();
 
                 $(".setting_checkbox").live('change', function(){
-                    var name = $(this).prop("name");
-                    var value = $(this).is(":checked");
-
-                    debugLog("saving change " + name + ' - ' + value);
-                    localStorage[name] = value;
+                    enableSaveButton();
                 });
                 
                 $(".setting_textbox").live('change', function(){
-                    var name = $(this).prop("name");
-                    var value = $(this).val();
-                    
-                    if (isNaN(value)){
-                        alert("Invalid timeout value - use a number this time.");
-                        $(this).val('').focus();
-                    } else {
-                        debugLog("saving change " + name + ' - ' + value);
-                        localStorage[name] = value;
-                    }
+                    enableSaveButton();
                 });
+
+				$("#cancelButton").click(function(){
+					window.close();
+				});
             });
         </script>
     </head>
@@ -164,8 +208,8 @@
                 </div>
             </form>
 
-			<div class="notice">
-				** a page refresh is required for changes to take affect.
+			<div class="actions">
+				<button id="saveButton" disabled>Save</button> <button id="cancelButton">Cancel</button>
 			</div>
         </div>
 		<div id="about_pandora_enhancer">
