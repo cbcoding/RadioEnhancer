@@ -64,10 +64,11 @@
 			{
                 //load options and set values
                 $("input").each(function(index){
-                    var name = $(this).prop("name");
+                    var name = $(this).attr("name");
                     var value = localStorage[name];
 
-                    if (value == undefined){
+                    if (value == undefined)
+					{
                         debugLog("No setting found, setting default...");
 						localStorage[name] = true;
 
@@ -82,29 +83,32 @@
 						}
                     }
                     
-                    if (value != "true" || value != "false"){
+                    if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
                         $(this).val(value);
                     } else if (value == "true"){
-                        $(this).prop("checked", true);
+                        $(this).attr('checked','checked');
                     } else {
                         $(this).prop("checked", false);
-                    }
+                    }             
                 });
             };
 
             $(document).ready(function(){
                 loadCurrentOptions();
 
-                $("input[type='checkbox']").click(function(){
-                    var name = $(this).prop("name");
-                    var value = $(this).prop("checked");
+                $(".setting_checkbox").live('change', function(){
+                    var name = $(this).attr("name");
+                    var value = $(this).is(":checked");
+
+					console.log(localStorage[name]);
 
                     debugLog("saving change " + name + ' - ' + value);
                     localStorage[name] = value;
+					console.log(localStorage[name]);
                 });
                 
-                $("input[type='text']").change(function(){
-                    var name = $(this).prop("name");
+                $(".setting_textbox").live('change', function(){
+                    var name = $(this).attr("name");
                     var value = $(this).val();
                     
                     if (isNaN(value)){
@@ -125,23 +129,23 @@
                 <div id="settings-general">
                     <div class="settings-title">General</div>
 					<div class="settings-list">
-						<input type="checkbox" name="remove_ads" checked><label for="remove_ads">remove banner ads</label><br />
-						<input type="checkbox" name="remove_videos" checked><label for="remove_videos">remove video ads</label><br />
-						<input type="checkbox" name="remove_still_listening" checked><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
-						<input type="checkbox" name="remove_promobox" checked><label for="remove_promobox">remove promobox + extend Station List</label><br />
-						<input type="checkbox" name="remove_tooltips" checked><label for="remove_tooltips">remove tooltips</label><br />
-						<input type="checkbox" name="selectable_lyrics" checked><label for="selectable_lyrics">selectable/copy lyrics</label><br />
-						<input type="checkbox" name="debug_mode"><label for="debug_mode">debug mode</label>
+						<input class="setting_checkbox" type="checkbox" name="remove_ads"><label for="remove_ads">remove banner ads</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_videos"><label for="remove_videos">remove video ads</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
+						<input class="setting_checkbox" type="checkbox" name="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
+						<input class="setting_checkbox" type="checkbox" name="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+						<input class="setting_checkbox" type="checkbox" name="debug_mode"><label for="debug_mode">debug mode</label>
 					</div>
                 </div>
                 <br />
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
 					<div class="settings-list">
-						<input type="checkbox" name="notification_song_change" checked><label for="notification_song_change">when the song has changed</label><br />
-						<input type="checkbox" name="notification_still_listening" checked><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-						<input type="checkbox" name="notification_video_ad" checked><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
-						<label for="notification_timeout">Display length (seconds):</label><input type="text" name="notification_timeout" maxlength="4">
+						<input class="setting_checkbox" type="checkbox" name="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
+						<input class="setting_checkbox" type="checkbox" name="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+						<input class="setting_checkbox" type="checkbox" name="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
+						<label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
 					</div>
                 </div>
             </form>

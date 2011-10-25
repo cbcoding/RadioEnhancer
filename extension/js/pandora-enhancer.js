@@ -209,9 +209,6 @@ jQuery(document).ready(function()
 		hideAds();
 	}
 
-    //TODO: do this automatically, without having to mouseover the lyrics
-    //monitoring change event does not work
-
 	if(settings.pe.selectable_lyrics != "false")
 	{
 		jQuery(".lyricsText").live('DOMNodeInserted', function(){
