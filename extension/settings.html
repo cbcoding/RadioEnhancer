@@ -91,17 +91,19 @@
                     {
                         debugLog("No setting found, setting default...");
                         localStorage[name] = true;
-						value = true;
 
                         if(name == 'debug_mode')
                         {
                             localStorage[name] = false;
+							value = false;
                         }
 
                         if (name == "notification_timeout")
                         {
                             localStorage[name] = 3.5;
                         }
+
+						value = localStorage[name];
                     }
 
                     if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
