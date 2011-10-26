@@ -44,7 +44,7 @@ var hideVideoAd = function()
         notificationType: 'hideVideoAd'
     }, function(response){
         jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
-        debugLog("removing video ad...");
+        debugLog("PandoraEnhancer - Removing video ad.");
     });
 }
 
@@ -82,7 +82,7 @@ var selectableLyrics = function()
         "-moz-user-select": "auto !important",
         "cursor":           "auto !important"
     }).removeClass("unselectable");    
-    debugLog("lyrics selectable...");
+    debugLog("PandoraEnhancer - Lyrics selectable.");
 };
 
 var copyLyricsToClipboard = function()
@@ -111,7 +111,7 @@ var copyLyricsToClipboard = function()
 
 var totallyStillListening = function()
 {
-    debugLog("still listening? doesn't matter. there's no more 40 hour limit!");
+    debugLog("PandoraEnhancer - Still listening bypass.");
     var still_listening = jQuery('.still_listening')[0];
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
@@ -137,7 +137,7 @@ var doSongChange = function()
         return;
     }
 
-    debugLog('Song changed.');
+    debugLog('PandoraEnhancer - Song changed.');
 
     song_skip_tries = 0;
     setTimeout("showNewSongPopup()", 100);
@@ -173,9 +173,29 @@ var showStillListeningNotification = function()
     function(response){});
 };
 
+var appendHeaderConfig = function()
+{
+	debugLog("PandoraEnhancer - Appending configure link to header.");
+	jQuery(".stationChangeSelectorNoMenu").css({"width":"auto !important", "margin-left":"-65px"});
+	jQuery("#brandingBar > .middlecolumn").append("<span id='PE-config-link'>Configure PandoraEnhancer</span>");
+	jQuery("#PE-config-link").css({"cursor":"pointer"});
+};
+
+
 jQuery(document).ready(function()
 {   
-	debugLog("Pandora Enhancer loaded.");
+	debugLog("PandoraEnhancer loaded.");
+
+	jQuery("#PE-config-link").live('click', function(){
+		debugLog("hmmm...how should i handle this? inject an iframe with our settings window? ajax fetch the settings and inject a div? opening a tab (if in application shortcut mode) opens a new chrome window in a real tab");
+	});
+
+	if(settings.pe.header_config != "false")
+	{
+		jQuery(".stationChangeSelectorNoMenu").livequery(function(){
+			appendHeaderConfig();
+		});
+	}
 
 	if(settings.pe.notification_song_change != "false")
 	{
