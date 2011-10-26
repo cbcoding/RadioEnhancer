@@ -71,6 +71,10 @@
             button:active{
                 background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
             }
+
+			button[disabled]{
+				background: none;
+			}
         </style>
 
         <script type="text/javascript">
@@ -174,7 +178,7 @@
                     enableSaveButton();
                 });
 
-                $(".setting_textbox").live('change', function(){
+                $(".setting_textbox").keypress(function(){
                     enableSaveButton();
                 });
 
