@@ -202,6 +202,14 @@ jQuery(document).ready(function()
         }, function(response){});
 	});
 
+    
+    jQuery(".volumeButton").live('click', function(){
+        chrome.extension.sendRequest({
+            playerControl: "mute"
+        }, function(response){});
+    });
+    
+    
 	if(settings.pe.remove_ribbon != "false")
 	{
 		jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
@@ -250,7 +258,7 @@ jQuery(document).ready(function()
 
 	if(settings.pe.selectable_lyrics != "false")
 	{
-		jQuery(".lyricsText").live('DOMNodeInserted', function(){
+		jQuery(".lyricsText").livequery(function(){
 			selectableLyrics();
 		});
 

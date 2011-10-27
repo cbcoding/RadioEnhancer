@@ -20,9 +20,9 @@
             function stillListeningNotification()
             {
                 var notification = webkitNotifications.createNotification(
-                'images/logo-32.png',
-                'Still listening...',
-                'Please wait until music continues...'
+                    'images/logo-32.png',
+                    'Still listening...',
+                    'Please wait until music continues...'
                 );
 
                 notification.show();
@@ -36,9 +36,9 @@
             function hideVideoAdNotification()
             {
                 var notification = webkitNotifications.createNotification(
-                'images/logo-32.png',
-                'Video Ad Blocked',
-                'Please wait until music continues...'
+                    'images/logo-32.png',
+                    'Video Ad Blocked',
+                    'Please wait until music continues...'
                 );
 
                 notification.show();
@@ -53,9 +53,9 @@
             {
                 //standard notifications can only have 2 lines of text-only content.
                 var notification = webkitNotifications.createNotification(
-                info.albumArt,
-                info.songName,
-                info.artistName + " (" + info.albumName + ")"
+                    info.albumArt,
+                    info.songName,
+                    info.artistName + " (" + info.albumName + ")"
                 );
 
                 /*
@@ -119,27 +119,57 @@
             {
                 var notificationType	= request.notificationType;
                 var notificationParams	= request.notificationParams;
+                var playerControl       = request.playerControl;
                 var returnStatus		= false;
                     tabID               = sender.tab.id;
                     currentURL          = sender.tab.url;
+                    
+                if(playerControl == "mute")
+                {
+                    //should have a toggle. store previous volume level first.
+                    mute = {
+                        url:        'http://www.pandora.com/#/volume/0',
+                        selected:   true,
+                        pinned:     false
+                    };
+                    
+                    //this works, but refreshes the page. BAD SOLUTION.
+                    chrome.tabs.update(tabID, mute, function(){});
+                }
+                
+                if(playerControl == "thumbs_up")
+                {
+                    
+                }
+                
+                if(playerControl == "thumbs_down")
+                {
+                    
+                }
+                
+                if(playerControl == "skip")
+                {
+                    
+                }
+                
 
                 if(notificationType == 'getLocalStorage')
-                    {
+                {
                     returnStatus = localStorageSettings();
                 }
 
                 if(notificationType == 'showPageAction')
-                    {
+                {
                     returnStatus = showPageAction(sender.tab.id);
                 }
 
                 if(notificationType == 'stillListening')
-                    {
+                {
                     returnStatus = stillListeningNotification();
                 }
 
                 if(notificationType == 'hideVideoAd')
-                    {
+                {
                     returnStatus = hideVideoAdNotification();
                 }
 
@@ -164,6 +194,11 @@
 					{
 						returnStatus = copyLyrics(request.lyricText);
 					}
+                    
+                    if (request.showSettings)
+                    {
+                        chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
+                    }
                 }
 
                 sendResponse(returnStatus);
