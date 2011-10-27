@@ -88,7 +88,6 @@ var selectableLyrics = function()
 var copyLyricsToClipboard = function()
 {
     //you need to click the "more lyrics" link. it loads the rest afterwards, it's not just hidden
-    //could also monitor ajax events, but i can't find which one receives the continued lyrics
     var link = jQuery('.showMoreLyrics')[0];
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
@@ -178,6 +177,7 @@ var appendHeaderConfig = function()
 	debugLog("PandoraEnhancer - Appending configure link to header.");
 	jQuery(".stationChangeSelectorNoMenu").css({"width":"auto !important", "margin-left":"-65px"});
 	jQuery("#brandingBar > .middlecolumn").append("<span id='PE-config-link'>Configure PandoraEnhancer</span>");
+    jQuery("#brandingBar .rightcolumn").css("width","auto");
 	jQuery("#PE-config-link").css({"cursor":"pointer"});
 };
 
@@ -187,7 +187,9 @@ jQuery(document).ready(function()
 	debugLog("PandoraEnhancer loaded.");
 
 	jQuery("#PE-config-link").live('click', function(){
-		debugLog("hmmm...how should i handle this? inject an iframe with our settings window? ajax fetch the settings and inject a div? opening a tab (if in application shortcut mode) opens a new chrome window in a real tab");
+		chrome.extension.sendRequest({
+            showSettings: true
+        }, function(response){});
 	});
 
 	if(settings.pe.header_config != "false")
@@ -242,9 +244,12 @@ jQuery(document).ready(function()
 	
 	if(settings.pe.remove_videos != "false")
 	{
-		jQuery("#videoPlayerContainer").live('DOMNodeInserted', function(event){
+		jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted change', function(event){
 			(ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
-		});
+		}).livequery(function(){
+            debugLog("video ad blocked via LQ")
+            (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
+        });
 	}
 
 	if(settings.pe.remove_promobox != "false")

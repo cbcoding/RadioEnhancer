@@ -3,7 +3,7 @@
         <script src="js/jquery-1.6.4.min.js"></script>
         <style>
             body {
-                font-family: "Arial", "Sans-Serif";
+                font-family: helvetica, arial, sans-serif;
                 font-size: 10pt;
                 overflow: hidden;
                 width: 300px;
@@ -75,6 +75,23 @@
 			button[disabled]{
 				background: none;
 			}
+            
+            #text-logo{
+                overflow: hidden;
+                font-size: 18pt;
+                font-weight: bold;
+                color: #082247;
+                line-height: 24px;
+            }
+            
+            #text-logo-span{
+                color: #0c3a6c;
+            }
+            
+            #text-logo img{
+                float: left;
+                padding: 0 5px 10px 0;
+            }
         </style>
 
         <script type="text/javascript">
@@ -96,7 +113,7 @@
                         debugLog("No setting found, setting default...");
                         localStorage[name] = true;
 
-                        if(name == 'debug_mode')
+                        if(name == 'debug_mode' || name == 'header_config')
                         {
                             localStorage[name] = false;
 							value = false;
@@ -160,6 +177,7 @@
                     {
                         debugLog("saved settings");
                         chrome.extension.getBackgroundPage().refreshPandora();
+                        window.close();
                     } else {
                         debugLog("did not save settings - uh oh!");
                     }
@@ -173,6 +191,7 @@
 
             $(document).ready(function(){
                 loadCurrentOptions();
+                var ext = chrome.app.getDetails();
 
                 $(".setting_checkbox").live('change', function(){
                     enableSaveButton();
@@ -185,12 +204,19 @@
                 $("#cancelButton").click(function(){
                     window.close();
                 });
+                
+                $("#PE-version").html(ext.version);
             });
         </script>
     </head>
 
     <body>
         <div id="pe-settings">
+            <div id="text-logo">
+                <img src="images/logo-48.png">
+                Pandora<br>
+                <span id="text-logo-span">Enhancer</span>
+            </div>
             <form id="settings">
                 <div id="settings-general">
                     <div class="settings-title">General</div>
@@ -222,7 +248,7 @@
             </div>
         </div>
         <div id="about_pandora_enhancer">
-            PandoraEnhancer (v0.5.8) by Brandon Sachs & Curt Hostetter
+            PandoraEnhancer (v<span id="PE-version">80085</span>) by Brandon Sachs & Curt Hostetter
         </div>
     </body>
 </html>

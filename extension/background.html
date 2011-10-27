@@ -153,10 +153,15 @@
                 }
 
                 if(!request.notificationType)
-                    {
+                {
                     if(request.showPageAction)
-                        {
+                    {
                         returnStatus = showPageAction(sender.tab.id);
+                    }
+                    
+                    if (request.showSettings)
+                    {
+                        chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
                     }
                 }
 
