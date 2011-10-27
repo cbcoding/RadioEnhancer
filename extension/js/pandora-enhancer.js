@@ -29,6 +29,13 @@ var debugLog = function(text)
 	console.log(text);
 };
 
+var dispatchClick = function(selector){
+	var subject = selector;
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    subject.dispatchEvent(event);
+}
+
 var hideAds = function()
 {
     jQuery("body").css("background-color", "none !important");
@@ -46,6 +53,11 @@ var hideVideoAd = function()
         jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
         debugLog("PandoraEnhancer - Removing video ad.");
     });
+}
+
+var hideRibbon = function(){
+	debugLog("PandoraEnhancer - Hiding ribbon.");
+	dispatchClick(jQuery('.account_message_close > a')[0]);
 }
 
 var extendStationList = function()
@@ -89,22 +101,23 @@ var copyLyricsToClipboard = function()
 {
     //you need to click the "more lyrics" link. it loads the rest afterwards, it's not just hidden
     //could also monitor ajax events, but i can't find which one receives the continued lyrics
-    var link = jQuery('.showMoreLyrics')[0];
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('click', true, true);
-    link.dispatchEvent(event);
+    dispatchClick(jQuery('.showMoreLyrics')[0]);
 
     //i really don't like how this is implemented. find the event that fires after it receives the lyrics.        
     setTimeout(function(){
         //remove the <br>'s from the lyrics. if you just use .text(), you get just one long line of lyrics. this preserves line breaks
         var lyrics = jQuery(".lyricsText").html().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
-        lyrics += "\nCopied by Pandora Enhancer for Chrome";
+        lyrics += "\nCopied by PandoraEnhancer for Chrome";
 
         chrome.extension.sendRequest({
             copyLyrics: true,
             lyricText: lyrics
         }, function(response){
-            alert("Lyrics copied to clipboard!");
+			if (response.status == "true"){
+				alert("Lyrics copied to clipboard!");
+			} else {
+				alert("Could not copy lyrics...");
+			}
         });
     },1000);
 };
@@ -112,10 +125,7 @@ var copyLyricsToClipboard = function()
 var totallyStillListening = function()
 {
     debugLog("PandoraEnhancer - Still listening bypass.");
-    var still_listening = jQuery('.still_listening')[0];
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('click', true, true);
-    still_listening.dispatchEvent(event);    
+    dispatchClick(jQuery('.still_listening')[0]);
 };
 
 var doSongChange = function()
@@ -189,6 +199,13 @@ jQuery(document).ready(function()
 	jQuery("#PE-config-link").live('click', function(){
 		debugLog("hmmm...how should i handle this? inject an iframe with our settings window? ajax fetch the settings and inject a div? opening a tab (if in application shortcut mode) opens a new chrome window in a real tab");
 	});
+
+	if(settings.pe.remove_ribbon != "false")
+	{
+		jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
+			hideRibbon();
+		});
+	}
 
 	if(settings.pe.header_config != "false")
 	{
