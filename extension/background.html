@@ -128,13 +128,13 @@
                 {
                     //should have a toggle. store previous volume level first.
                     mute = {
-                        url:        'http://www.pandora.com/#/volume/0',
-                        selected:   true,
-                        pinned:     false
-                    };
+                        code: "window.location = 'http://www.pandora.com/#/volume/0'"
+                    }                    
                     
-                    //this works, but refreshes the page. BAD SOLUTION.
-                    chrome.tabs.update(tabID, mute, function(){});
+                    //added permissions in manifest. eh...
+                    chrome.tabs.executeScript(tabID, mute, function(){
+                        console.log("muted without page refresh hopefully");
+                    });
                 }
                 
                 if(playerControl == "thumbs_up")

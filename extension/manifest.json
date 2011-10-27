@@ -24,7 +24,8 @@
         }
     ],
     "permissions": [
-        "notifications"
+        "notifications",
+        "tabs", "http://*.pandora.com/*", "https://*.pandora.com/*"
     ],
     "page_action": {
         "default_title": "Pandora Enhancer",
