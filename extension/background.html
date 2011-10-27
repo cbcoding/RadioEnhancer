@@ -88,6 +88,7 @@
                     remove_videos:					localStorage["remove_videos"],
                     remove_tooltips:				localStorage["remove_tooltips"],
                     remove_still_listening:         localStorage["remove_still_listening"],
+					remove_ribbon:					localStorage["remove_ribbon"],
                     notification_timeout:           localStorage["notification_timeout"],
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
@@ -158,11 +159,11 @@
                     {
                         returnStatus = showPageAction(sender.tab.id);
                     }
-                    
-                    if (request.showSettings)
-                    {
-                        chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
-                    }
+
+					if(request.copyLyrics)
+					{
+						returnStatus = copyLyrics(request.lyricText);
+					}
                 }
 
                 sendResponse(returnStatus);
