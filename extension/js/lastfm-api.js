@@ -58,8 +58,11 @@ var responseDispatcher = function(type, payload)
 		};
 
 		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
-
-		setTimeout("sendScrobble();", (scrobbleDelay+5)*1000);
+		
+		if(payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
+		{
+			setTimeout("sendScrobble();", (scrobbleDelay+5)*1000);
+		}
 		return;
 	}
 
@@ -77,16 +80,26 @@ var sendScrobble = function()
 	if(nowTimestamp - scrobblePayload['timestamp'] > scrobbleDelay)
 	{
 		sendAPIRequest('track.scrobble', scrobblePayload, 'POST');
-		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
+		//sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
 	}
 };
 
 //functions
 var sendAPIRequest = function(requestType, requestData, requestMethod, callbackFxn) 
 {
-	requestData.method = requestType;
+	requestData['method'] = requestType;
     var requestParams = requestData;
-    requestParams.api_sig = getSignatureKey(requestData);
+    requestParams['api_sig'] = getSignatureKey(requestData);
+
+	if(requestType == 'track.scrobble') //we don't want to scrobble twice in a row.
+	{
+		if(localStorage['last_api_sig'] && requestParams['api_sig'] == localStorage['last_api_sig'])
+		{
+			return;
+		}
+
+		localStorage['last_api_sig'] = requestParams['api_sig'];
+	}
 
     var request = jQuery.ajax({
         url: scrobbleUrl,
@@ -157,5 +170,3 @@ var logoutUser = function()
 	scrobbleSessionName = null;
 	scrobblePayload['timestamp'] = 0;
 };
-
-//chrome.extension.onRequest.addListener(responseDispatcher);

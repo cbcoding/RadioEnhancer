@@ -236,14 +236,18 @@ var showNewSongPopup = function()
         songName	= jQuery(".playerBarSong")[0].textContent,
         albumName	= jQuery(".playerBarAlbum")[0].textContent,
         isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
+
+	var elapsedTime = jQuery(".elapsedTime").html();
+	elapsedTime = elapsedTime.split(':');
+	elapsedTime = (elapsedTime[0]*60) + elapsedTime[1];
         
-    if (songName == "ad")
+    if(songName == "ad")
     {
         hideVideoAd();
         return false;
     }
     
-    if (songName == "audioad")
+    if(songName == "audioad")
     {
         playerControl("mute");
         debugLog("PandoraEnhancer - Muting audio ad.");
@@ -254,11 +258,12 @@ var showNewSongPopup = function()
     chrome.extension.sendRequest({
         notificationType: 'songChange',
         notificationParams: {
-            albumArt:   oldAlbumArt,
-            artistName: artistName,
-            songName:   songName,
-            albumName:  albumName,
-            isLiked:    isLiked
+            albumArt:		oldAlbumArt,
+            artistName:		artistName,
+            songName:		songName,
+            albumName:		albumName,
+            isLiked:		isLiked,
+			elapsedTime:	elapsedTime
         }
     }, function(response) {});
 

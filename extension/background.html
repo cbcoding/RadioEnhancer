@@ -236,10 +236,11 @@
 						var dateNow = new Date();
 						var timestamp = Math.round(dateNow.getTime()/1000);
 						responseDispatcher('scrobble',{
-							artistName: notificationParams.artistName,
-							songName:   notificationParams.songName,
-							albumName:  notificationParams.albumName,
-							timestamp:	timestamp
+							artistName:		notificationParams.artistName,
+							songName:		notificationParams.songName,
+							albumName:		notificationParams.albumName,
+							timestamp:		timestamp,
+							elapsedTime:	notificationParams.elapsedTime
 						});
 					}
 
