@@ -276,6 +276,11 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+    
+    jQuery(".toastContainer").live('DOMNodeInserted', function(){
+        //TODO: notification on song skip limit?
+        debugLog("PandoraEnhancer - Song skip limit reached (probably).");
+    });
 
     if(settings.pe.remove_promobox != "false")
         {
@@ -284,43 +289,43 @@ jQuery(document).ready(function()
         });
     }
 
+    jQuery(".volumeButton").live('click', function(){
+        playerControl("mute");
+    });
+    
+    jQuery(".volumeButton.muted").live('click', function(){
+        playerControl("unmute");
+    });
+    
     jQuery("#PE-config-link").live('click', function(){
         chrome.extension.sendRequest({
             showSettings: true
         }, function(response){});
     });
 
-    //TODO - click volume button to mute
-    jQuery(".volumeButton").live('click', function(){
-        chrome.extension.sendRequest({
-            playerControl: "mute"
-        }, function(response){});
-    });
-
-
     if(settings.pe.remove_ribbon != "false")
-        {
+    {
         jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
             hideRibbon();
         });
     }
 
     if(settings.pe.header_config != "false")
-        {
+    {
         jQuery(".stationChangeSelectorNoMenu").livequery(function(){
             appendHeaderConfig();
         });
     }
 
     if(settings.pe.notification_song_change != "false")
-        {
+    {
         jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
             doSongChange();
         });
     }
 
     if(settings.pe.notification_still_listening != "false")
-        {
+    {
         jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
             if(jQuery('.still_listening').length > 0)
                 {
@@ -331,7 +336,7 @@ jQuery(document).ready(function()
     }
 
     if(settings.pe.remove_ads != "false")
-        {
+    {
         jQuery("#mainContentContainer, #mainContainer").livequery(function(){
             hideAds();
         });
@@ -345,7 +350,7 @@ jQuery(document).ready(function()
     }
 
     if(settings.pe.selectable_lyrics != "false")
-        {
+    {
         jQuery(".lyricsText").livequery(function(){
             selectableLyrics();
         });
@@ -356,7 +361,7 @@ jQuery(document).ready(function()
     }
 
     if(settings.pe.remove_videos != "false")
-        {
+    {
         jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted change', function(event){
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         }).livequery(function(){

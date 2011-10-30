@@ -81,12 +81,28 @@
 				background: none;
 			}
             
+            .clear{
+                clear: both;
+            }
+            
+            #social{
+                float: left;
+                width: 85px !important;
+                text-align: center;
+            }
+            
+            #gplus{
+                padding-top: 5px;
+            }
+            
             #text-logo{
+                width: 195px;
                 overflow: hidden;
                 font-size: 18pt;
                 font-weight: bold;
                 color: #082247;
                 line-height: 24px;
+                float: left;
             }
             
             #text-logo-span{
@@ -98,6 +114,14 @@
                 padding: 0 5px 10px 0;
             }
         </style>
+        
+        <script type="text/javascript">
+          (function() {
+              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+              po.src = 'https://apis.google.com/js/plusone.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+          })();
+        </script>
 
         <script type="text/javascript">
             var debugLog = function(text)
@@ -227,6 +251,17 @@
                 Pandora<br>
                 <span id="text-logo-span">Enhancer</span>
             </div>
+            
+            <div id="social">
+                <a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a>
+                <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+                <div id="gplus">
+                    <g:plusone href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></g:plusone>
+                </div>
+            </div>
+            
+            <div class="clear"></div>
+            
             <form id="settings">
                 <div id="settings-general">
                     <div class="settings-title">General</div>
@@ -247,9 +282,9 @@
                     <div class="settings-title">Notifications</div>
                     <div class="settings-list">
                         <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
                         <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br /><br />
+                        <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
+                        <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
                         <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
                     </div>
                 </div>
@@ -263,8 +298,6 @@
             PandoraEnhancer (v<span id="PE-version">80085</span>)
             by <span class="link" id="brandon">Brandon Sachs</span>
             &  <span class="link" id="curt">Curt Hostetter</span>
-            <br>
-            Follow <span class="link" id="twitter">@PandoraEnhancer</span> for updates!
         </div>
     </body>
 </html>
