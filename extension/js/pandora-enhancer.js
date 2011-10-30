@@ -4,6 +4,9 @@
 */
 
 //TODO: on audio ad detection, mute the player (good suggestion from one of our reviews on the web store, haha)
+//we can detect if we're in a shortcut-application after all! requires "tab" permissions - chrome.extension.window.type
+//http://code.google.com/chrome/extensions/windows.html#type-Window
+//i forgot why that was something we wanted to detect in the first place...
 
 //init
 chrome.extension.sendRequest({
@@ -12,7 +15,6 @@ chrome.extension.sendRequest({
 
 //player control listener
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
-    debugLog(request);
     var action = request.playerControl;
     playerControl(action);
 });
@@ -34,14 +36,15 @@ var oldAlbumArt = null;
 var newAlbumArt = null;
 var ads_hidden = 0;
 var song_skip_tries = 0;
-var restoredVolumeLevel;
+var volumeLevelBase = 35;
+var volumeLevelIncrement = 0.82;
+var volumeLevelRestored;
 
 //show volume slider always. so annoying.
 jQuery(".volumeBackground").css("display","block !important");
 
 var playerControl = function(action)
 {
-    debugLog("player control function - action: " + action);
     switch (action)
     {
         case "thumbs_up":
@@ -80,27 +83,16 @@ var playerControl = function(action)
             //35px = volume 0
             //117px = volume 100
             
-            
             if (jQuery(".volumeKnob").css("left") == "35px") return false;
-            
-            restoredVolumeLevel = jQuery(".volumeKnob").css("left");
-            
-            //jQuery(".volumeKnob").css("left", "35px");
-            
-            //the click sets the volume to 0. every time. hmmmmm, need to find out how to make pandora recognize the vol changed
-            dispatchClick(jQuery(".volumeKnob")[0]);
-            
+            volumeLevelRestored = jQuery(".volumeKnob").css("left");
+            volumeLevelRestored = volumeLevelRestored.replace("px","");
+            volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
+            window.location.replace("http://www.pandora.com/#/volume/0");            
             debugLog("PandoraEnhancer - Mute");            
             break;
         case "unmute":
-            //debugLog("volume is muted - lets unmute it! - restoring to " + restoredVolumeLevel);
-            jQuery(".volumeKnob").css("left", ""+restoredVolumeLevel+"");
-            
-            setTimeout(function(){
-                //the click sets the volume to 0. every time.
-                dispatchClick(jQuery(".volumeKnob")[0]);
-            },1000);
-            
+            //todo: figure out how to detect current volume level, then restore to it.
+            window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
             debugLog("PandoraEnhancer - Un-mute");
             break;
             

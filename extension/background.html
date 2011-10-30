@@ -52,25 +52,23 @@
 
             function showSongChangeNotification(info)
             {
-                //can make this an option easily
-                /*
-                var notification = webkitNotifications.createNotification(
-                    info.albumArt,
-                    info.songName,
-                    info.artistName + " (" + info.albumName + ")"
-                );
-                */
-
-                /**/
-                //html notifications are the new shit
-                var notification = webkitNotifications.createHTMLNotification(
-                    'notification.html?'
-                    +'albumArt='+info.albumArt
-                    +'&artistName='+info.artistName
-                    +'&songName='+info.songName
-                    +'&albumName='+info.albumName
-                );
-                
+                if (localStorage["player_controls"] != "true")
+                {
+                    var notification = webkitNotifications.createNotification(
+                        info.albumArt,
+                        info.songName,
+                        info.artistName + " (" + info.albumName + ")"
+                    );
+                } else {
+                    //html notifications are the new shit
+                    var notification = webkitNotifications.createHTMLNotification(
+                        'notification.html?'
+                        +'albumArt='+info.albumArt
+                        +'&artistName='+info.artistName
+                        +'&songName='+info.songName
+                        +'&albumName='+info.albumName
+                    );
+                }
 
                 notification.show();
 
@@ -97,6 +95,7 @@
                     notification_video_ad:          localStorage["notification_video_ad"],
                     notification_still_listening:   localStorage["notification_still_listening"],
 					header_config:					localStorage["header_config"],
+                    player_controls:                localStorage["player_controls"],
                     debug_mode:						localStorage["debug_mode"]
                 };
                 
