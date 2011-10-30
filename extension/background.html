@@ -68,6 +68,7 @@
                         +'&artistName='+info.artistName
                         +'&songName='+info.songName
                         +'&albumName='+info.albumName
+                        +'&isLiked='+info.isLiked
                     );
                 }
 
@@ -125,8 +126,7 @@
                         break;
                     case "thumbs_down":
                         control = "thumbs_down";
-                        
-                        //thumbs down skips song, so it should hide. however, if you're at skip limit, song continues. hmm.
+                        //todo: thumbs down skips song, so it should hide. however, if you're at skip limit, song continues. hmm.
                         //notification.cancel();
                         break;
                     case "play":
@@ -152,9 +152,7 @@
                 
                 chrome.tabs.sendRequest(tabID, {
                     'playerControl': control
-                }, function(response){
-                    console.log(response);
-                });
+                }, function(response){});
                 
                 if (control == "pause"){
                     clearTimeout(notification_timeout);
@@ -218,7 +216,8 @@
                         albumArt:   notificationParams.albumArt,
                         artistName: notificationParams.artistName,
                         songName:   notificationParams.songName,
-                        albumName:  notificationParams.albumName
+                        albumName:  notificationParams.albumName,
+                        isLiked:    notificationParams.isLiked
                     });
                 }
 

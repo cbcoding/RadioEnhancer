@@ -223,9 +223,10 @@ var showNewSongPopup = function()
 
     //idunno if it matters, but i prefer artist - song (album) //setting?
     var artistName  = jQuery(".playerBarArtist")[0].textContent,
-    songName		= jQuery(".playerBarSong")[0].textContent,
-    albumName		= jQuery(".playerBarAlbum")[0].textContent;
-
+        songName	= jQuery(".playerBarSong")[0].textContent,
+        albumName	= jQuery(".playerBarAlbum")[0].textContent,
+        isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
+        
     if (songName == "ad")
     {
         hideVideoAd();
@@ -246,7 +247,8 @@ var showNewSongPopup = function()
             albumArt:   oldAlbumArt,
             artistName: artistName,
             songName:   songName,
-            albumName:  albumName
+            albumName:  albumName,
+            isLiked:    isLiked
         }
     }, function(response) {});
 

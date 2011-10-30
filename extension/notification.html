@@ -2,7 +2,6 @@
     <head>
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
-            //TODO: make player controls reflect current state (ex: if a song has a thumbs up, change bg on this notification)
             var background = chrome.extension.getBackgroundPage();
 
             function param(name) {
@@ -19,7 +18,7 @@
             
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
-                var action = $(this).prop("id");                
+                var action = $(this).prop("id");
                 switch (action)
                 {
                     case "thumbs_up":
@@ -58,6 +57,12 @@
                         $("#mute").show();
                         background.window.playerControl("unmute");
                         break;
+                }
+            });
+            
+            $(document).ready(function(){
+                if (param('isLiked') == "true"){
+                    $("#thumbs_up").css("background", "-webkit-linear-gradient(top, #f8fafc 0%,#f1f3f7 100%) !important");
                 }
             });
             
