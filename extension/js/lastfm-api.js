@@ -3,20 +3,23 @@
 var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';
 var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
 var scrobbleUrl = 'http://ws.audioscrobbler.com/2.0/';
-var scrobbleSession = {};
+var scrobbleSessionKey = null;
+var scrobbleSessionName = null;
+var scrobbleDelay = 30;
 
 var scrobblePayload = {
-	timestamp: 0
+	timestamp: 0,
+	sk: ''
 };
 
-if(localStorage['scrobble_session'] && localStorage['scrobble_session'] != null)
+if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
 {
-	scrobbleSession = JSON.parse(localStorage['scrobble_session']);
+	scrobbleSessionKey = localStorage['scrobble_session_key'];
+	scrobbleSessionName = localStorage['scrobble_session_name'];
 }
 
 var responseDispatcher = function(type, payload) 
 {
-	debugLog(type);
 	if(type == 'authenticated')
 	{
 		getUserSession(payload);
@@ -25,13 +28,10 @@ var responseDispatcher = function(type, payload)
 
 	if(type == 'requestAuthentication')
 	{
-		doScrobbleAuth();
+		chrome.tabs.create({
+			url: "http://www.last.fm/api/auth/?api_key=" + scrobbleKey + "&cb=" + chrome.extension.getURL("authentication_success.html"),
+		});
 		return;
-	}
-
-	if(type == 'getSession')
-	{
-		return scrobbleSession;
 	}
 
 	if(type == 'scrobbleLogout')
@@ -54,12 +54,12 @@ var responseDispatcher = function(type, payload)
 			track:		payload['songName'],
 			album:		payload['albumName'],
 			timestamp:	payload['timestamp'],
-			sk:			scrobbleSession['key']
+			sk:			scrobbleSessionKey
 		};
 
 		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
 
-		setTimeout("sendScrobble();", 30);
+		setTimeout("sendScrobble();", (scrobbleDelay+5)*1000);
 		return;
 	}
 
@@ -74,7 +74,7 @@ var sendScrobble = function()
 {
 	var dateNow = new Date();
 	var nowTimestamp = Math.round(dateNow.getTime()/1000);
-	if(scrobblePayload['timestamp'] - nowTimestamp > 30 && scrobblePayload.length > 1)
+	if(nowTimestamp - scrobblePayload['timestamp'] > scrobbleDelay)
 	{
 		sendAPIRequest('track.scrobble', scrobblePayload, 'POST');
 	}
@@ -83,12 +83,10 @@ var sendScrobble = function()
 //functions
 var sendAPIRequest = function(requestType, requestData, requestMethod, callbackFxn) 
 {
+	requestData.method = requestType;
     var requestParams = requestData;
-
-    //$.inArray(requestType, ["track.love", "track.scrobble", "track.unlove", "track.updateNowPlaying"]) >= 0 && (requestMethod = "POST");
-
-    requestParams.method = requestType;
     requestParams.api_sig = getSignatureKey(requestData);
+
 	debugLog(requestParams);
     var request = jQuery.ajax({
         url: scrobbleUrl,
@@ -106,6 +104,7 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
 };
 
 var getSignatureKey = function(requestData){
+	delete requestData['api_sig'];
 	var paramHolder = [];
 	var signatureKey = '';
 
@@ -122,15 +121,9 @@ var getSignatureKey = function(requestData){
 	}
 
     signatureKey += scrobbleSecret;
+	debugLog(signatureKey);
     return md5(signatureKey);
 }
-
-var doScrobbleAuth = function() 
-{
-    chrome.tabs.create({
-        url: "http://www.last.fm/api/auth/?api_key=" + scrobbleKey + "&cb=" + chrome.extension.getURL("authentication_success.html"),
-    });
-};
 
 var getUserSession = function(token)
 {
@@ -147,21 +140,24 @@ var getUserSession = function(token)
 			
 		var responseDOM = $(response);
 
-		scrobbleSession = {
-			name: responseDOM.find('name').text(),
-			key: responseDOM.find('key').text()
-		};
+		scrobbleSessionKey = responseDOM.find('key').text();
+		scrobbleSessionName = responseDOM.find('name').text();
 
-		debugLog(scrobbleSession);
-		localStorage['scrobble_session'] = JSON.stringify(scrobbleSession);
+		if(scrobblePayload['sk']) scrobblePayload['sk'] = scrobbleSessionKey;
+
+		localStorage['scrobble_session_key'] = scrobbleSessionKey;
+		localStorage['scrobble_session_name'] = scrobbleSessionName;
 
 	});
 };
 
 var logoutUser = function()
 {
-    localStorage['scrobble_session'] = null;
-    scrobbleSession = null;
+    localStorage['scrobble_session_key'] = null;
+	localStorage['scrobble_session_name'] = null;
+    scrobbleSessionKey = null;
+	scrobbleSessionName = null;
+	scrobblePayload['timestamp'] = 0;
 };
 
 //chrome.extension.onRequest.addListener(responseDispatcher);
