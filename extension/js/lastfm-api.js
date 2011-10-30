@@ -87,7 +87,6 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
     var requestParams = requestData;
     requestParams.api_sig = getSignatureKey(requestData);
 
-	debugLog(requestParams);
     var request = jQuery.ajax({
         url: scrobbleUrl,
         type: requestMethod,
@@ -100,7 +99,6 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
         }
     });
 
-	debugLog(request);
 };
 
 var getSignatureKey = function(requestData){
@@ -121,7 +119,6 @@ var getSignatureKey = function(requestData){
 	}
 
     signatureKey += scrobbleSecret;
-	debugLog(signatureKey);
     return md5(signatureKey);
 }
 

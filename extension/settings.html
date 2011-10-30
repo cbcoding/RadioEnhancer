@@ -182,14 +182,11 @@
                     }             
                 });
 
-				alert(localStorage['scrobble_session'] != 'null');
-				if(localStorage['scrobble_session'] && localStorage['scrobble_session'] != 'null')
+				if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
 				{
-					var session = bgPage.responseDispatcher('getSession');
-
 					$('#scrobbleLoginButton').css('display', 'none');
 					$('#scrobbleTokenContainer').css('display', 'block');
-					$('#scrobbleToken').text(session['name']);// + ' (' + session['name'] + ')');
+					$('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
 				}
             };
 
