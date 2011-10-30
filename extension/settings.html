@@ -11,7 +11,8 @@
 
             #about_pandora_enhancer{
                 font-weight: bold;
-                padding-top: 10px;
+                padding-top: 5px;
+				height: 20px;
                 margin-left: 5px;
                 font-size: 7pt;
                 border-top: 1px solid black;
@@ -44,7 +45,8 @@
                 margin-left: 10px;
             }
 
-            #settings-notifications, #settings-general{
+            #settings-notifications, #settings-general, #settings-scrobble{
+				margin-top: 10px;
                 padding: 5px;
                 border: 1px solid #d9e0ea;
                 -webkit-border-radius: 8px;
@@ -61,7 +63,7 @@
             }
             .link:hover{ cursor: pointer; text-decoration: underline; }
 
-            button{
+            .controlButton{
                 width: 49%;
                 padding: 5px 20;
                 border: 1px solid #d9e0ea;
@@ -69,15 +71,15 @@
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
             }
 
-            button:hover{
+            .controlButton:hover{
                 background: -webkit-linear-gradient(top, #f0f4f7 0%,#F2F2F2 100%);
             }
 
-            button:active{
+            .controlButton:active{
                 background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
             }
 
-			button[disabled]{
+			.controlButton[disabled]{
 				background: none;
 			}
             
@@ -113,6 +115,11 @@
                 float: left;
                 padding: 0 5px 10px 0;
             }
+
+			#scrobbleTokenContainer{
+				display: none;
+				padding-right: 5px;
+			}
         </style>
         
         <script type="text/javascript">
@@ -124,10 +131,10 @@
         </script>
 
         <script type="text/javascript">
+			var bgPage = chrome.extension.getBackgroundPage();
             var debugLog = function(text)
             {
-                if(localStorage['debug_mode'] == "false") return;
-                console.log(text);
+                bgPage.debugLog(text);
             };
 
             var loadCurrentOptions = function()
@@ -153,6 +160,16 @@
                             localStorage[name] = 3.5;
                         }
 
+						if(name == "scrobble_username")
+						{
+							localStorage[name] = '';
+						}
+
+						if(name == "scrobble_delay")
+						{
+							localStorage[name] = 60;
+						}
+
 						value = localStorage[name];
                     }
 
@@ -164,6 +181,16 @@
                         $(this).prop("checked", false);
                     }             
                 });
+
+				alert(localStorage['scrobble_session'] != 'null');
+				if(localStorage['scrobble_session'] && localStorage['scrobble_session'] != 'null')
+				{
+					var session = bgPage.responseDispatcher('getSession');
+
+					$('#scrobbleLoginButton').css('display', 'none');
+					$('#scrobbleTokenContainer').css('display', 'block');
+					$('#scrobbleToken').text(session['name']);// + ' (' + session['name'] + ')');
+				}
             };
 
             var saveCurrentOptions = function()
@@ -181,12 +208,12 @@
                     var value = false;
 
                     if($(this).prop('type') == 'checkbox')
-                        {
+                    {
                         value = $(this).prop('checked');
                     }
 
                     if($(this).prop('type') == 'text')
-                        {
+                    {
                         value = $(this).val();
                     }
 
@@ -205,7 +232,7 @@
                     if(saved)
                     {
                         debugLog("saved settings");
-                        chrome.extension.getBackgroundPage().refreshPandora();
+                        bgPage.refreshPandora();
                         window.close();
                     } else {
                         debugLog("did not save settings - uh oh!");
@@ -238,8 +265,21 @@
                 
                 $(".link").click(function(){
                     var person = $(this).prop("id");
-                    chrome.extension.getBackgroundPage().ourWebsites(person);
+                    bgPage.ourWebsites(person);
                 });
+
+				$('#scrobbleLoginButton').click(function(){
+					var username = $('#scrobble_username').val();
+					bgPage.responseDispatcher('requestAuthentication', username);
+				});
+
+				$('#scrobbleLogoutButton').click(function(){
+					bgPage.responseDispatcher('scrobbleLogout');
+
+					$('#scrobbleTokenContainer').css('display', 'none');
+					$('#scrobbleToken').text('');
+					$('#scrobbleLoginButton').css('display', 'block');
+				});
             });
         </script>
     </head>
@@ -277,7 +317,19 @@
                         <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
                     </div>
                 </div>
-                <br />
+				<div id="settings-scrobble">
+                    <div class="settings-title">last.fm Settings</div>
+                    <div class="settings-list">
+						<button id="scrobbleLoginButton">Authenticate</button>
+						<div id="scrobbleTokenContainer">
+							<span id="scrobbleToken"></span><button id="scrobbleLogoutButton">Logout</button>
+						</div>
+
+                        
+						<!--<input class="setting_checkbox" type="checkbox" name="love_with_like" id="love_with_like"><label for="love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
+						<label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />-->
+                    </div>
+                </div>
                 <div id="settings-notifications">
                     <div class="settings-title">Notifications</div>
                     <div class="settings-list">
@@ -291,13 +343,11 @@
             </form>
 
             <div class="actions">
-                <button id="saveButton" disabled>Save</button> <button id="cancelButton">Cancel</button>
+                <button id="saveButton" class="controlButton" disabled>Save</button> <button class="controlButton" id="cancelButton">Cancel</button>
             </div>
         </div>
         <div id="about_pandora_enhancer">
-            PandoraEnhancer (v<span id="PE-version">80085</span>)
-            by <span class="link" id="brandon">Brandon Sachs</span>
-            &  <span class="link" id="curt">Curt Hostetter</span>
+            PandoraEnhancer (v<span id="PE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
         </div>
     </body>
 </html>

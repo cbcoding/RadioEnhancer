@@ -1,8 +1,17 @@
 <html>
     <head>
-        <script src="js/jquery-1.6.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="js/md5.js"></script>
+		<script type="text/javascript" src="js/lastfm-api.js"></script>
+
         
         <script type="text/javascript">
+			
+			var debugLog = function(whatever){
+				if(!localStorage['debug_mode'] || localStorage['debug_mode'] == "false") return;
+				console.log(whatever);
+			};
+
             function showPageAction(tabID)
             {
                 chrome.pageAction.show(tabID);
@@ -98,7 +107,8 @@
                     notification_still_listening:   localStorage["notification_still_listening"],
 					header_config:					localStorage["header_config"],
                     player_controls:                localStorage["player_controls"],
-                    debug_mode:						localStorage["debug_mode"]
+                    debug_mode:						localStorage["debug_mode"],
+					scrobble_session:				localStorage["scrobble_session"]
                 };
                 
                 return {'message': settings};
@@ -211,7 +221,7 @@
                 }
 
                 if(notificationType == 'songChange')
-                    {
+                {
                     returnStatus = showSongChangeNotification({
                         albumArt:   notificationParams.albumArt,
                         artistName: notificationParams.artistName,
@@ -219,6 +229,19 @@
                         albumName:  notificationParams.albumName,
                         isLiked:    notificationParams.isLiked
                     });
+
+					if(localStorage["scrobble_session"] && localStorage["scrobble_session"] != 'null')
+					{
+						var dateNow = new Date();
+						var timestamp = Math.round(dateNow.getTime()/1000);
+						responseDispatcher('scrobble',{
+							artistName: notificationParams.artistName,
+							songName:   notificationParams.songName,
+							albumName:  notificationParams.albumName,
+							timestamp:	timestamp
+						});
+					}
+
                 }
 
                 if(!request.notificationType)

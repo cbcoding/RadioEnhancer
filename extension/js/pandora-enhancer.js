@@ -66,16 +66,18 @@ var playerControl = function(action)
             break;
         
         case "mute":
-            if (jQuery(".volumeKnob").css("left") == "35px") return false;
+           if (jQuery(".volumeKnob").css("left") == "35px") return false;
             volumeLevelRestored = jQuery(".volumeKnob").css("left");
             volumeLevelRestored = volumeLevelRestored.replace("px","");
-            volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
-            window.location.replace("http://www.pandora.com/#/volume/0");
+			volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
+            //volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
             isMuted = true;
-            debugLog("PandoraEnhancer - Mute");            
+            jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
+            debugLog("PandoraEnhancer - Mute");
             break;
         case "unmute":
-            window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
+            //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
+			jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
             isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
             break;
@@ -365,8 +367,8 @@ jQuery(document).ready(function()
         jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted change', function(event){
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         }).livequery(function(){
-            debugLog("video ad blocked via LQ")
-            (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
+            debugLog("video ad blocked via LQ");
+           (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
 });

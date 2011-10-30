@@ -15,7 +15,9 @@
             "js": [
                 "js/jquery-1.6.4.min.js",
                 "js/jquery.livequery.min.js",
-                "js/pandora-enhancer.js"
+		"js/jquery.simulate.js",
+                "js/pandora-enhancer.js",
+		"js/lastfm-api.js"
             ],
             "matches": [
                 "*://*.pandora.com/*"

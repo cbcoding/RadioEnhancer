@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PandoraEnhancer - Authentication Successful</title>
+	<script>
+		var bgPage = chrome.extension.getBackgroundPage();
+		var token = window.location.search;
+		var tokenPieces = token.split('=');
+		bgPage.responseDispatcher('authenticated', tokenPieces[1]);
+	</script>
+</head>
+<body>
+	<h1>PandoraEnhancer</h1>
+	<p>Congratulations! You have successfully authenticated with Last.fm</p>
+</body>
+</html>
