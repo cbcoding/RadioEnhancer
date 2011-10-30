@@ -3,7 +3,6 @@
 * by Brandon Sachs and Curt Hostetter
 */
 
-//TODO: on audio ad detection, mute the player (good suggestion from one of our reviews on the web store, haha)
 //we can detect if we're in a shortcut-application after all! requires "tab" permissions - chrome.extension.window.type
 //http://code.google.com/chrome/extensions/windows.html#type-Window
 //i forgot why that was something we wanted to detect in the first place...
@@ -39,9 +38,7 @@ var song_skip_tries = 0;
 var volumeLevelBase = 35;
 var volumeLevelIncrement = 0.82;
 var volumeLevelRestored;
-
-//show volume slider always. so annoying.
-jQuery(".volumeBackground").css("display","block !important");
+var isMuted;
 
 var playerControl = function(action)
 {
@@ -68,31 +65,18 @@ var playerControl = function(action)
             debugLog("PandoraEnhancer - Skip");
             break;
         
-        //TODO: make mute/unmute work
         case "mute":
-            /*
-            //THIS REQUIRES TAB PERMISSIONS - i'd like to do it without requiring those
-            //"tabs", "http://*.pandora.com/*", "https://*.pandora.com/*"
-            mute = { code: "window.location = 'http://www.pandora.com/#/volume/0'" }
-            chrome.tabs.executeScript(tabID, mute, function(){
-                console.log("muted - background.html");
-            });
-            */
-            
-            //.volumeKnob left property
-            //35px = volume 0
-            //117px = volume 100
-            
             if (jQuery(".volumeKnob").css("left") == "35px") return false;
             volumeLevelRestored = jQuery(".volumeKnob").css("left");
             volumeLevelRestored = volumeLevelRestored.replace("px","");
             volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
-            window.location.replace("http://www.pandora.com/#/volume/0");            
+            window.location.replace("http://www.pandora.com/#/volume/0");
+            isMuted = true;
             debugLog("PandoraEnhancer - Mute");            
             break;
         case "unmute":
-            //todo: figure out how to detect current volume level, then restore to it.
             window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
+            isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
             break;
             
@@ -250,9 +234,12 @@ var showNewSongPopup = function()
     
     if (songName == "audioad")
     {
-        debugLog("PandoraEnhancer - Can't do anything about audio ads. Enjoy!");
+        playerControl("mute");
+        debugLog("PandoraEnhancer - Muting audio ad.");
     }
 
+    if (isMuted) playerControl("unmute");
+    
     chrome.extension.sendRequest({
         notificationType: 'songChange',
         notificationParams: {

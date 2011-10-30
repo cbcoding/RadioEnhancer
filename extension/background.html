@@ -50,18 +50,19 @@
                 return {'message':'video-ad-hidden'};
             }
 
+            var notification_timeout, notification;
             function showSongChangeNotification(info)
             {
                 if (localStorage["player_controls"] != "true")
                 {
-                    var notification = webkitNotifications.createNotification(
+                    notification = webkitNotifications.createNotification(
                         info.albumArt,
                         info.songName,
                         info.artistName + " (" + info.albumName + ")"
                     );
                 } else {
                     //html notifications are the new shit
-                    var notification = webkitNotifications.createHTMLNotification(
+                    notification = webkitNotifications.createHTMLNotification(
                         'notification.html?'
                         +'albumArt='+info.albumArt
                         +'&artistName='+info.artistName
@@ -73,9 +74,9 @@
                 notification.show();
 
                 //dismiss after a few seconds
-                setTimeout(function(){
+                notification_timeout = setTimeout(function(){
                     notification.cancel();
-                }, (localStorage["notification_timeout"]*1000)); //can make this a setting, choose how long you want the notification to stay
+                }, (localStorage["notification_timeout"]*1000));
 
                 return {'message':'PE Notification shown'};
             }
@@ -154,6 +155,16 @@
                 }, function(response){
                     console.log(response);
                 });
+                
+                if (control == "pause"){
+                    clearTimeout(notification_timeout);
+                }
+                
+                if (control == "play"){
+                    notification_timeout = setTimeout(function(){
+                        notification.cancel();
+                    }, (localStorage["notification_timeout"]*1000));
+                }
             }
             
             function ourWebsites(person)
@@ -162,6 +173,8 @@
                     chrome.tabs.create({url: 'http://curthostetter.com'});
                 if (person == "brandon")
                     chrome.tabs.create({url: 'http://brandon-sachs.com'});
+                if (person == "twitter")
+                    chrome.tabs.create({url: 'http://twitter.com/PandoraEnhancer'});
             }
             
 
