@@ -29,7 +29,7 @@
         "notifications"
     ],
     "page_action": {
-        "default_title": "Pandora Enhancer",
+        "default_title": "PandoraEnhancer",
         "default_icon": "images/logo-16.png",
         "default_popup": "settings.html"
     }
