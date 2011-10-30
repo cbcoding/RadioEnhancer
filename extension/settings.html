@@ -55,6 +55,11 @@
                 width: 290px;
                 text-align: right;
             }
+            
+            .link{
+                color: #00317F;
+            }
+            .link:hover{ cursor: pointer; text-decoration: underline; }
 
             button{
                 width: 49%;
@@ -140,7 +145,7 @@
             var saveCurrentOptions = function()
             {
                 if (isNaN($('input[name="notification_timeout"]').val()))
-                    {
+                {
                     alert("Display length must be a number.");
                     $('input[name="notification_timeout"]').val('').focus();
                     return false;
@@ -206,6 +211,11 @@
                 });
                 
                 $("#PE-version").html(ext.version);
+                
+                $(".link").click(function(){
+                    var person = $(this).prop("id");
+                    chrome.extension.getBackgroundPage().ourWebsites(person);
+                });
             });
         </script>
     </head>
@@ -249,7 +259,9 @@
             </div>
         </div>
         <div id="about_pandora_enhancer">
-            PandoraEnhancer (v<span id="PE-version">80085</span>) by Brandon Sachs & Curt Hostetter
+            PandoraEnhancer (v<span id="PE-version">80085</span>)
+            by <span class="link" id="brandon">Brandon Sachs</span>
+            &  <span class="link" id="curt">Curt Hostetter</span>
         </div>
     </body>
 </html>

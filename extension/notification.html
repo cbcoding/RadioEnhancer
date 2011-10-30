@@ -2,38 +2,144 @@
     <head>
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
-            //http://code.google.com/chrome/extensions/notifications.html
+            //TODO: make player controls reflect current state (ex: if a song has a thumbs up, change bg on this notification)
+            var background = chrome.extension.getBackgroundPage();
+
             function param(name) {
                 var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
             }
-
-            console.log(param('albumArt'));
-
-            /**/
-            jQuery("#albumArt").text('<img src="' + param('albumArt') + '">');
-            jQuery("#songName").text(param('songName'));
-            jQuery("#artistName").text(param('artistName'));
-            jQuery("#albumName").text(param('artistName'));
+            
+            //we should pause the timer when the mouse is over the notification
+            $('#songInfoContainer').live('mouseover', function(){
+                //console.log("MOUSE IS OVER THE NOTIFICATION");
+            }).live('mouseout', function(){
+                //console.log("MOUSE LEFT NOTIFICATION");
+            });
+            
+            
+            $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
+                var action = $(this).prop("id");                
+                switch (action)
+                {
+                    case "thumbs_up":
+                        console.log("thumbs up");
+                        background.window.playerControl("thumbs_up");
+                        break;
+                    case "thumbs_down":
+                        console.log("thumbs down");
+                        background.window.playerControl("thumbs_down");
+                        break;
+                    case "play":
+                        console.log("play");
+                        $(this).hide();
+                        $("#pause").show();
+                        background.window.playerControl("play");
+                        break;
+                    case "pause":
+                        console.log("pause");
+                        $(this).hide();
+                        $("#play").show();
+                        background.window.playerControl("pause");
+                        break;
+                    case "skip":
+                        console.log("skip");
+                        background.window.playerControl("skip");
+                        break;
+                    case "mute":
+                        console.log("mute");
+                        $(this).hide();
+                        $("#unmute").show();
+                        background.window.playerControl("mute");
+                        break;
+                    case "unmute":
+                        console.log("un-mute");
+                        $(this).hide();
+                        $("#mute").show();
+                        background.window.playerControl("unmute");
+                        break;
+                }
+            });
+            
         </script>
+
+        <style>
+            body {
+                font-family: helvetica, arial, sans-serif;
+                font-size: 10pt;
+                /* overflow: hidden; */
+                width: 300px;
+            }
+            
+            #songInfoContainer {
+                overflow: auto;
+                width: 100%;
+            }
+
+            #albumArt, #artistInfo { float: left; }
+            #artistInfo { padding-top: 2px; width: 230px; }
+            #albumArt img { padding-right: 10px; }
+            #songName { font-weight: bold; }
+            #artistName, #albumName { font-size: 8pt; }
+            
+            #playerControlContainer {
+                margin-top: 5px;
+                padding: 0 5px;
+                width: 270px;
+                text-align: center;
+                border: 1px solid #c0c0c0;
+                -webkit-border-radius: 4px;
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+                overflow: auto;
+            }
+            
+            #playerControlContainer > div {
+                float: left;
+                padding: 5px 0;
+                width: 54px;
+            }
+            
+            #playerControlContainer > div:hover {
+                background: -webkit-linear-gradient(top, #f8fafc 0%,#f1f3f7 100%);
+            }
+            
+            #playerControlContainer > div:active {
+                background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
+                padding-top: 6px;
+                padding-bottom: 4px;
+            }
+            
+            #play, #unmute { display: none; }
+        </style>
+
     </head>
 
     <body>
-        <div id="test"></div>
-    
-        <table border="0" border-style="collapse">
-            <tbody>
-                <tr>
-                    <td rowspan="3" id="albumArt"></td>
-                    <td id="songName"></td>
-                </tr>
-                <tr>
-                    <td id="artistName"></td>
-                </tr>
-                <tr>
-                    <td id="albumName"></td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div id="songInfoContainer">
+            <div id="albumArt">
+                <script>
+                    document.write('<img src="' + param('albumArt') + '" width="48" height="48">');
+                </script>
+            </div>
+            
+            <div id="artistInfo">
+                <div id="songName"><script>document.write(param('songName'));</script></div>
+                <div id="artistName">by <script>document.write(param('artistName'));</script></div>
+                <div id="albumName">on <script>document.write(param('albumName'));</script></div>
+            </div>
+        </div>
+        
+        <!-- replace these with awesome images lol -->
+        <div id="playerControlContainer">
+            <div id="thumbs_up"><img src="images/thumbs-up.png"></div>
+            <div id="thumbs_down"><img src="images/thumbs-down.png"></div>
+            <div id="play"><img src="images/play.png"></div>
+            <div id="pause"><img src="images/pause.png"></div>
+            <div id="skip"><img src="images/skip.png"></div>
+            <div id="mute"><img src="images/mute.png"></div>
+            <div id="unmute"><img src="images/unmute.png"></div>
+        </div>        
+        
     </body>
 </html>

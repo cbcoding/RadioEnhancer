@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="js/jquery-1.6.4.min.js"></script>
+        
         <script type="text/javascript">
             function showPageAction(tabID)
             {
@@ -51,23 +52,25 @@
 
             function showSongChangeNotification(info)
             {
-                //standard notifications can only have 2 lines of text-only content.
+                //can make this an option easily
+                /*
                 var notification = webkitNotifications.createNotification(
                     info.albumArt,
                     info.songName,
                     info.artistName + " (" + info.albumName + ")"
                 );
+                */
 
-                /*
+                /**/
                 //html notifications are the new shit
                 var notification = webkitNotifications.createHTMLNotification(
-                'notification.html?'
-                +'albumArt='+info.albumArt
-                +'&artistName='+info.artistName
-                +'&songName='+info.songName
-                +'&albumName='+info.albumName
+                    'notification.html?'
+                    +'albumArt='+info.albumArt
+                    +'&artistName='+info.artistName
+                    +'&songName='+info.songName
+                    +'&albumName='+info.albumName
                 );
-                */
+                
 
                 notification.show();
 
@@ -101,7 +104,8 @@
             }
             
             var tabID, currentURL;
-            function refreshPandora(){
+            function refreshPandora()
+            {
                 update = {
                     url:        currentURL,
                     selected:   true,
@@ -109,6 +113,58 @@
                 };
                 chrome.tabs.update(tabID, update, function(){});
             }
+            
+                
+            function playerControl(action)
+            {
+                var control;
+                switch (action)
+                {
+                    case "thumbs_up":
+                        control = "thumbs_up";
+                        break;
+                    case "thumbs_down":
+                        control = "thumbs_down";
+                        
+                        //thumbs down skips song, so it should hide. however, if you're at skip limit, song continues. hmm.
+                        //notification.cancel();
+                        break;
+                    case "play":
+                        control = "play";
+                        break;
+                    case "pause":
+                        control = "pause";
+                        break;
+                    case "skip":
+                        control = "skip";
+                        break;
+                    case "mute":
+                        control = "mute";
+                        break;
+                    case "unmute":
+                        control = "unmute";
+                        break;
+                        
+                    default:
+                        return false;
+                        break;
+                }
+                
+                chrome.tabs.sendRequest(tabID, {
+                    'playerControl': control
+                }, function(response){
+                    console.log(response);
+                });
+            }
+            
+            function ourWebsites(person)
+            {
+                if (person == "curt")
+                    chrome.tabs.create({url: 'http://curthostetter.com'});
+                if (person == "brandon")
+                    chrome.tabs.create({url: 'http://brandon-sachs.com'});
+            }
+            
 
             //message listeners
             chrome.extension.getViews({type:"notification"}).forEach(function(win) {
@@ -123,36 +179,7 @@
                 var returnStatus		= false;
                     tabID               = sender.tab.id;
                     currentURL          = sender.tab.url;
-                    
-                if(playerControl == "mute")
-                {
-                    //should have a toggle. store previous volume level first.
-                    mute = {
-                        code: "window.location = 'http://www.pandora.com/#/volume/0'"
-                    }                    
-                    
-                    //added permissions in manifest. eh...
-                    chrome.tabs.executeScript(tabID, mute, function(){
-                        console.log("muted without page refresh hopefully");
-                    });
-                }
                 
-                if(playerControl == "thumbs_up")
-                {
-                    
-                }
-                
-                if(playerControl == "thumbs_down")
-                {
-                    
-                }
-                
-                if(playerControl == "skip")
-                {
-                    
-                }
-                
-
                 if(notificationType == 'getLocalStorage')
                 {
                     returnStatus = localStorageSettings();
