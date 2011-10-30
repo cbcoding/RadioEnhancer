@@ -364,7 +364,7 @@ jQuery(document).ready(function()
 
     if(settings.pe.remove_videos != "false")
     {
-        jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted change', function(event){
+        jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted', function(event){
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         }).livequery(function(){
             debugLog("video ad blocked via LQ");
