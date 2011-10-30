@@ -37,7 +37,7 @@ var ads_hidden = 0;
 var song_skip_tries = 0;
 var volumeLevelBase = 35;
 var volumeLevelIncrement = 0.82;
-var volumeLevelRestored;
+var volumeLevelRestored = 100;
 var isMuted;
 
 var playerControl = function(action)
@@ -77,6 +77,7 @@ var playerControl = function(action)
             break;
         case "unmute":
             //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
+			jQuery('.volumeBackground').css('display', 'block');
 			jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
             isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
@@ -98,6 +99,13 @@ var dispatchClick = function(selector){
     var subject = selector;
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
+    subject.dispatchEvent(event);
+};
+
+var dispatchHover = function(selector){
+	var subject = selector;
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('mousemove', true, true);
     subject.dispatchEvent(event);
 };
 
