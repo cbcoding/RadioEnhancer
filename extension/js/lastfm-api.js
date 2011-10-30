@@ -77,6 +77,7 @@ var sendScrobble = function()
 	if(nowTimestamp - scrobblePayload['timestamp'] > scrobbleDelay)
 	{
 		sendAPIRequest('track.scrobble', scrobblePayload, 'POST');
+		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
 	}
 };
 
