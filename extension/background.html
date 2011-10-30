@@ -62,7 +62,8 @@
             var notification_timeout, notification;
             function showSongChangeNotification(info)
             {
-                if (localStorage["player_controls"] != "true")
+                var type = (info.type) ? info.type : "";
+                if (localStorage["player_controls"] != "true" || type == "normal")
                 {
                     notification = webkitNotifications.createNotification(
                         info.albumArt,
@@ -224,6 +225,7 @@
                 if(notificationType == 'songChange')
                 {
                     returnStatus = showSongChangeNotification({
+                        type:       notificationParams.type,
                         albumArt:   notificationParams.albumArt,
                         artistName: notificationParams.artistName,
                         songName:   notificationParams.songName,

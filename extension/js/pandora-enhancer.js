@@ -179,10 +179,27 @@ var copyLyricsToClipboard = function()
 
     //i really don't like how this is implemented. find the event that fires after it receives the lyrics.        
     setTimeout(function(){
-        //this preserves line breaks
-        var lyrics = jQuery(".lyricsText").html().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
+        var lyricsHTML = jQuery(".lyricsText").html();        
+        
+        /*
+        //func - this is not working 100%
+        //yeah, they censor "fart". im freakin' dying over here!
+        var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "Nigga", "pussy"];
+        var nice =  ["f**k", "s**t", "b**ch", "a**", "f*rt", "n**ga", "N**ga", "p**sy"];
+        
+        for (i = 0; i < dirty.length; i++)
+        {
+            lyricsHTML = lyricsHTML.replace(nice[i], dirty[i]);
+        }
+        debugLog("PandoraEnhancer - De-censoring lyrics.");        
+        jQuery(".lyricsText").html(lyricsHTML);
+        //endfunc
+        */
+        
+        //this preserves line breaks for copy+paste
+        var lyrics = lyricsHTML.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
         lyrics += "\nCopied by PandoraEnhancer for Chrome";
-
+                
         chrome.extension.sendRequest({
             copyLyrics: true,
             lyricText: lyrics
@@ -245,8 +262,20 @@ var showNewSongPopup = function()
     
     if (songName == "audioad")
     {
-        playerControl("mute");
-        debugLog("PandoraEnhancer - Muting audio ad.");
+        //todo: auto mute? lol
+        //playerControl("mute");
+        //debugLog("PandoraEnhancer - Muting audio ad.");
+        chrome.extension.sendRequest({
+            notificationType: 'songChange',
+            notificationParams: {
+                type:       "normal",
+                albumArt:   "images/logo-32.png",
+                artistName: "Pandora",
+                songName:   "Audio Ad",
+                albumName:  "Pandora",
+            }
+        }, function(response) {});
+        return false;
     }
 
     if (isMuted) playerControl("unmute");
