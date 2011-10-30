@@ -374,9 +374,6 @@ jQuery(document).ready(function()
     {
         jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted', function(event){
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
-        }).livequery(function(){
-            debugLog("video ad blocked via LQ");
-           (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
 });

@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>PandoraEnhancer - Authentication Successful</title>
-	<script>
-		var bgPage = chrome.extension.getBackgroundPage();
-		var token = window.location.search;
-		var tokenPieces = token.split('=');
-		bgPage.responseDispatcher('authenticated', tokenPieces[1]);
-	</script>
-</head>
-<body>
-	<h1>PandoraEnhancer</h1>
-	<p>Congratulations! You have successfully authenticated with Last.fm</p>
-    <p>You can close this window now.</p>
-</body>
+    <head>
+        <script src="js/jquery-1.6.4.min.js"></script>
+        <title>PandoraEnhancer - Authentication Successful</title>
+        <script>
+            var bgPage = chrome.extension.getBackgroundPage();
+            var token = window.location.search;
+            var tokenPieces = token.split('=');
+            bgPage.responseDispatcher('authenticated', tokenPieces[1]);
+
+            $(function(){
+                setTimeout(function(){
+                    window.close();
+                }, 5000);
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: helvetica, arial, sans-serif;
+                font-size: 10pt;
+                overflow: hidden;
+                width: 300px;
+                text-align: center;
+            }
+
+            #success {
+                padding: 5px;
+                border: 1px solid #d9e0ea;
+                -webkit-border-radius: 8px;
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="success">
+            <h1>PandoraEnhancer</h1>
+            <p>Congratulations! You have successfully authenticated with Last.fm</p>
+            <p>This window will close in 5 seconds.</p>
+        </div>
+    </body>
 </html>
