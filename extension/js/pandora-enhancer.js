@@ -184,12 +184,12 @@ var copyLyricsToClipboard = function()
         /*
         //func - this is not working 100%
         //yeah, they censor "fart". im freakin' dying over here!
-        var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "Nigga", "pussy"];
-        var nice =  ["f**k", "s**t", "b**ch", "a**", "f*rt", "n**ga", "N**ga", "p**sy"];
+        var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy"];
+        var nice =  ["f**k", "s**t", "b**ch", "a**", "f*rt", "n**ga", "p**sy"];
         
         for (i = 0; i < dirty.length; i++)
         {
-            lyricsHTML = lyricsHTML.replace(nice[i], dirty[i]);
+            lyricsHTML = lyricsHTML.replace(/nice[i]/gi, dirty[i]);
         }
         debugLog("PandoraEnhancer - De-censoring lyrics.");        
         jQuery(".lyricsText").html(lyricsHTML);
