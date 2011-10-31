@@ -62,7 +62,8 @@
             
             $(document).ready(function(){
                 if (param('isLiked') == "true"){
-                    $("#thumbs_up").css("background", "-webkit-linear-gradient(top, #f8fafc 0%,#f1f3f7 100%) !important");
+                    console.log("is liked");
+                    $("#thumbs_up").addClass("active");
                 }
             });
             
@@ -94,7 +95,8 @@
                 text-align: center;
                 border: 1px solid #c0c0c0;
                 -webkit-border-radius: 4px;
-                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+                /* background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%); */
+                background: -webkit-linear-gradient(top, #466594 0%,#082247 100%);
                 overflow: auto;
             }
             
@@ -115,6 +117,10 @@
             }
             
             #play, #unmute { display: none; }
+            
+            .active {
+                background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 54%,rgba(255,255,255,1) 100%);
+            }
         </style>
 
     </head>
@@ -135,7 +141,6 @@
             </div>
         </div>
         
-        <!-- replace these with awesome images lol -->
         <div id="playerControlContainer">
             <div id="thumbs_down"><img src="images/thumbs-down.png"></div>
             <div id="thumbs_up"><img src="images/thumbs-up.png"></div>
