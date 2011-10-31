@@ -62,11 +62,10 @@
             
             $(document).ready(function(){
                 if (param('isLiked') == "true"){
-                    console.log("is liked");
                     $("#thumbs_up").addClass("active");
                 }
 
-				if (param('songName') == "Audio Ad"){
+				if (param('autoMuteAudioAds') && param('autoMuteAudioAds') == "true" && param('songName') == "Audio Ad"){
 					$("#mute").click();
 				} else {
 					$("#unmute").click();

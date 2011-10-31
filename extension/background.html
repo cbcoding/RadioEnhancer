@@ -62,6 +62,7 @@
             var notification_timeout, notification;
             function showSongChangeNotification(info)
             {
+                hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
 				if (info.songName == 'audioad')
 				{
 					info.albumArt		= 'images/logo-32.png';
@@ -86,6 +87,7 @@
                         +'&songName='+info.songName
                         +'&albumName='+info.albumName
                         +'&isLiked='+info.isLiked
+                        +hidden
                     );
                 }
 
