@@ -65,6 +65,12 @@
                     console.log("is liked");
                     $("#thumbs_up").addClass("active");
                 }
+
+				if (param('songName') == "Audio Ad"){
+					$("#mute").click();
+				} else {
+					$("#unmute").click();
+				}
             });
             
         </script>

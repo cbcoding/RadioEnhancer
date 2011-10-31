@@ -62,8 +62,15 @@
             var notification_timeout, notification;
             function showSongChangeNotification(info)
             {
-                var type = (info.type) ? info.type : "";
-                if (localStorage["player_controls"] != "true" || type == "normal")
+				if (info.songName == 'audioad')
+				{
+					info.albumArt		= 'images/logo-32.png';
+					info.artistName		= 'Pandora';
+					info.songName		= 'Audio Ad';
+					info.albumName		= 'Pandora';
+				}
+
+                if (localStorage["player_controls"] != "true")
                 {
                     notification = webkitNotifications.createNotification(
                         info.albumArt,
@@ -225,7 +232,6 @@
                 if(notificationType == 'songChange')
                 {
                     returnStatus = showSongChangeNotification({
-                        type:       notificationParams.type,
                         albumArt:   notificationParams.albumArt,
                         artistName: notificationParams.artistName,
                         songName:   notificationParams.songName,
