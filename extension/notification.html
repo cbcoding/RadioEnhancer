@@ -64,6 +64,12 @@
                 if (param('isLiked') == "true"){
                     $("#thumbs_up").css("background", "-webkit-linear-gradient(top, #f8fafc 0%,#f1f3f7 100%) !important");
                 }
+
+				if (param('songName') == "Audio Ad"){
+					$("#mute").click();
+				} else {
+					$("#unmute").click();
+				}
             });
             
         </script>
