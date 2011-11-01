@@ -22,8 +22,13 @@
                 switch (action)
                 {
                     case "thumbs_up":
-                        console.log("thumbs up");
-                        background.window.playerControl("thumbs_up");
+						if(!$("#thumbs_up").hasClass('isLiked'))
+						{
+							console.log("thumbs up");
+							$("#thumbs_up").addClass('isLiked');
+							$("#thumbs_up").removeClass('playerControl');
+							background.window.playerControl("thumbs_up");
+						}
                         break;
                     case "thumbs_down":
                         console.log("thumbs down");
@@ -61,8 +66,10 @@
             });
             
             $(document).ready(function(){
-                if (param('isLiked') == "true"){
-                    $("#thumbs_up").addClass("active");
+                if(param('isLiked') == "true")
+				{
+                    $("#thumbs_up").addClass('isLiked');
+					$("#thumbs_up").removeClass('playerControl');
                 }
 
                 //TODO: make this not click unmute every time.
@@ -80,83 +87,149 @@
                 font-family: helvetica, arial, sans-serif;
                 font-size: 10pt;
                 /* overflow: hidden; */
-                width: 300px;
+                width: 298px;
+				background-image: url('images/notification/bg.png');
+				margin: 0px;
+				padding: 0px;
+				border: 1px solid white;
             }
             
             #songInfoContainer {
-                overflow: auto;
-                width: 100%;
+                overflow: hidden;
+                width: 298px;
+				height: 58px;
             }
 
-            #albumArt, #artistInfo { float: left; }
-            #artistInfo { padding-top: 2px; width: 230px; }
-            #albumArt img { padding-right: 10px; }
-            #songName { font-weight: bold; }
-            #artistName, #albumName { font-size: 8pt; }
-            
             #playerControlContainer {
-                margin-top: 5px;
-                padding: 0 5px;
-                width: 270px;
-                text-align: center;
-                border: 1px solid #c0c0c0;
-                -webkit-border-radius: 4px;
-                /* background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%); */
-                background: -webkit-linear-gradient(top, #466594 0%,#082247 100%);
-                overflow: auto;
-            }
-            
-            #playerControlContainer > div {
-                float: left;
-                padding: 5px 0;
-                width: 54px;
-            }
-            
-            #playerControlContainer > div:hover {
-                background: -webkit-linear-gradient(top, #f8fafc 0%,#f1f3f7 100%);
-            }
-            
-            #playerControlContainer > div:active {
-                background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
-                padding-top: 6px;
-                padding-bottom: 4px;
+				width: 100%;
+				height: 37px;
+				background-image: url('images/notification/button_bar.png');
+				background-position: -2px 0px; 
+				clear: both;
+				padding-top: 7px;
             }
             
             #play, #unmute { display: none; }
-            
-            .active {
-                background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 54%,rgba(255,255,255,1) 100%);
-            }
+			#notificationContainer{
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			#albumArt{
+				margin-top: 7px;
+				margin-right: 7px;
+				float: right;
+				width: 48px;
+				height: 48px;
+				border: 1px solid white;
+			}
+
+			#artistInfo{
+				margin-top: 7px;
+				width: 232px;
+				color: white;
+				height: 48px;
+				text-align: right;
+			}
+
+			#songName{
+				font-weight: bold;
+			}
+			
+			.playerControl{
+				position: relative;
+				width: 37px;
+				height: 37px;
+				float: left;
+				cursor: pointer;
+				margin-left: 20px;
+			}
+
+			.isLiked{
+				position: relative;
+				width: 37px;
+				height: 37px;
+				float: left;
+				margin-left: 20px;
+				background-position: 0px -74px;
+			}
+
+			.playerControl:hover{
+				background-position: 0px -37px;
+				cursor: pointer;
+			}
+
+			.playerControl:active{
+				background-position: 0px -74px;
+				cursor: pointer;
+			}
+
+			#thumbs_down{
+				background-image: url('images/notification/button_thumbsdown.png');
+			}
+
+			#thumbs_up{
+				background-image: url('images/notification/button_thumbsup.png');
+			}
+
+			#play{
+				background-image: url('images/notification/button_play.png');
+			}
+
+			#pause{
+				background-image: url('images/notification/button_pause.png');
+			}
+
+			#skip{
+				background-image: url('images/notification/button_skip.png');
+			}
+
+			#mute{
+				background-image: url('images/notification/button_mute.png');
+			}
+
+			#unmute{
+				background-image: url('images/notification/button_unmute.png');
+			}
+			
+
         </style>
 
     </head>
 
     <body>
-
-        <div id="songInfoContainer">
-            <div id="albumArt">
-                <script>
-                    document.write('<img src="' + param('albumArt') + '" width="48" height="48">');
-                </script>
-            </div>
-            
-            <div id="artistInfo">
-                <div id="songName"><script>document.write(param('songName'));</script></div>
-                <div id="artistName">by <script>document.write(param('artistName'));</script></div>
-                <div id="albumName">on <script>document.write(param('albumName'));</script></div>
-            </div>
+		<div id="notificationContainer">
+			<div id="songInfoContainer">
+				<div id="albumArt">
+					<script>
+						if(param('albumArt').length > 0)
+						{
+							document.write('<img src="' + param('albumArt') + '" width="48" height="48" />');
+						}
+						else
+						{
+							document.write('<img src="images/logo-48.png" width="48" height="48" />');
+						}
+					</script>
+				</div>
+				<div id="artistInfo">
+					<div id="songName"><script>document.write(param('songName'));</script></div>
+					<div id="artistName">by <script>document.write(param('artistName'));</script></div>
+					<div id="albumName">on <script>document.write(param('albumName'));</script></div>
+				</div>
+			</div>
+			
+			<div id="playerControlContainer">
+				<div id="thumbs_down" class="playerControl"></div>
+				<div id="thumbs_up" class="playerControl"></div>
+				<div id="play" class="playerControl"></div>
+				<div id="pause" class="playerControl"></div>
+				<div id="skip" class="playerControl"></div>
+				<div id="mute" class="playerControl"></div>
+				<div id="unmute" class="playerControl"></div>
+				<!-- <input type="range"  min="0" max="100" style="width: 95%" /> -->
+			</div>        
         </div>
-        
-        <div id="playerControlContainer">
-            <div id="thumbs_down"><img src="images/thumbs-down.png"></div>
-            <div id="thumbs_up"><img src="images/thumbs-up.png"></div>
-            <div id="play"><img src="images/play.png"></div>
-            <div id="pause"><img src="images/pause.png"></div>
-            <div id="skip"><img src="images/skip.png"></div>
-            <div id="mute"><img src="images/mute.png"></div>
-            <div id="unmute"><img src="images/unmute.png"></div>
-            <!-- <input type="range"  min="0" max="100" style="width: 95%" /> -->
-        </div>        
-        
     </body>
 </html>
