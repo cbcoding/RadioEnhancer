@@ -12,10 +12,30 @@ chrome.extension.sendRequest({
     notificationType: 'showPageAction'
 }, function(response) { /* json */ });
 
-//player control listener
+//listener
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
-    var action = request.playerControl;
-    playerControl(action);
+    if (request.playerControl)
+    {
+        playerControl(request.playerControl);
+    }
+    
+    console.log(request);
+    
+    if (request.scrobbleUpdate)
+    {
+        if (request.scrobbleUpdate == 'nowPlaying')
+        {
+            //change to now  playing.
+            debugLog("Change scrobble status to Listening");
+            jQuery("#scrobbleStatus").html('Listening...');
+        }
+        if (request.scrobbleUpdate == 'scrobbled')
+        {
+            //change to scrobbled
+            debugLog("Change scrobble status to Scrobbled");
+            jQuery("#scrobbleStatus").html('Scrobbled');
+        }
+    }
 });
 
 //settings
@@ -320,6 +340,18 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+    
+    //make this a setting
+    var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
+    jQuery(".rightcolumn > .nowplaying").append(
+        '<div class="info" style="float: left; margin-top: -45px;margin-left:-55px;">'
+        +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
+        +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
+        +'</div>'
+    );
+    
+    
+    
     
     jQuery(".toastContainer").live('DOMNodeInserted', function(){
         //TODO: notification on song skip limit?

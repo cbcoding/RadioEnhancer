@@ -57,6 +57,12 @@ var responseDispatcher = function(type, payload)
 		};
 
 		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
+        
+        //update "scrobbleStatus" to now playing
+        chrome.extension.sendRequest({
+            scrobbleAction: 'nowPlaying'
+        }, function(response){});
+        console.log("nowplaying scrobble message");
 		
 		if(payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
 		{
@@ -80,6 +86,11 @@ var sendScrobble = function()
 	{
 		sendAPIRequest('track.scrobble', scrobblePayload, 'POST');
 		//sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
+        
+        //update "scrobbleStatus" to scrobbled
+        chrome.extension.sendRequest({
+            scrobbleAction: 'scrobbled'
+        }, function(response){});
 	}
 };
 

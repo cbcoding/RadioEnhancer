@@ -207,9 +207,30 @@
                 var notificationType	= request.notificationType;
                 var notificationParams	= request.notificationParams;
                 var playerControl       = request.playerControl;
+                var scrobbleAction      = request.scrobbleAction;
                 var returnStatus		= false;
                     tabID               = sender.tab.id;
                     currentURL          = sender.tab.url;
+                
+                console.log(request);
+                
+                if (scrobbleAction)
+                {
+                    if (scrobbleAction == 'nowPlaying')
+                    {
+                        //send msg to pandora enhancer to change text
+                        chrome.tabs.sendRequest(tabID, {
+                            scrobbleUpdate: 'nowPlaying'
+                        }, function(response){});
+                    }
+                    
+                    if (scrobbleAction == 'scrobbled')
+                    {
+                        chrome.tabs.sendRequest(tabID, {
+                            scrobbleUpdate: 'scrobbled'
+                        }, function(response){});
+                    }
+                }
                 
                 if(notificationType == 'getLocalStorage')
                 {
