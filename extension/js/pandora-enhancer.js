@@ -21,17 +21,23 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
     
     if (request.scrobbleUpdate)
     {
+        if (request.scrobbleUpdate == 'login')
+        {
+            scrobbleControl('login');
+        }
+        
+        if (request.scrobbleUpdate == 'logout')
+        {
+            scrobbleControl('logout');
+        }
+        
         if (request.scrobbleUpdate == 'nowPlaying')
         {
-            //change to now playing.
-            debugLog("PandoraEnhancer - Scrobbler - Now listening...");
-            jQuery("#scrobbleStatus").html('Listening...');
+            scrobbleControl('nowPlaying');
         }
         if (request.scrobbleUpdate == 'scrobbled')
         {
-            //change to scrobbled
-            debugLog("PandoraEnhancer - Scrobbler - Scrobbled");
-            jQuery("#scrobbleStatus").html('Scrobbled');
+            scrobbleControl('scrobbled');
         }
     }
 });
@@ -57,6 +63,40 @@ var volumeLevelBase = 35;
 var volumeLevelIncrement = 0.82;
 var volumeLevelRestored = 100;
 var isMuted;
+
+
+var scrobbleControl = function(action)
+{
+    if (action == 'login')
+    {
+        debugLog("PandoraEnhancer - Scrobbler - Logged in");
+        var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
+        jQuery(".rightcolumn > .nowplaying").append(
+            '<div class="info" id="scrobbleDiv" style="float:left; margin-top:-45px; margin-left:-75px;">'
+            +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
+            +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
+            +'</div>'
+        );
+    }
+    
+    if (action == 'logout')
+    {
+        debugLog("PandoraEnhancer - Scrobbler - Logged out");
+        jQuery("#scrobbleDiv").remove();
+        jQuery("#scrobbleStatus").html('Logged out');
+    }
+    
+    if (action == 'nowPlaying')
+    {
+        debugLog("PandoraEnhancer - Scrobbler - Now listening...");
+        jQuery("#scrobbleStatus").html('Listening...');
+    }
+    if (action == 'scrobbled')
+    {
+        debugLog("PandoraEnhancer - Scrobbler - Scrobbled");
+        jQuery("#scrobbleStatus").html('Scrobbled');
+    }
+}
 
 var playerControl = function(action)
 {
@@ -341,19 +381,15 @@ jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
     
-    //make this a setting
-    var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
-    jQuery(".rightcolumn > .nowplaying").append(
-        '<div class="info" style="float: left; margin-top: -45px;margin-left:-55px;">'
-        +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
-        +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
-        +'</div>'
-    );
-    
     jQuery(".toastContainer").live('DOMNodeInserted', function(){
         //TODO: notification on song skip limit?
-        debugLog("PandoraEnhancer - Song skip limit reached (probably).");
+        //debugLog("PandoraEnhancer - Song skip limit reached (probably).");
     });
+    
+    if (settings.pe.scrobble_session_key != null)
+    {
+        scrobbleControl('login');
+    }
 
     if(settings.pe.remove_promobox != "false")
     {
