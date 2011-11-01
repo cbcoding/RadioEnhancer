@@ -93,12 +93,15 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
 
 	if(requestType == 'track.scrobble') //we don't want to scrobble twice in a row.
 	{
-		if(localStorage['last_api_sig'] && requestParams['api_sig'] == localStorage['last_api_sig'])
+		if(localStorage['last_scrobble_artist'] && requestParams['artist'] == localStorage['last_scrobble_artist']
+			&& localStorage['last_scrobble_song'] && requestParams['song'] == localStorage['last_scrobble_song'])
 		{
 			return;
 		}
 
-		localStorage['last_api_sig'] = requestParams['api_sig'];
+		localStorage['last_scrobble_artist'] = requestParams['artist'];
+		localStorage['last_scrobble_song'] = requestParams['song'];
+
 	}
 
     var request = jQuery.ajax({

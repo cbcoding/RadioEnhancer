@@ -291,9 +291,8 @@
             
             <div id="social">
                 <a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a>
-                <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
                 <div id="gplus">
-                    <g:plusone href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></g:plusone>
+					<div class="g-plusone" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>
                 </div>
             </div>
             
@@ -347,4 +346,17 @@
             PandoraEnhancer (v<span id="PE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
         </div>
     </body>
+	<script type="text/javascript">
+		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://apis.google.com/js/plusone.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+
+		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'http://platform.twitter.com/widgets.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+	</script>
 </html>
