@@ -19,20 +19,18 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
         playerControl(request.playerControl);
     }
     
-    console.log(request);
-    
     if (request.scrobbleUpdate)
     {
         if (request.scrobbleUpdate == 'nowPlaying')
         {
             //change to now  playing.
-            debugLog("Change scrobble status to Listening");
+            debugLog("PandoraEnhancer - Scrobbler - Now listening...");
             jQuery("#scrobbleStatus").html('Listening...');
         }
         if (request.scrobbleUpdate == 'scrobbled')
         {
             //change to scrobbled
-            debugLog("Change scrobble status to Scrobbled");
+            debugLog("PandoraEnhancer - Scrobbler - Scrobbled");
             jQuery("#scrobbleStatus").html('Scrobbled');
         }
     }
