@@ -98,14 +98,16 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
 
 	if(requestType == 'track.scrobble') //we don't want to scrobble twice in a row.
 	{
+		if(localStorage['last_scrobble_artist'] == 'audioad') return;
+
 		if(localStorage['last_scrobble_artist'] && requestParams['artist'] == localStorage['last_scrobble_artist']
-			&& localStorage['last_scrobble_song'] && requestParams['song'] == localStorage['last_scrobble_song'])
+			&& localStorage['last_scrobble_track'] && requestParams['track'] == localStorage['last_scrobble_track'])
 		{
 			return;
 		}
 
 		localStorage['last_scrobble_artist'] = requestParams['artist'];
-		localStorage['last_scrobble_song'] = requestParams['song'];
+		localStorage['last_scrobble_track'] = requestParams['track'];
 
 	}
 
