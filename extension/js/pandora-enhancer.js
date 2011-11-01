@@ -138,12 +138,14 @@ var hideAds = function()
 var hideVideoAd = function()
 {
     //this removes the ad window, but does NOT resume playing music automatically. it takes a few seconds
-    chrome.extension.sendRequest({
-        notificationType: 'hideVideoAd'
-    }, function(response){
-        jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
-        debugLog("PandoraEnhancer - Removing video ad.");
-    });
+
+	chrome.extension.sendRequest({
+		notificationType: 'hideVideoAd'
+	}, function(response){
+		jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
+		debugLog("PandoraEnhancer - Removing video ad.");
+	});
+
 };
 
 var hideRibbon = function(){
@@ -166,7 +168,7 @@ var selectableLyrics = function()
 {
     //lol they went above and beyond to prevent this. so strange.
     if(jQuery("#PE-copyLyrics").length == 0)
-        {
+    {
         jQuery(".item.lyrics > .heading").append(
         '<span id="PE-copyLyrics"> - Copy Lyrics to Clipboard</span>'
         ).css({
@@ -348,19 +350,17 @@ jQuery(document).ready(function()
         +'</div>'
     );
     
-    
-    
-    
     jQuery(".toastContainer").live('DOMNodeInserted', function(){
         //TODO: notification on song skip limit?
         debugLog("PandoraEnhancer - Song skip limit reached (probably).");
     });
 
     if(settings.pe.remove_promobox != "false")
-        {
+    {
         jQuery("#promobox").live('DOMNodeInserted', function(){
             extendStationList();
         });
+		extendStationList();
     }
 
     jQuery(".volumeButton").live('click', function(){
@@ -398,17 +398,20 @@ jQuery(document).ready(function()
         });
     }
 
-    if(settings.pe.notification_still_listening != "false")
-    {
-        jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
-            if(jQuery('.still_listening').length > 0)
-                {
-                showStillListeningNotification();
-                setTimeout("totallyStillListening()", 5000);
-            }
-        });
-    }
-
+    if(settings.pe.remove_still_listening != "false")
+	{
+		jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
+			if(jQuery('.still_listening').length > 0)
+			{
+				if(settings.pe.notification_still_listening != "false")
+				{
+					showStillListeningNotification();
+				}
+				setTimeout("totallyStillListening()", 5000);
+			}
+		});
+	}
+	
     if(settings.pe.remove_ads != "false")
     {
         jQuery("#mainContentContainer, #mainContainer").livequery(function(){

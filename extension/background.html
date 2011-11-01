@@ -6,7 +6,43 @@
 
         
         <script type="text/javascript">
-			
+			var timeouts = {};
+			var openNotifications = {};
+
+			var updateNotificationStayOpen = function(type, stayOpen)
+			{
+				openNotifications[type]['stayOpen'] = stayOpen;
+				clearTimeout(timeouts[type]);
+
+				if(!stayOpen)
+				{
+					setTimeout(
+					(function(){
+						closeNotification(type, false);
+					}), 2000);
+				}
+			};
+
+			var closeNotification = function(type, force)
+			{
+				if(!openNotifications[type]) return;
+				if(openNotifications[type]['stayOpen'] && !force) return;
+				
+				openNotifications[type]['notification'].cancel();
+				delete openNotifications[type];
+			};
+
+			var openNotification = function(type, notification)
+			{
+				closeNotification(type, true);
+				openNotifications[type] = {
+					notification: notification,
+					stayOpen: false
+				};
+
+				openNotifications[type]['notification'].show();
+			};
+
 			var debugLog = function(whatever){
 				if(!localStorage['debug_mode'] || localStorage['debug_mode'] == "false") return;
 				console.log(whatever);
@@ -35,26 +71,27 @@
                     'Please wait until music continues...'
                 );
 
-                notification.show();
-                setTimeout(function(){
-                    notification.cancel();
-                },(localStorage["notification_timeout"]*1000));
+				openNotification('stillListening', notification);
+             
+                timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);",(localStorage["notification_timeout"]*1000));
 
                 return {'message':'still-listening'};
             }
 
             function hideVideoAdNotification()
             {
-                var notification = webkitNotifications.createNotification(
-                    'images/logo-32.png',
-                    'Video Ad Blocked',
-                    'Please wait until music continues...'
-                );
+				if(localStorage["remove_videos"] != "false")
+				{
+					var notification = webkitNotifications.createNotification(
+						'images/logo-32.png',
+						'Video Ad Blocked',
+						'Please wait until music continues...'
+					);
 
-                notification.show();
-                setTimeout(function(){
-                    notification.cancel();
-                },(localStorage["notification_timeout"]*1000));
+					openNotification('hideVideoAd', notification);
+				 
+					timeouts['hideVideoAd'] = setTimeout("closeNotification('hideVideoAd', false);", (localStorage["notification_timeout"]*1000));
+				}
 
                 return {'message':'video-ad-hidden'};
             }
@@ -91,12 +128,9 @@
                     );
                 }
 
-                notification.show();
-
-                //dismiss after a few seconds
-                notification_timeout = setTimeout(function(){
-                    notification.cancel();
-                }, (localStorage["notification_timeout"]*1000));
+				openNotification('songChange', notification);
+             
+                timeouts['songchange'] = setTimeout("closeNotification('songChange', false);", (localStorage["notification_timeout"]*1000));
 
                 return {'message':'PE Notification shown'};
             }

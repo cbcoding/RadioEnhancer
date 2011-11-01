@@ -2,7 +2,7 @@
     <head>
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
-            var background = chrome.extension.getBackgroundPage();
+            var bgPage = chrome.extension.getBackgroundPage();
 
             function param(name) {
                 var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -24,43 +24,38 @@
                     case "thumbs_up":
 						if(!$("#thumbs_up").hasClass('isLiked'))
 						{
-							console.log("thumbs up");
 							$("#thumbs_up").addClass('isLiked');
 							$("#thumbs_up").removeClass('playerControl');
-							background.window.playerControl("thumbs_up");
+							bgPage.window.playerControl("thumbs_up");
 						}
                         break;
                     case "thumbs_down":
-                        console.log("thumbs down");
-                        background.window.playerControl("thumbs_down");
+                        bgPage.window.playerControl("thumbs_down");
                         break;
                     case "play":
-                        console.log("play");
                         $(this).hide();
                         $("#pause").show();
-                        background.window.playerControl("play");
+                        bgPage.window.playerControl("play");
+						bgPage.window.updateNotificationStayOpen('songChange', false);
                         break;
                     case "pause":
-                        console.log("pause");
                         $(this).hide();
                         $("#play").show();
-                        background.window.playerControl("pause");
+                        bgPage.window.playerControl("pause");
+						bgPage.window.updateNotificationStayOpen('songChange', true);
                         break;
                     case "skip":
-                        console.log("skip");
-                        background.window.playerControl("skip");
+                        bgPage.window.playerControl("skip");
                         break;
                     case "mute":
-                        console.log("mute");
                         $(this).hide();
                         $("#unmute").show();
-                        background.window.playerControl("mute");
+                        bgPage.window.playerControl("mute");
                         break;
                     case "unmute":
-                        console.log("un-mute");
                         $(this).hide();
                         $("#mute").show();
-                        background.window.playerControl("unmute");
+                        bgPage.window.playerControl("unmute");
                         break;
                 }
             });
@@ -205,7 +200,7 @@
 			<div id="songInfoContainer">
 				<div id="albumArt">
 					<script>
-						if(param('albumArt').length > 0)
+						if(param('albumArt').length > 0 && param('albumArt') != '/images/no_album_art.jpg')
 						{
 							document.write('<img src="' + param('albumArt') + '" width="48" height="48" />');
 						}
