@@ -23,7 +23,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
     {
         if (request.scrobbleUpdate == 'nowPlaying')
         {
-            //change to now  playing.
+            //change to now playing.
             debugLog("PandoraEnhancer - Scrobbler - Now listening...");
             jQuery("#scrobbleStatus").html('Listening...');
         }
@@ -343,8 +343,8 @@ jQuery(document).ready(function()
     var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
     jQuery(".rightcolumn > .nowplaying").append(
         '<div class="info" style="float: left; margin-top: -45px;margin-left:-55px;">'
-        +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
         +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
+        +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
         +'</div>'
     );
     
