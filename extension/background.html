@@ -196,6 +196,24 @@
                     chrome.tabs.create({url: 'http://twitter.com/PandoraEnhancer'});
             }
             
+            function scrobbleAction(action)
+            {
+                if (action == 'nowPlaying')
+                {
+                    //send msg to pandora enhancer to change text
+                    chrome.tabs.sendRequest(tabID, {
+                        scrobbleUpdate: 'nowPlaying'
+                    }, function(response){});
+                }
+                
+                if (action == 'scrobbled')
+                {
+                    chrome.tabs.sendRequest(tabID, {
+                        scrobbleUpdate: 'scrobbled'
+                    }, function(response){});
+                }
+            }
+            
 
             //message listeners
             chrome.extension.getViews({type:"notification"}).forEach(function(win) {
