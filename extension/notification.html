@@ -71,6 +71,12 @@
                     $("#thumbs_up").addClass('isLiked');
 					$("#thumbs_up").removeClass('playerControl');
                 }
+
+				if (param('autoMute') && param('autoMute') == "true" && param('songName') == "Audio Ad"){
+					$("#mute").click();
+				} else {
+					$("#unmute").click();
+				}
             });
             
         </script>

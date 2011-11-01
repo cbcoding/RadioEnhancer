@@ -1,4 +1,3 @@
-
 //make these settings
 var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';
 var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';

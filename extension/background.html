@@ -62,6 +62,15 @@
             var notification_timeout, notification;
             function showSongChangeNotification(info)
             {
+                hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
+				if (info.songName == 'audioad')
+				{
+					info.albumArt		= 'images/logo-32.png';
+					info.artistName		= 'Pandora';
+					info.songName		= 'Audio Ad';
+					info.albumName		= 'Pandora';
+				}
+
                 if (localStorage["player_controls"] != "true")
                 {
                     notification = webkitNotifications.createNotification(
@@ -78,6 +87,7 @@
                         +'&songName='+info.songName
                         +'&albumName='+info.albumName
                         +'&isLiked='+info.isLiked
+                        +hidden
                     );
                 }
 
