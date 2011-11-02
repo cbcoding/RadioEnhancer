@@ -67,16 +67,17 @@
 					$("#thumbs_up").removeClass('playerControl');
                 }
 
-				if (param('autoMute') && param('autoMute') == "true" && param('songName') == "Audio Ad"){
+				if (param('autoMute') && param('autoMute') == "true" && param('songName') == "Audio Ad")
+                {
 					bgPage.window.setAudioAdStatus(true);
+                    bgPage.window.playerControl("mute");
 				} else {
+                    if (bgPage.window.getAudioAdStatus())
+                        bgPage.window.playerControl("unmute");
+                    
 					bgPage.window.setAudioAdStatus(false);
 				}
                 
-                if (bgPage.window.audioAdStatus())
-                {
-                    bgPage.window.playerControl("unmute");
-                }
             });
             
         </script>
