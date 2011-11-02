@@ -67,12 +67,16 @@
 					$("#thumbs_up").removeClass('playerControl');
                 }
 
-                //TODO: make this not click unmute every time.
 				if (param('autoMute') && param('autoMute') == "true" && param('songName') == "Audio Ad"){
-					$("#mute").click();
+					bgPage.window.setAudioAdStatus(true);
 				} else {
-					$("#unmute").click();
+					bgPage.window.setAudioAdStatus(false);
 				}
+                
+                if (bgPage.window.audioAdStatus())
+                {
+                    bgPage.window.playerControl("unmute");
+                }
             });
             
         </script>

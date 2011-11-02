@@ -95,6 +95,15 @@
 
                 return {'message':'video-ad-hidden'};
             }
+            
+            
+            var audio_ad = false;
+            function setAudioAdStatus(bool){
+                audio_ad = bool;
+            }            
+            function getAudioAdStatus(){
+                return audio_ad;
+            }
 
             var notification_timeout, notification;
             function showSongChangeNotification(info)

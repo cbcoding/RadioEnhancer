@@ -71,12 +71,23 @@ var scrobbleControl = function(action)
     {
         debugLog("PandoraEnhancer - Scrobbler - Logged in");
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
+        
+        jQuery("#brandingBar > .leftcolumn > .logo").css("margin-right", "30px");
+        jQuery("#brandingBar > .leftcolumn").append(
+            '<span id="scrobbleDiv" style="">'
+            +'<span style="">'
+            +'<img src="' + scrobbleImage + '" style="float:left;"><span id="scrobbleStatus" class="rightcolumn" style="font-size:12px;float:left;margin-left:5px;padding:0 !important;left:-160px"></span>'
+            +'</span></span>'
+        );
+        
+        /*
         jQuery(".rightcolumn > .nowplaying").append(
             '<div class="info" id="scrobbleDiv" style="float:left; margin-top:-45px; margin-left:-75px;">'
             +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
             +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
             +'</div>'
         );
+        */
     }
     
     if (action == 'logout')
@@ -386,7 +397,7 @@ jQuery(document).ready(function()
         //debugLog("PandoraEnhancer - Song skip limit reached (probably).");
     });
     
-    if (settings.pe.scrobble_session_key != null)
+    if (settings.pe.scrobble_session_key != "null")
     {
         scrobbleControl('login');
     }
