@@ -88,14 +88,15 @@
             }
             
             #social{
-                float: left;
-                width: 85px !important;
-                text-align: center;
+				clear:both;
+                width: 300px;
             }
+
+			.float_left{
+				float: left;
+				width: 80px;
+			}
             
-            #gplus{
-                padding-top: 5px;
-            }
             
             #text-logo{
                 width: 195px;
@@ -121,15 +122,6 @@
 				padding-right: 5px;
 			}
         </style>
-        
-        <script type="text/javascript">
-          (function() {
-              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-              po.src = 'https://apis.google.com/js/plusone.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-          })();
-        </script>
-
         <script type="text/javascript">
 			var bgPage = chrome.extension.getBackgroundPage();
             var debugLog = function(text)
@@ -282,6 +274,7 @@
     </head>
 
     <body>
+		<div id="fb-root"></div>
         <div id="pe-settings">
             <div id="text-logo">
                 <img src="images/logo-48.png">
@@ -290,10 +283,13 @@
             </div>
             
             <div id="social">
-                <a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a>
-                <div id="gplus">
+
+				<div class="fb-like float_left" data-href="http://www.facebook.com/pandoraenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+				<div class="float_left" id="gplus">
 					<div class="g-plusone" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>
                 </div>
+				<div class="float_left" id="twitter"><a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a></div>
+                
             </div>
             
             <div class="clear"></div>
@@ -354,9 +350,20 @@
 		})();
 
 		(function() {
-			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			var po = document.createElement('script'); 
+			po.type = 'text/javascript'; 
+			po.async = true;
 			po.src = 'http://platform.twitter.com/widgets.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+			var s = document.getElementsByTagName('script')[0]; 
+			s.parentNode.insertBefore(po, s);
 		})();
+		(function() {
+			var po = document.createElement('script'); 
+			po.type = 'text/javascript'; 
+			po.async = true;
+			po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
+			var s = document.getElementsByTagName('script')[0]; 
+			s.parentNode.insertBefore(po, s);
+		}());
 	</script>
 </html>
