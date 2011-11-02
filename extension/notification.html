@@ -9,13 +9,11 @@
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
             }
             
-            //we should pause the timer when the mouse is over the notification
-            $('#songInfoContainer').live('mouseover', function(){
-                //console.log("MOUSE IS OVER THE NOTIFICATION");
-            }).live('mouseout', function(){
-                //console.log("MOUSE LEFT NOTIFICATION");
+            $(document).mouseenter(function(){
+                bgPage.window.updateNotificationStayOpen('songChange', true);
+            }).mouseleave(function(){
+                bgPage.window.updateNotificationStayOpen('songChange');
             });
-            
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
                 var action = $(this).prop("id");
