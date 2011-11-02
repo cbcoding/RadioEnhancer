@@ -15,3 +15,48 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-----------------
+
+
+1.0.0 Changelog
+ - Last.fm Support - scrobble songs from the Pandora player!
+ - Added player controls to song notifications. Rate songs, play/pause, skip, and toggle mute on/off right from the notification!
+ - Styled song notification to look like Pandora's interface.
+ - Pandora's volume icon (next to player controls) now toggles mute on/off.
+ - Improved advertisment suppression.
+ - Improved notification management.
+ - New icon.
+ - Bug fixes.
+
+0.6.0 Changelog
+ - Now removes the top ribbon (the one that slides down the entire Pandora UI)
+ - Bug fix
+
+0.5.9 Changelog
+ - Added (optional) "Configure PandoraEnhancer" link in Pandora's header. I use Pandora as an application shortcut, so there's no Omnibar icon to bring the config up. Problem solved.
+
+0.5.8.1 Changelog
+ - Fixed a bug that only occurred upon first use (visual - config checkboxes were blank, not default)
+
+0.5.8 Changelog
+ - Skips "Are you still listening?" dialog
+ - Removes "helpful" tooltips
+ - All options are configurable
+ - Customizable notification display length
+ - Song change detection dramatically improved
+ - Selectable lyrics functionality improved
+
+0.5.7 Changelog:
+ - New versioning
+ - Uses default Pandora background image (instead of a flat color)
+ - Song Change Notifications - use Pandora in the background (like me)? New notification pops up in a user-definable spot on your screen for a few seconds with info about the current song. To configure positioning, click the little wrench icon on the notification.
+ ** Note that Song Change Notifications will NOT work if Chrome is minimized. Just keep Pandora open in the background. This is being looked into.
+ - Code changes to make adding new features simpler.
+
+0.0.5.6 Changelog:
+ - Selectable lyrics! You can now select lyrics to copy onto your clipboard. Or...
+ - Copy all lyrics! Easily copy the entire lyrics of a song (if lyrics are available)
+
+0.0.5.5 Changelog:
+ - Removes promobox (under station listing)
+ - Extends station listing to the bottom
