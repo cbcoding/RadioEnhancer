@@ -3,6 +3,7 @@
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
             var bgPage = chrome.extension.getBackgroundPage();
+            var manualPause = false;
 
             function param(name) {
                 var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -12,7 +13,8 @@
             $(document).mouseenter(function(){
                 bgPage.window.updateNotificationStayOpen('songChange', true);
             }).mouseleave(function(){
-                bgPage.window.updateNotificationStayOpen('songChange', false);
+                if (!manualPause)
+                    bgPage.window.updateNotificationStayOpen('songChange', false);
             });
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
@@ -33,12 +35,13 @@
                     case "play":
                         $(this).hide();
                         $("#pause").show();
+                        manualPause = false;
                         bgPage.window.playerControl("play");
-						bgPage.window.updateNotificationStayOpen('songChange', false);
                         break;
                     case "pause":
                         $(this).hide();
                         $("#play").show();
+                        manualPause = true;
                         bgPage.window.playerControl("pause");
 						bgPage.window.updateNotificationStayOpen('songChange', true);
                         break;

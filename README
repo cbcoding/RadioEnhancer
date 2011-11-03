@@ -17,6 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.0.1 Changelog
+ - Notification stays open when mouse cursor is over it. Two second timeout trigged when mouse cursor leaves notification.
+ - Bug fixes
 
 1.0.0 Changelog
  - Last.fm Support - scrobble songs from the Pandora player!
