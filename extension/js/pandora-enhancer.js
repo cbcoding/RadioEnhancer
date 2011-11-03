@@ -250,7 +250,7 @@ var copyLyricsToClipboard = function()
 
     //i really don't like how this is implemented. find the event that fires after it receives the lyrics.        
     setTimeout(function(){
-        var lyricsHTML = jQuery(".lyricsText").html();        
+        var lyricsHTML = jQuery(".lyricsText").html();
         
         /*
         //func - this is not working 100%

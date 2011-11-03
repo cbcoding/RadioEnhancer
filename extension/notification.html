@@ -12,7 +12,7 @@
             $(document).mouseenter(function(){
                 bgPage.window.updateNotificationStayOpen('songChange', true);
             }).mouseleave(function(){
-                bgPage.window.updateNotificationStayOpen('songChange');
+                bgPage.window.updateNotificationStayOpen('songChange', false);
             });
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
