@@ -169,7 +169,7 @@ var getUserSession = function(token)
 		localStorage['scrobble_session_key'] = scrobbleSessionKey;
 		localStorage['scrobble_session_name'] = scrobbleSessionName;
         
-        scrobbleAction('login');
+        scrobbleAction('showScrobbleStatus');
 
 	});
 };
@@ -181,5 +181,5 @@ var logoutUser = function()
     scrobbleSessionKey = null;
 	scrobbleSessionName = null;
 	scrobblePayload['timestamp'] = 0;
-    scrobbleAction('logout');
+    scrobbleAction('hideScrobbleStatus');
 };

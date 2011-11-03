@@ -21,14 +21,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
     
     if (request.scrobbleUpdate)
     {
-        if (request.scrobbleUpdate == 'login')
+        if (request.scrobbleUpdate == 'showScrobbleStatus')
         {
-            scrobbleControl('login');
+            scrobbleControl('showScrobbleStatus');
         }
         
-        if (request.scrobbleUpdate == 'logout')
+        if (request.scrobbleUpdate == 'hideScrobbleStatus')
         {
-            scrobbleControl('logout');
+            scrobbleControl('hideScrobbleStatus');
         }
         
         if (request.scrobbleUpdate == 'nowPlaying')
@@ -67,8 +67,12 @@ var isMuted;
 
 var scrobbleControl = function(action)
 {
-    if (action == 'login')
+	console.log(localStorage);
+	console.log(action);
+
+    if (action == 'showScrobbleStatus')
     {
+		
         debugLog("PandoraEnhancer - Scrobbler - Logged in");
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
         
@@ -90,7 +94,7 @@ var scrobbleControl = function(action)
         */
     }
     
-    if (action == 'logout')
+    if (action == 'hideScrobbleStatus')
     {
         debugLog("PandoraEnhancer - Scrobbler - Logged out");
         jQuery("#scrobbleDiv").remove();
@@ -396,10 +400,10 @@ jQuery(document).ready(function()
         //TODO: notification on song skip limit?
         //debugLog("PandoraEnhancer - Song skip limit reached (probably).");
     });
-    
-    if (settings.pe.scrobble_session_key != "null")
+
+    if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {
-        scrobbleControl('login');
+        scrobbleControl('showScrobbleStatus');
     }
 
     if(settings.pe.remove_promobox != "false")
