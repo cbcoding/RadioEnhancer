@@ -67,9 +67,6 @@ var isMuted;
 
 var scrobbleControl = function(action)
 {
-	console.log(localStorage);
-	console.log(action);
-
     if (action == 'showScrobbleStatus')
     {
 		
