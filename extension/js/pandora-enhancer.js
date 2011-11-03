@@ -432,7 +432,7 @@ jQuery(document).ready(function()
         });
     }
 
-    if(settings.pe.header_config != "false")
+    if(settings.pe.header_config && settings.pe.header_config != "false")
     {
         jQuery(".stationChangeSelectorNoMenu").livequery(function(){
             appendHeaderConfig();
