@@ -3,19 +3,10 @@
         <script src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript">
             var bgPage = chrome.extension.getBackgroundPage();
-            var manualPause = false;
-
             function param(name) {
                 var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
             }
-            
-            $(document).mouseenter(function(){
-                bgPage.window.updateNotificationStayOpen('songChange', true);
-            }).mouseleave(function(){
-                if (!manualPause)
-                    bgPage.window.updateNotificationStayOpen('songChange', false);
-            });
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
                 var action = $(this).prop("id");
@@ -35,13 +26,11 @@
                     case "play":
                         $(this).hide();
                         $("#pause").show();
-                        manualPause = false;
                         bgPage.window.playerControl("play");
                         break;
                     case "pause":
                         $(this).hide();
                         $("#play").show();
-                        manualPause = true;
                         bgPage.window.playerControl("pause");
 						bgPage.window.updateNotificationStayOpen('songChange', true);
                         break;
@@ -78,6 +67,16 @@
                     
 					bgPage.window.setAudioAdStatus(false);
 				}
+
+				//welcome to jquery, where we load all of our events AFTER the page has loaded. Also, "document" listeners are complete bullshit.
+				$('#notificationContainer').mouseenter(function(event){
+					bgPage.window.updateNotificationStayOpen('songChange', true);
+				}).mouseleave(function(){
+					if($("#pause").css('display') != 'none')
+					{
+						bgPage.window.updateNotificationStayOpen('songChange', false);
+					}
+				});
                 
             });
             

@@ -491,4 +491,6 @@ jQuery(document).ready(function()
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
+
+	$('.playerBarArt').css('position', 'relative');
 });
