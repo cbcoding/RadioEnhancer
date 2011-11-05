@@ -293,6 +293,7 @@ var totallyStillListening = function()
 
 var doSongChange = function()
 {
+	jQuery('.playerBarArt').css('position', 'relative');
     var currentAlbumArt = jQuery(".playerBarArt")[0];  
 
     if(currentAlbumArt != null)
@@ -491,6 +492,4 @@ jQuery(document).ready(function()
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
-
-	$('.playerBarArt').css('position', 'relative');
 });
