@@ -17,8 +17,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.0.2 Changelog
+ - Fixed a Pandora bug - album art icon on the top right no longer appears off-screen!
+ - Fixes notification issue where it receives a mouseevent on the document when there wasn't one.
+ - Settings window on it's own now has a scrollbar if your Chrome window's height is smaller. No more clipped save/cancel buttons.
+
 1.0.1 Changelog
- - Notification stays open when mouse cursor is over it. Two second timeout trigged when mouse cursor leaves notification.
+ - Notification stays open when mouse cursor is over it, and/or paused.
  - Bug fixes
 
 1.0.0 Changelog
