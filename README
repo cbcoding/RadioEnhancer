@@ -18,12 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.1.0 Changelog
- - Fixed a Pandora bug - album art icon on the top right no longer appears off-screen!
- - Moved "Configure" header link into the user menu (click your email address at the top right).
- - Added 'always show notification window' option - now you can have player controls permanently displayed.
- - Fixes notification issue where it receives a mouseevent on the document when there wasn't one.
- - Settings window redone with tabs - much nicer looking.
- - Settings - replaced 'follow' with 'tweet' button
+ - New: Added 'always show notification window' option - now you can have player controls permanently displayed.
+ - New: Show notification on song skip limit.
+ - Change: Settings window redone with tabs - much nicer looking.
+ - Change: in settings, replaced 'follow' with 'tweet' button.
+ - Change: Moved "Configure" header link into the user menu (click your email address at the top right).
+ - Fix: a native Pandora bug! Album art icon on the top right no longer appears off-screen.
+ - Fix: notification issue where it receives a mouseevent on the document when there wasn't one.
+ - Fix: Notification window will no longer close when your mouse is over it when resuming play.
 
 1.0.1 Changelog
  - Notification stays open when mouse cursor is over it, and/or paused.

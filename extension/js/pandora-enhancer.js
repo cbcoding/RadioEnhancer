@@ -190,7 +190,6 @@ var hideAds = function()
 var hideVideoAd = function()
 {
     //this removes the ad window, but does NOT resume playing music automatically. it takes a few seconds
-
 	chrome.extension.sendRequest({
 		notificationType: 'hideVideoAd'
 	}, function(response){
@@ -253,20 +252,17 @@ var copyLyricsToClipboard = function()
     setTimeout(function(){
         var lyricsHTML = jQuery(".lyricsText").html();
         
-        /*
-        //func - this is not working 100%
+        //todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
         //yeah, they censor "fart". im freakin' dying over here!
         var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy"];
-        var nice =  ["f**k", "s**t", "b**ch", "a**", "f*rt", "n**ga", "p**sy"];
+        var nice =  [/f\*\*k/gi, /s\*\*t/gi, /b\*\*ch/gi, /a\*\*/gi, /f\*rt/gi, /n\*\*ga/gi, /p\*\*sy/gi];
         
         for (i = 0; i < dirty.length; i++)
         {
-            lyricsHTML = lyricsHTML.replace(/nice[i]/gi, dirty[i]);
+            lyricsHTML = lyricsHTML.replace(nice[i], dirty[i]);
         }
         debugLog("PandoraEnhancer - De-censoring lyrics.");        
-        jQuery(".lyricsText").html(lyricsHTML);
-        //endfunc
-        */
+        jQuery(".lyricsText").html(lyricsHTML);        
         
         //this preserves line breaks for copy+paste
         var lyrics = lyricsHTML.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
@@ -389,10 +385,15 @@ jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
     
-    jQuery(".toastContainer").live('DOMNodeInserted', function(){
-        //TODO: notification on song skip limit?
-        //debugLog("PandoraEnhancer - Song skip limit reached (probably).");
-    });
+    if (settings.pe.notification_skip_limit != "false")
+    {
+        jQuery(".toastContainer").live('DOMNodeInserted', function(){
+            debugLog("PandoraEnhancer - Song skip limit reached (probably).");
+            chrome.extension.sendRequest({
+                notificationType: 'skipLimit'
+            }, function(response){});
+        });
+    }
 
     if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {

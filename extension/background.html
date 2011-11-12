@@ -33,12 +33,12 @@
 				delete openNotifications[type];
 			};
 
-			var openNotification = function(type, notification)
+			var openNotification = function(type, notification, force)
 			{
 				clearTimeout(timeouts[type]);
 				closeNotification(type, true);
                 
-                var stay = (localStorage['notification_always_show'] == "true") ? true : false;
+                var stay = (localStorage['notification_always_show'] == "true" && !force) ? true : false;
                 
 				openNotifications[type] = {
 					notification: notification,
@@ -76,7 +76,7 @@
                     'Please wait until music continues...'
                 );
 
-				openNotification('stillListening', notification);
+				openNotification('stillListening', notification, true);
              
                 timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);",(localStorage["notification_timeout"]*1000));
 
@@ -93,12 +93,27 @@
 						'Please wait until music continues...'
 					);
 
-					openNotification('hideVideoAd', notification);
+					openNotification('hideVideoAd', notification, true);
 				 
 					timeouts['hideVideoAd'] = setTimeout("closeNotification('hideVideoAd', false);", (localStorage["notification_timeout"]*1000));
 				}
 
                 return {'message':'video-ad-hidden'};
+            }
+            
+            function skipLimit()
+            {
+                if (localStorage["notification_skip_limit"] != "false")
+                {
+                    var notification = webkitNotifications.createNotification(
+                        'images/logo-32.png',
+                        'Skip Limit Reached',
+                        'If you want to hear something else, change to or create a different station.'
+                    );
+                    
+                    openNotification('skipLimit', notification, true);
+                    timeouts['skipLimit'] = setTimeout("closeNotification('skipLimit', false);", (localStorage["notification_timeout"]*1000));
+                }
             }
             
             
@@ -142,7 +157,7 @@
                     );
                 }
 
-				openNotification('songChange', notification);
+				openNotification('songChange', notification, false);
              
                 timeouts['songchange'] = setTimeout("closeNotification('songChange', false);", (localStorage["notification_timeout"]*1000));
 
@@ -163,6 +178,7 @@
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
                     notification_still_listening:   localStorage["notification_still_listening"],
+                    notification_skip_limit:        localStorage["notification_skip_limit"],
                     notification_always_show:       localStorage["notification_always_show"],
 					header_config:					localStorage["header_config"],
                     player_controls:                localStorage["player_controls"],
@@ -186,7 +202,7 @@
             }
             
                 
-            function playerControl(action)
+            function playerControl(action, hideNotification)
             {
                 var control;
                 switch (action)
@@ -226,13 +242,6 @@
                 
                 if (control == "pause"){
                     clearTimeout(notification_timeout);
-                }
-                
-                if (control == "play"){
-                    if (localStorage['notification_always_show'] == "true") return;
-                    notification_timeout = setTimeout(function(){
-                        notification.cancel();
-                    }, (localStorage["notification_timeout"]*1000));
                 }
             }
             
@@ -286,6 +295,11 @@
                 if(notificationType == 'hideVideoAd')
                 {
                     returnStatus = hideVideoAdNotification();
+                }
+                
+                if(notificationType == "skipLimit")
+                {
+                    returnStatus = skipLimit();
                 }
 
                 if(notificationType == 'songChange')
