@@ -174,28 +174,28 @@
                     var value = localStorage[name];
 
                     if (value == undefined)
-                        {
+                    {
                         debugLog("No setting found, setting default...");
                         localStorage[name] = true;
 
-                        if(name == 'debug_mode' || name == 'header_config')
-                            {
+                        if(name == 'debug_mode' || name == 'header_config' || name == "notification_always_show")
+                        {
                             localStorage[name] = false;
                             value = false;
                         }
 
                         if (name == "notification_timeout")
-                            {
+                        {
                             localStorage[name] = 3.5;
                         }
 
                         if(name == "scrobble_username")
-                            {
+                        {
                             localStorage[name] = '';
                         }
 
                         if(name == "scrobble_delay")
-                            {
+                        {
                             localStorage[name] = 60;
                         }
 
@@ -212,17 +212,22 @@
                 });
 
                 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-                    {
+                {
                     $('#scrobbleLoginButton').css('display', 'none');
                     $('#scrobbleTokenContainer').css('display', 'block');
                     $('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
+                }
+                
+                if (localStorage['notification_always_show'] == "true")
+                {
+                    $("#notification_timeout").attr("disabled", "disabled");
                 }
             };
 
             var saveCurrentOptions = function()
             {
                 if (isNaN($('input[name="notification_timeout"]').val()))
-                    {
+                {
                     alert("Display length must be a number.");
                     $('input[name="notification_timeout"]').val('').focus();
                     return false;
@@ -234,12 +239,12 @@
                     var value = false;
 
                     if($(this).prop('type') == 'checkbox')
-                        {
+                    {
                         value = $(this).prop('checked');
                     }
 
                     if($(this).prop('type') == 'text')
-                        {
+                    {
                         value = $(this).val();
                     }
 
@@ -256,7 +261,7 @@
                     var saved = saveCurrentOptions();
 
                     if(saved)
-                        {
+                    {
                         debugLog("saved settings");
                         bgPage.refreshPandora();
                         window.close();
@@ -321,6 +326,14 @@
                     //active content
                     $(".content > div.active").removeClass("active");
                     $(".content > div#"+tab).addClass("active");
+                });
+                
+                $("#notification_always_show").click(function(){
+                    if ($(this).prop("checked")){
+                        $("#notification_timeout").attr("disabled", "disabled");
+                    } else {
+                        $("#notification_timeout").removeAttr("disabled");
+                    }
                 });
 
             });
@@ -390,7 +403,8 @@
                             <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
                             <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
                             <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
-                            <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
+                            <input class="setting_checkbox" type="checkbox" name="notification_always_show" id="notification_always_show"><label for="notification_always_show">always show notification window</label><br />
+                            <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" id="notification_timeout" maxlength="4">
                         </div>
 
                     </div>

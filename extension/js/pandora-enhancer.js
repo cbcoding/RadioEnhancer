@@ -339,9 +339,7 @@ var showNewSongPopup = function()
     
     if(songName == "audioad")
     {
-        //todo: auto mute? lol
-        //playerControl("mute");
-        //debugLog("PandoraEnhancer - Muting audio ad.");
+        debugLog("PandoraEnhancer - Muting audio ad.");
         chrome.extension.sendRequest({
             notificationType: 'songChange',
             notificationParams: {
@@ -382,7 +380,6 @@ var showStillListeningNotification = function()
 
 var appendHeaderConfig = function()
 {
-    //TODO: - redo this
     debugLog("PandoraEnhancer - Appending configure link to user menu.");
     jQuery("#user_menu_dd > ul").append("<li class='menu able' id='PE-config-link'><a href='#'>PandoraEnhancer</a></li>");
 };

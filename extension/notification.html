@@ -68,7 +68,6 @@
 					bgPage.window.setAudioAdStatus(false);
 				}
 
-				//welcome to jquery, where we load all of our events AFTER the page has loaded. Also, "document" listeners are complete bullshit.
 				$('#notificationContainer').mouseenter(function(event){
 					bgPage.window.updateNotificationStayOpen('songChange', true);
 				}).mouseleave(function(){

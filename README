@@ -19,8 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 1.0.2 Changelog
  - Fixed a Pandora bug - album art icon on the top right no longer appears off-screen!
+ - Moved "Configure" header link into the user menu (click your email address at the top right)
  - Fixes notification issue where it receives a mouseevent on the document when there wasn't one.
- - Settings window on it's own now has a scrollbar if your Chrome window's height is smaller. No more clipped save/cancel buttons.
+ - Settings window redone with tabs - much nicer looking.
+ - Settings - replaced 'follow' with 'tweet' button
 
 1.0.1 Changelog
  - Notification stays open when mouse cursor is over it, and/or paused.
