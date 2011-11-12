@@ -10,23 +10,12 @@
 
             #about_pandora_enhancer{
                 font-weight: bold;
+                margin-top: 5px;
                 padding-top: 5px;
-				height: 20px;
-                margin-left: 5px;
                 font-size: 7pt;
                 border-top: 1px solid black;
-				width: 290px;
-				text-align: center;
-            }
-
-            #pe-settings{
-                padding: 5px;
-            }
-
-            .settings-title{
-                margin-bottom: 0px;
-                font-size: 10pt;
-                font-weight: bold;
+                width: 300px;
+                text-align: center;
             }
 
             input[type="text"]{
@@ -40,26 +29,16 @@
                 padding-left: 5px;
             }
 
-            .settings-list{
-                margin-left: 10px;
-            }
-
-            #settings-notifications, #settings-general, #settings-scrobble{
-				margin-top: 10px;
-                padding: 5px;
-                border: 1px solid #d9e0ea;
-                -webkit-border-radius: 8px;
-                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
-            }
-
             .actions{
-                width: 290px;
+                margin-top: 10px;
+                width: 300px;
                 text-align: right;
             }
-            
+
             .link{
                 color: #00317F;
             }
+
             .link:hover{ cursor: pointer; text-decoration: underline; }
 
             .controlButton{
@@ -78,51 +57,110 @@
                 background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
             }
 
-			.controlButton[disabled]{
-				background: none;
-			}
-            
-            .clear{
-                clear: both;
+            .controlButton[disabled]{
+                background: none;
             }
-            
+
             #social{
-				clear:both;
+                clear:both;
                 width: 300px;
             }
 
-			.float_left{
-				float: left;
-				width: 80px;
-			}
-            
-            
-            #text-logo{
+            .float_left{
+                float: left;
+                width: 80px;
+            }
+
+            #scrobbleTokenContainer{
+                display: none;
+                padding-right: 5px;
+            }
+
+
+            .tabBox .tabs {
+                margin: 10px 0;
+                padding: 0 10px;
+                overflow: hidden;
+                margin-bottom: -1px;
+                height: 2.25em;
+            }
+
+            .tabBox .tabs li {
+                float: left;
+                list-style: none;
+                margin: 0;
+                padding: .25em .25em 0;
+                height: 2em;
+                overflow: hidden;
+                position: relative;
+                z-index: 1;
+                border-bottom: 1px solid #f0f4f7;
+            }
+
+            .tabBox .tabs li.selected {
+                z-index: 3;
+            }
+
+            .tabBox .tabs a {
+                float: left;
+                height: 2em;
+                line-height: 2em;
+                -webkit-border-radius: 8px 8px 0 0;
+                background: #EEE;
+                border: 1px solid #CCC;
+                border-bottom: 0;
+                padding: 0 10px;
+                color: #000;
+                text-decoration: none;
+            }
+
+            .tabBox .tabs .selected a {
+                background: -webkit-linear-gradient(top, #f7f7f7 0%,#f0f4f7 100%);
+                -webkit-box-shadow: #CCC 0 0 .25em;
+            }
+
+            .tabBox .tabs a:hover {
+                background: -webkit-linear-gradient(#EEF, #FFF 70%);
+            }
+
+            .tabBox .content {
+                clear: left;
+                position: relative;
+                z-index: 2;
+                padding: 10px;
+                border: 1px solid #CCC;
+                background: #FFF;
+                -webkit-border-radius: 3px;
+                -webkit-box-shadow: #CCC 0 0 .25em;
+                box-shadow: #CCC 0 0 .25em;
+                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+            }
+
+            .tabBox .content div {
+                display: none;
+            }
+
+            .tabBox .content div.active {
+                display: block;
+            }
+
+            #pe-text-logo{
                 width: 195px;
                 overflow: hidden;
                 font-size: 18pt;
                 font-weight: bold;
                 color: #082247;
                 line-height: 24px;
-                float: left;
             }
-            
-            #text-logo-span{
-                color: #0c3a6c;
-            }
-            
-            #text-logo img{
+
+            #pe-text-logo img{
                 float: left;
                 padding: 0 5px 10px 0;
             }
-
-			#scrobbleTokenContainer{
-				display: none;
-				padding-right: 5px;
-			}
         </style>
+
         <script type="text/javascript">
-			var bgPage = chrome.extension.getBackgroundPage();
+            var bgPage = chrome.extension.getBackgroundPage();
             var debugLog = function(text)
             {
                 bgPage.debugLog(text);
@@ -136,32 +174,32 @@
                     var value = localStorage[name];
 
                     if (value == undefined)
-                    {
+                        {
                         debugLog("No setting found, setting default...");
                         localStorage[name] = true;
 
                         if(name == 'debug_mode' || name == 'header_config')
-                        {
+                            {
                             localStorage[name] = false;
-							value = false;
+                            value = false;
                         }
 
                         if (name == "notification_timeout")
-                        {
+                            {
                             localStorage[name] = 3.5;
                         }
 
-						if(name == "scrobble_username")
-						{
-							localStorage[name] = '';
-						}
+                        if(name == "scrobble_username")
+                            {
+                            localStorage[name] = '';
+                        }
 
-						if(name == "scrobble_delay")
-						{
-							localStorage[name] = 60;
-						}
+                        if(name == "scrobble_delay")
+                            {
+                            localStorage[name] = 60;
+                        }
 
-						value = localStorage[name];
+                        value = localStorage[name];
                     }
 
                     if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
@@ -173,18 +211,18 @@
                     }             
                 });
 
-				if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-				{
-					$('#scrobbleLoginButton').css('display', 'none');
-					$('#scrobbleTokenContainer').css('display', 'block');
-					$('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
-				}
+                if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
+                    {
+                    $('#scrobbleLoginButton').css('display', 'none');
+                    $('#scrobbleTokenContainer').css('display', 'block');
+                    $('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
+                }
             };
 
             var saveCurrentOptions = function()
             {
                 if (isNaN($('input[name="notification_timeout"]').val()))
-                {
+                    {
                     alert("Display length must be a number.");
                     $('input[name="notification_timeout"]').val('').focus();
                     return false;
@@ -196,12 +234,12 @@
                     var value = false;
 
                     if($(this).prop('type') == 'checkbox')
-                    {
+                        {
                         value = $(this).prop('checked');
                     }
 
                     if($(this).prop('type') == 'text')
-                    {
+                        {
                         value = $(this).val();
                     }
 
@@ -218,7 +256,7 @@
                     var saved = saveCurrentOptions();
 
                     if(saved)
-                    {
+                        {
                         debugLog("saved settings");
                         bgPage.refreshPandora();
                         window.close();
@@ -248,126 +286,153 @@
                 $("#cancelButton").click(function(){
                     window.close();
                 });
-                
+
                 $("#PE-version").html(ext.version);
-                
+
                 $(".link").click(function(){
                     var person = $(this).prop("id");
                     bgPage.ourWebsites(person);
                 });
 
-				$('#scrobbleLoginButton').click(function(){
-					var username = $('#scrobble_username').val();
-					bgPage.responseDispatcher('requestAuthentication', username);
-				});
+                $('#scrobbleLoginButton').click(function(){
+                    var username = $('#scrobble_username').val();
+                    bgPage.responseDispatcher('requestAuthentication', username);
+                });
 
-				$('#scrobbleLogoutButton').click(function(){
-					bgPage.responseDispatcher('scrobbleLogout');
+                $('#scrobbleLogoutButton').click(function(){
+                    bgPage.responseDispatcher('scrobbleLogout');
 
-					$('#scrobbleTokenContainer').css('display', 'none');
-					$('#scrobbleToken').text('');
-					$('#scrobbleLoginButton').css('display', 'block');
-				});
+                    $('#scrobbleTokenContainer').css('display', 'none');
+                    $('#scrobbleToken').text('');
+                    $('#scrobbleLoginButton').css('display', 'block');
+                });
+
+                $("ul.tabs > li").click(function(){
+                    var tab = $(this).attr("id");
+
+                    if ($(this).hasClass("selected")){
+                        return false;
+                    }
+
+                    //active tab
+                    $("ul.tabs > li.selected").removeClass("selected");
+                    $("ul.tabs > li#"+tab).addClass("selected");
+
+                    //active content
+                    $(".content > div.active").removeClass("active");
+                    $(".content > div#"+tab).addClass("active");
+                });
+
             });
         </script>
+
     </head>
 
     <body>
-		<div id="fb-root"></div>
-        <div id="pe-settings">
-            <div id="text-logo">
-                <img src="images/logo-48.png">
-                Pandora<br>
-                <span id="text-logo-span">Enhancer</span>
-            </div>
-            
-            <div id="social">
-				<div class="float_left" id="gplus">
-					<div class="g-plusone" data-size="medium" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>
-                </div>
-				
-                <!-- <div class="float_left" id="twitter"><a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a></div> -->
-                
-                <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg" data-text="Check out PandoraEnhancer for Chrome!" data-count="horizontal" data-via="PandoraEnhancer">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-                
-                <div class="fb-like float_left" data-href="http://www.facebook.com/pandoraenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-            </div>
-            
-            <div class="clear"></div>
-            
-            <form id="settings">
-                <div id="settings-general">
-                    <div class="settings-title">General</div>
-                    <div class="settings-list">
-                        <input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
-						<input class="setting_checkbox" type="checkbox" name="remove_ribbon" id="remove_ribbon"><label for="remove_ribbon">remove top ribbon</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
-						<input class="setting_checkbox" type="checkbox" name="header_config" id="header_config"><label for="header_config">append "configure" link to Pandora header</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
-                    </div>
-                </div>
-                
-				<div id="settings-scrobble">
-                    <div class="settings-title">last.fm Settings</div>
-                    <div class="settings-list">
-						<button id="scrobbleLoginButton">Authenticate</button>
-						<div id="scrobbleTokenContainer">
-							<span id="scrobbleToken"></span><button id="scrobbleLogoutButton">Logout</button>
-						</div>
-                        
-						<!--<input class="setting_checkbox" type="checkbox" name="love_with_like" id="love_with_like"><label for="love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
-						<label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />-->
-                        
-                    </div>
-                </div>
-                
-                <div id="settings-notifications">
-                    <div class="settings-title">Notifications</div>
-                    <div class="settings-list">
-                        <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
-                        <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
-                        <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
-                    </div>
-                </div>
-            </form>
 
-            <div class="actions">
-                <button id="saveButton" class="controlButton" disabled>Save</button> <button class="controlButton" id="cancelButton">Cancel</button>
+        <div id="fb-root"></div>
+        <form id="settings">
+            <div class="pe-container">
+                <div class="pe-header">
+                    <div id="pe-text-logo">
+                        <img src="images/logo-48.png">
+                        Pandora<br>
+                        <span id="text-logo-span">Enhancer</span>
+                    </div>
+                </div>
+
+                <div id="social">
+                    <div class="float_left" id="gplus">
+                        <div class="g-plusone" data-size="medium" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>
+                    </div>
+
+                    <!-- <div class="float_left" id="twitter"><a href="https://twitter.com/PandoraEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a></div> -->
+
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg" data-text="Check out PandoraEnhancer for Chrome!" data-count="horizontal" data-via="PandoraEnhancer">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+
+                    <div class="fb-like float_left" data-href="http://www.facebook.com/pandoraenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+                </div>
+
+                <div class="tabBox">
+                    <ul class="tabs">
+                        <li id="general" class="selected"><a href="#">General</a></li>
+                        <li id="lastfm"><a href="#">last.fm</a></li>
+                        <li id="notifications"><a href="#">Notifications</a></li>
+                    </ul>
+
+
+                    <div class="content">
+
+                        <div id="general" class="active">
+                            <input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="remove_ribbon" id="remove_ribbon"><label for="remove_ribbon">remove top ribbon</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="header_config" id="header_config"><label for="header_config">append "configure" link to Pandora header</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
+                        </div>
+
+                        <div id="lastfm">
+                            <button id="scrobbleLoginButton">Authenticate</button>
+                            <div id="scrobbleTokenContainer">
+                                <span id="scrobbleToken"></span><button id="scrobbleLogoutButton">Logout</button>
+                            </div>
+                            <!--<input class="setting_checkbox" type="checkbox" name="love_with_like" id="love_with_like"><label for="love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
+                            <label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />-->
+
+                        </div>
+
+                        <div id="notifications">
+                            <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
+                            <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
+                            <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" maxlength="4">
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="actions">
+                    <button id="saveButton" class="controlButton" disabled>Save</button> <button class="controlButton" id="cancelButton">Cancel</button>
+                </div>
+
+
+                <div id="about_pandora_enhancer">
+                    PandoraEnhancer (v<span id="PE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
+                </div>
+
             </div>
-        </div>   
-        
-        <div id="about_pandora_enhancer">
-            PandoraEnhancer (v<span id="PE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
-        </div>
+        </form>
+
     </body>
-	<script type="text/javascript">
-		(function() {
-			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-			po.src = 'https://apis.google.com/js/plusone.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-		})();
 
-		(function() {
-			var po = document.createElement('script'); 
-			po.type = 'text/javascript'; 
-			po.async = true;
-			po.src = 'http://platform.twitter.com/widgets.js';
-			var s = document.getElementsByTagName('script')[0]; 
-			s.parentNode.insertBefore(po, s);
-		})();
-		(function() {
-			var po = document.createElement('script'); 
-			po.type = 'text/javascript'; 
-			po.async = true;
-			po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
-			var s = document.getElementsByTagName('script')[0]; 
-			s.parentNode.insertBefore(po, s);
-		}());
-	</script>
+    <script type="text/javascript">
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+
+        (function() {
+            var po = document.createElement('script'); 
+            po.type = 'text/javascript'; 
+            po.async = true;
+            po.src = 'http://platform.twitter.com/widgets.js';
+            var s = document.getElementsByTagName('script')[0]; 
+            s.parentNode.insertBefore(po, s);
+        })();
+        (function() {
+            var po = document.createElement('script'); 
+            po.type = 'text/javascript'; 
+            po.async = true;
+            po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
+            var s = document.getElementsByTagName('script')[0]; 
+            s.parentNode.insertBefore(po, s);
+        }());
+    </script>
 </html>
