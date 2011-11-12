@@ -11,9 +11,10 @@
 
 			var updateNotificationStayOpen = function(type, stayOpen)
 			{
+                if (localStorage['notification_always_show'] == "true") return;
 				openNotifications[type]['stayOpen'] = stayOpen;
 				clearTimeout(timeouts[type]);
-
+                
 				if(!stayOpen)
 				{
 					setTimeout(
@@ -36,9 +37,12 @@
 			{
 				clearTimeout(timeouts[type]);
 				closeNotification(type, true);
+                
+                var stay = (localStorage['notification_always_show'] == "true") ? true : false;
+                
 				openNotifications[type] = {
 					notification: notification,
-					stayOpen: false
+					stayOpen: stay
 				};
 
 				openNotifications[type]['notification'].show();
@@ -225,6 +229,7 @@
                 }
                 
                 if (control == "play"){
+                    if (localStorage['notification_always_show'] == "true") return;
                     notification_timeout = setTimeout(function(){
                         notification.cancel();
                     }, (localStorage["notification_timeout"]*1000));
