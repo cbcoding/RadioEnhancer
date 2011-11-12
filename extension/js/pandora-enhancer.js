@@ -383,11 +383,8 @@ var showStillListeningNotification = function()
 var appendHeaderConfig = function()
 {
     //TODO: - redo this
-    debugLog("PandoraEnhancer - Appending configure link to header.");
-    jQuery(".stationChangeSelectorNoMenu").css({"width":"auto !important", "margin-left":"-65px"});
-    jQuery("#brandingBar > .middlecolumn").append("<span id='PE-config-link'>Configure PandoraEnhancer</span>");
-    jQuery("#brandingBar .rightcolumn").css("width","auto");
-    jQuery("#PE-config-link").css({"cursor":"pointer"});
+    debugLog("PandoraEnhancer - Appending configure link to user menu.");
+    jQuery("#user_menu_dd > ul").append("<li class='menu able' id='PE-config-link'><a href='#'>PandoraEnhancer</a></li>");
 };
 
 
