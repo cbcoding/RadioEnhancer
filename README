@@ -1,4 +1,4 @@
-Pandora Enhancer is an extension that adds more functionality to Pandora's awesome new HTML5 interface.
+PandoraEnhancer is an extension that adds more functionality to Pandora's awesome new HTML5 interface.
 
 It is currently available on the Chrome Web Store at https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg?hl=en
 
@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  - New: Added 'always show notification window' option - now you can have player controls permanently displayed.
  - New: Added 'show notification on song skip limit'.
  - New: Added 'love on last.fm when liked on Pandora'.
+ - New: Comedy feature - de-censored the song lyrics when copying to clipboard.
  - Change: Settings window redone with tabs - much nicer looking.
  - Change: in settings, replaced 'follow' with 'tweet' button.
  - Change: Moved "Configure" header link into the user menu (click your email address at the top right).

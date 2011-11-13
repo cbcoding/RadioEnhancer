@@ -277,6 +277,24 @@ var selectableLyrics = function()
     debugLog("PandoraEnhancer - Lyrics selectable.");
 };
 
+var decensorLyrics = function(lyrics)
+{
+    if (settings.pe.decensor_lyrics != "false")
+    {
+        //todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
+        //yeah, they censor "fart". im freakin' dying over here!
+        var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy", "clit", "cock"];
+        var nice =  [/f\*\*k/gi, /s\*\*t/gi, /b\*\*ch/gi, /a\*\*/gi, /f\*rt/gi, /n\*\*ga/gi, /p\*\*sy/gi, /cl\*t/gi, /c\*\*k/gi];
+        
+        for (i = 0; i < dirty.length; i++)
+        {
+            lyrics = lyrics.replace(nice[i], dirty[i]);
+        }
+        debugLog("PandoraEnhancer - De-censoring lyrics.");        
+        jQuery(".lyricsText").html(lyrics);
+    }
+};
+
 var copyLyricsToClipboard = function()
 {
     //you need to click the "more lyrics" link. it loads the rest afterwards, it's not just hidden
@@ -286,18 +304,8 @@ var copyLyricsToClipboard = function()
     setTimeout(function(){
         var lyricsHTML = jQuery(".lyricsText").html();
         
-        //todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
-        //yeah, they censor "fart". im freakin' dying over here!
-        var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy"];
-        var nice =  [/f\*\*k/gi, /s\*\*t/gi, /b\*\*ch/gi, /a\*\*/gi, /f\*rt/gi, /n\*\*ga/gi, /p\*\*sy/gi];
-        
-        for (i = 0; i < dirty.length; i++)
-        {
-            lyricsHTML = lyricsHTML.replace(nice[i], dirty[i]);
-        }
-        debugLog("PandoraEnhancer - De-censoring lyrics.");        
-        jQuery(".lyricsText").html(lyricsHTML);        
-        
+        decensorLyrics(lyricsHTML);
+                
         //this preserves line breaks for copy+paste
         var lyrics = lyricsHTML.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
         lyrics += "\nCopied by PandoraEnhancer for Chrome";
