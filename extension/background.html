@@ -189,6 +189,39 @@
 					scrobble_session_name:			localStorage["scrobble_session_name"]
                 };
                 
+                var defaults = {
+                    selectable_lyrics:              true,
+                    remove_ads:                     true,
+                    remove_promobox:                true,
+                    remove_videos:                  true,
+                    remove_tooltips:                true,
+                    remove_still_listening:         true,
+                    remove_ribbon:                  true,
+                    notification_timeout:           3.5,
+                    notification_song_change:       true,
+                    notification_video_ad:          true,
+                    notification_still_listening:   true,
+                    notification_skip_limit:        true,
+                    notification_always_show:       false,
+                    header_config:                  true,
+                    player_controls:                true,
+                    debug_mode:                     false,
+                    lastfm_love_with_like:          false,
+                    scrobble_delay:                 30,
+                    scrobble_session_key:           null,
+                    scrobble_session_name:          null
+                };
+                
+                
+                for (var key in settings)
+                {
+                    if (settings[key] == undefined)
+                    {
+                        settings[key] = defaults[key];
+                        localStorage[key] = defaults[key];
+                    }
+                }
+                
                 return {'message': settings};
             }
             
@@ -358,6 +391,10 @@
                 }
 
                 sendResponse(returnStatus);
+            });
+            
+            $(function(){
+                localStorageSettings();
             });
         </script>
     </head>

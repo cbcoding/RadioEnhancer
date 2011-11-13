@@ -176,7 +176,8 @@
                 $("input").each(function(index){
                     var name = $(this).prop("name");
                     var value = localStorage[name];
-
+                    
+                    /*
                     if (value == undefined)
                     {
                         debugLog("No setting found, setting default...");
@@ -205,6 +206,7 @@
 
                         value = localStorage[name];
                     }
+                    */
 
                     if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
                         $(this).val(value);
