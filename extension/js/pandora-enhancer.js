@@ -105,6 +105,20 @@ var scrobbleControl = function(action)
         }, function(response) {});
     }
     
+    if (action == "unloveTrack") 
+    {
+        var songName    = jQuery(".playerBarSong")[0].textContent,
+            artistName  = jQuery(".playerBarArtist")[0].textContent;
+
+        chrome.extension.sendRequest({
+            lastfm: 'unlove',
+            notificationParams: {
+                artistName: artistName,
+                songName:   songName,
+            }
+        }, function(response) {});
+    }
+    
     if (action == 'hideScrobbleStatus')
     {
         debugLog("PandoraEnhancer - Scrobbler - Logged out");

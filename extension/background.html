@@ -373,6 +373,14 @@
                                 songName:   notificationParams.songName,
                             });
                         }
+                        
+                        if (request.lasfm == 'unlove')
+                        {
+                            responseDispatcher('unloveTrack', {                                
+                                artistName: notificationParams.artistName,
+                                songName:   notificationParams.songName,
+                            });
+                        }
                     }
                     if(request.showPageAction)
                     {
