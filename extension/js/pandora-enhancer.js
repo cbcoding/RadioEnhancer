@@ -95,14 +95,12 @@ var scrobbleControl = function(action)
     {
         var songName    = jQuery(".playerBarSong")[0].textContent;
         var artistName  = jQuery(".playerBarArtist")[0].textContent;
-		var albumName	= jQuery(".playerBarAlbum")[0].textContent;
 
         chrome.extension.sendRequest({
             lastfmAction: 'love',
             msgParams: {
                 artistName: artistName,
-                songName:   songName,
-				albumName:	albumName
+                songName:   songName
             }
         }, function(response) {});
     }
@@ -529,8 +527,4 @@ jQuery(document).ready(function()
 			scrobbleControl("loveTrack");
 		});
 	}
-
-	jQuery(".lyricsText").live('DOMNodeInserted', function(event){
-		console.log('LYRICS OMY GO MY GINADFAD ');
-	});
 });
