@@ -105,22 +105,7 @@
                 return {'message':'video-ad-hidden'};
             }
             
-            function skipLimit()
-            {
-                if (localStorage["notification_skip_limit"] != "false")
-                {
-                    var notification = webkitNotifications.createNotification(
-                        'images/logo-32.png',
-                        'Skip Limit Reached',
-                        'If you want to hear something else, change to or create a different station.'
-                    );
-                    
-                    openNotification('skipLimit', notification, true);
-                    timeouts['skipLimit'] = setTimeout("closeNotification('skipLimit', false);", (localStorage["notification_timeout"]*1000));
-                }
-            }
-            
-            
+
             var audio_ad = false;
             function setAudioAdStatus(bool){
                 audio_ad = bool;
@@ -182,7 +167,6 @@
                     notification_song_change:       localStorage["notification_song_change"],
                     notification_video_ad:          localStorage["notification_video_ad"],
                     notification_still_listening:   localStorage["notification_still_listening"],
-                    notification_skip_limit:        localStorage["notification_skip_limit"],
                     notification_always_show:       localStorage["notification_always_show"],
 					header_config:					localStorage["header_config"],
                     player_controls:                localStorage["player_controls"],
@@ -205,7 +189,6 @@
                     notification_song_change:       true,
                     notification_video_ad:          true,
                     notification_still_listening:   true,
-                    notification_skip_limit:        true,
                     notification_always_show:       false,
                     header_config:                  true,
                     player_controls:                true,
@@ -334,11 +317,6 @@
                 if(notificationType == 'hideVideoAd')
                 {
                     returnStatus = hideVideoAdNotification();
-                }
-                
-                if(notificationType == "skipLimit")
-                {
-                    returnStatus = skipLimit();
                 }
 
                 if(notificationType == 'songChange')

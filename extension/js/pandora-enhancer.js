@@ -406,21 +406,6 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
-    
-    jQuery(".thumbUpButton a").live('click', function(){
-        debugLog("thumbs upped from anywhere");
-        //TODO: monitor the thumbs up button on pandora to love from it as well as our dialog
-    });
-    
-    if (settings.pe.notification_skip_limit != "false")
-    {
-        jQuery(".toastContainer").live('DOMNodeInserted', function(){
-            debugLog("PandoraEnhancer - Song skip limit reached (probably).");
-            chrome.extension.sendRequest({
-                notificationType: 'skipLimit'
-            }, function(response){});
-        });
-    }
 
     if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {
@@ -515,4 +500,11 @@ jQuery(document).ready(function()
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
+
+	if(settings.pe.lastfm_love_with_like == 'true')
+	{
+		jQuery(".thumbUpButton > a").click(function(){
+			scrobbleControl("loveTrack");
+		});
+	}
 });
