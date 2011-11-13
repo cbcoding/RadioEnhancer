@@ -212,14 +212,14 @@
                 });
 
                 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-                {
+                    {
                     $('#scrobbleLoginButton').css('display', 'none');
                     $('#scrobbleTokenContainer').css('display', 'block');
                     $('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
                 }
-                
+
                 if (localStorage['notification_always_show'] == "true")
-                {
+                    {
                     $("#notification_timeout").attr("disabled", "disabled");
                 }
             };
@@ -227,7 +227,7 @@
             var saveCurrentOptions = function()
             {
                 if (isNaN($('input[name="notification_timeout"]').val()))
-                {
+                    {
                     alert("Display length must be a number.");
                     $('input[name="notification_timeout"]').val('').focus();
                     return false;
@@ -239,12 +239,12 @@
                     var value = false;
 
                     if($(this).prop('type') == 'checkbox')
-                    {
+                        {
                         value = $(this).prop('checked');
                     }
 
                     if($(this).prop('type') == 'text')
-                    {
+                        {
                         value = $(this).val();
                     }
 
@@ -261,7 +261,7 @@
                     var saved = saveCurrentOptions();
 
                     if(saved)
-                    {
+                        {
                         debugLog("saved settings");
                         bgPage.refreshPandora();
                         window.close();
@@ -327,7 +327,7 @@
                     $(".content > div.active").removeClass("active");
                     $(".content > div#"+tab).addClass("active");
                 });
-                
+
                 $("#notification_always_show").click(function(){
                     if ($(this).prop("checked")){
                         $("#notification_timeout").attr("disabled", "disabled");
@@ -392,10 +392,10 @@
                             <button id="scrobbleLoginButton">Authenticate</button>
                             <div id="scrobbleTokenContainer">
                                 <span id="scrobbleToken"></span><button id="scrobbleLogoutButton">Logout</button>
+                                <br />
+                                <input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
+                                <!--<label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />-->
                             </div>
-                            <input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
-                            <!--<label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />-->
-
                         </div>
 
                         <div id="notifications">
