@@ -45,7 +45,8 @@ var responseDispatcher = function(type, payload)
             api_key:    scrobbleKey,
             sk:         scrobbleSessionKey,
             artist:     payload['artistName'],
-            track:      payload['songName']            
+            track:      payload['songName'],
+			album:		payload['albumName']
         }
         sendAPIRequest('track.love', scrobblePayload, 'POST');
 		return;
@@ -57,7 +58,8 @@ var responseDispatcher = function(type, payload)
             api_key:    scrobbleKey,
             sk:         scrobbleSessionKey,
             artist:     payload['artistName'],
-            track:      payload['songName']            
+            track:      payload['songName'],
+			album:		payload['albumName']
         }
         sendAPIRequest('track.unlove', scrobblePayload, 'POST');
         return;

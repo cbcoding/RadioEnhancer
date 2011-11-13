@@ -93,14 +93,16 @@ var scrobbleControl = function(action)
     
     if (action == "loveTrack")
     {
-        var songName    = jQuery(".playerBarSong")[0].textContent,
-            artistName  = jQuery(".playerBarArtist")[0].textContent;
+        var songName    = jQuery(".playerBarSong")[0].textContent;
+        var artistName  = jQuery(".playerBarArtist")[0].textContent;
+		var albumName	= jQuery(".playerBarAlbum")[0].textContent;
 
         chrome.extension.sendRequest({
-            lastfm: 'love',
-            notificationParams: {
+            lastfmAction: 'love',
+            msgParams: {
                 artistName: artistName,
                 songName:   songName,
+				albumName:	albumName
             }
         }, function(response) {});
     }
@@ -358,7 +360,7 @@ var showNewSongPopup = function()
         debugLog("PandoraEnhancer - Muting audio ad.");
         chrome.extension.sendRequest({
             notificationType: 'songChange',
-            notificationParams: {
+            msgParams: {
                 type:       "normal",
                 albumArt:   "images/logo-32.png",
                 artistName: "Pandora",
@@ -373,7 +375,7 @@ var showNewSongPopup = function()
     
     chrome.extension.sendRequest({
         notificationType: 'songChange',
-        notificationParams: {
+        msgParams: {
             albumArt:		oldAlbumArt,
             artistName:		artistName,
             songName:		songName,
@@ -389,7 +391,7 @@ var showStillListeningNotification = function()
 {
     chrome.extension.sendRequest({
         notificationType: 'stillListening',
-        notificationParams: {}
+        msgParams: {}
     }, 
     function(response){});
 };

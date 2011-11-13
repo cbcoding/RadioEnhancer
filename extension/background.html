@@ -38,7 +38,11 @@
 				clearTimeout(timeouts[type]);
 				closeNotification(type, true);
                 
-                var stay = (localStorage['notification_always_show'] == "true" && !force) ? true : false;
+                var stay = false;
+				if(localStorage['notification_always_show'] == "true" && !force)
+				{
+					stay = true;
+				}
                 
 				openNotifications[type] = {
 					notification: notification,
@@ -78,7 +82,7 @@
 
 				openNotification('stillListening', notification, true);
              
-                timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);",(localStorage["notification_timeout"]*1000));
+                timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);", (localStorage["notification_timeout"]*1000));
 
                 return {'message':'still-listening'};
             }
@@ -306,7 +310,7 @@
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             {
                 var notificationType	= request.notificationType;
-                var notificationParams	= request.notificationParams;
+                var msgParams	= request.msgParams;
                 var playerControl       = request.playerControl;
                 var returnStatus		= false;
                     tabID               = sender.tab.id;
@@ -340,11 +344,11 @@
                 if(notificationType == 'songChange')
                 {
                     returnStatus = showSongChangeNotification({
-                        albumArt:   notificationParams.albumArt,
-                        artistName: notificationParams.artistName,
-                        songName:   notificationParams.songName,
-                        albumName:  notificationParams.albumName,
-                        isLiked:    notificationParams.isLiked
+                        albumArt:   msgParams.albumArt,
+                        artistName: msgParams.artistName,
+                        songName:   msgParams.songName,
+                        albumName:  msgParams.albumName,
+                        isLiked:    msgParams.isLiked
                     });
 
 					if(localStorage["scrobble_session_key"] && localStorage["scrobble_session_key"] != 'null')
@@ -352,11 +356,11 @@
 						var dateNow = new Date();
 						var timestamp = Math.round(dateNow.getTime()/1000);
 						responseDispatcher('scrobble',{
-							artistName:		notificationParams.artistName,
-							songName:		notificationParams.songName,
-							albumName:		notificationParams.albumName,
+							artistName:		msgParams.artistName,
+							songName:		msgParams.songName,
+							albumName:		msgParams.albumName,
 							timestamp:		timestamp,
-							elapsedTime:	notificationParams.elapsedTime
+							elapsedTime:	msgParams.elapsedTime
 						});
 					}
 
@@ -364,16 +368,18 @@
 
                 if(!request.notificationType)
                 {
-                    if(request.lastfm)
+                    if(request.lastfmAction)
                     {
-                        if (request.lastfm == 'love')
+                        if (request.lastfmAction == 'love')
                         {
                             responseDispatcher('loveTrack', {
-                                artistName: notificationParams.artistName,
-                                songName:   notificationParams.songName,
-                            });
+								artistName: msgParams.artistName,
+								songName:   msgParams.songName,
+								albumName:	msgParams.albumName
+							});
                         }
                     }
+
                     if(request.showPageAction)
                     {
                         returnStatus = showPageAction(sender.tab.id);
