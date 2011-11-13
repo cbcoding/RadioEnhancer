@@ -157,6 +157,7 @@
             {
                 var settings = {
                     selectable_lyrics:				localStorage["selectable_lyrics"],
+                    decensor_lyrics:                localStorage["decensor_lyrics"],
                     remove_ads:						localStorage["remove_ads"],
                     remove_promobox:				localStorage["remove_promobox"],
                     remove_videos:					localStorage["remove_videos"],
@@ -179,6 +180,7 @@
                 
                 var defaults = {
                     selectable_lyrics:              true,
+                    decensor_lyrics:                false,
                     remove_ads:                     true,
                     remove_promobox:                true,
                     remove_videos:                  true,
@@ -355,6 +357,14 @@
 								songName:   msgParams.songName,
 								albumName:	msgParams.albumName
 							});
+                        }
+                        
+                        if (request.lasfm == 'unlove')
+                        {
+                            responseDispatcher('unloveTrack', {                                
+                                artistName: notificationParams.artistName,
+                                songName:   notificationParams.songName,
+                            });
                         }
                     }
 
