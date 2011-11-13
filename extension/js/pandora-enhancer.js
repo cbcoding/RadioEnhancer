@@ -91,6 +91,20 @@ var scrobbleControl = function(action)
         */
     }
     
+    if (action == "loveTrack")
+    {
+        var songName    = jQuery(".playerBarSong")[0].textContent,
+            artistName  = jQuery(".playerBarArtist")[0].textContent;
+
+        chrome.extension.sendRequest({
+            lastfm: 'love',
+            notificationParams: {
+                artistName: artistName,
+                songName:   songName,
+            }
+        }, function(response) {});
+    }
+    
     if (action == 'hideScrobbleStatus')
     {
         debugLog("PandoraEnhancer - Scrobbler - Logged out");
@@ -116,6 +130,12 @@ var playerControl = function(action)
     {
         case "thumbs_up":
             dispatchClick(jQuery('.thumbUpButton')[0]);
+            
+            if (settings.pe.lastfm_love_with_like == "true"){
+                debugLog("PandoraEnhancer - Loving on Last.fm");
+                scrobbleControl("loveTrack");
+            }
+            
             debugLog("PandoraEnhancer - Thumbs up, dude!");
             break;
         case "thumbs_down":
@@ -384,6 +404,11 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+    
+    jQuery(".thumbUpButton a").live('click', function(){
+        debugLog("thumbs upped from anywhere");
+        //TODO: monitor the thumbs up button on pandora to love from it as well as our dialog
+    });
     
     if (settings.pe.notification_skip_limit != "false")
     {

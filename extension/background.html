@@ -183,6 +183,7 @@
 					header_config:					localStorage["header_config"],
                     player_controls:                localStorage["player_controls"],
                     debug_mode:						localStorage["debug_mode"],
+                    lastfm_love_with_like:          localStorage["lastfm_love_with_like"],
 					scrobble_session_key:			localStorage["scrobble_session_key"],
 					scrobble_session_name:			localStorage["scrobble_session_name"]
                 };
@@ -329,6 +330,16 @@
 
                 if(!request.notificationType)
                 {
+                    if(request.lastfm)
+                    {
+                        if (request.lastfm == 'love')
+                        {
+                            responseDispatcher('loveTrack', {
+                                artistName: notificationParams.artistName,
+                                songName:   notificationParams.songName,
+                            });
+                        }
+                    }
                     if(request.showPageAction)
                     {
                         returnStatus = showPageAction(sender.tab.id);
