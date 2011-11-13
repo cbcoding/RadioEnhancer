@@ -529,4 +529,8 @@ jQuery(document).ready(function()
 			scrobbleControl("loveTrack");
 		});
 	}
+
+	jQuery(".lyricsText").live('DOMNodeInserted', function(event){
+		console.log('LYRICS OMY GO MY GINADFAD ');
+	});
 });
