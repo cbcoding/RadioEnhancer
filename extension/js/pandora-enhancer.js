@@ -524,6 +524,7 @@ jQuery(document).ready(function()
 	if(settings.pe.lastfm_love_with_like == 'true')
 	{
 		jQuery(".thumbUpButton > a").click(function(){
+            debugLog("PandoraEnhancer - Loving on Last.fm");
 			scrobbleControl("loveTrack");
 		});
 	}
