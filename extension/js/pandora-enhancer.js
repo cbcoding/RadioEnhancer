@@ -463,9 +463,9 @@ jQuery(document).ready(function()
 
     if(settings.pe.header_config && settings.pe.header_config != "false")
     {
-        jQuery(".stationChangeSelectorNoMenu").livequery(function(){
+        //jQuery(".stationChangeSelectorNoMenu").livequery(function(){
             appendHeaderConfig();
-        });
+        //});
     }
 
     if(settings.pe.notification_song_change != "false")
