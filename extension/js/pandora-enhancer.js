@@ -12,11 +12,27 @@ chrome.extension.sendRequest({
     notificationType: 'showPageAction'
 }, function(response) { /* json */ });
 
-//listener
+//listeners
+chrome.extension.onConnect.addListener(function(port)
+{
+    port.onMessage.addListener(function(message)
+    {
+        if (message.getTimeInfo)
+        {
+            port.postMessage({timeInfo: songTimeInfo()});
+        }
+    });
+});
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
     if (request.playerControl)
     {
         playerControl(request.playerControl);
+    }
+    
+    if (request.songTimeInfo)
+    {
+        return songTimeInfo();
     }
     
     if (request.scrobbleUpdate)
@@ -63,6 +79,31 @@ var volumeLevelBase = 35;
 var volumeLevelIncrement = 0.82;
 var volumeLevelRestored = 100;
 var isMuted;
+
+
+var songTimeInfo = function()
+{
+    var timeInfo = {}
+    
+    //todo: get these values in seconds. this math is wrong.
+    
+    var elapsedTime = jQuery(".elapsedTime").html();
+    elapsedTime = elapsedTime.split(':');
+    timeInfo['elapsedTime'] = (parseInt(elapsedTime[0]*60) + parseInt(elapsedTime[1]));
+    
+    var remainingTime = jQuery(".remainingTime").html();
+    remainingTime = remainingTime.replace('-','').split(':');
+    timeInfo['remainingTime'] = (parseInt(remainingTime[0]*60) + parseInt(remainingTime[1]));
+    
+    timeInfo['totalTime'] = timeInfo['elapsedTime'] + timeInfo['remainingTime'];
+    
+    /*
+    timeInfo['elapsedTime']     = elapsedTime;
+    timeInfo['remainingTime']   = remainingTime;
+    */
+    return timeInfo;
+}
+
 
 
 var scrobbleControl = function(action)
@@ -170,7 +211,7 @@ var playerControl = function(action)
             break;
         
         case "mute":
-           if (jQuery(".volumeKnob").css("left") == "35px") return false;
+            if (jQuery(".volumeKnob").css("left") == "35px") return false;
             volumeLevelRestored = jQuery(".volumeKnob").css("left");
             volumeLevelRestored = volumeLevelRestored.replace("px","");
 			volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
@@ -365,9 +406,7 @@ var showNewSongPopup = function()
         albumName	= jQuery(".playerBarAlbum")[0].textContent,
         isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
 
-	var elapsedTime = jQuery(".elapsedTime").html();
-	elapsedTime = elapsedTime.split(':');
-	elapsedTime = (elapsedTime[0]*60) + elapsedTime[1];
+	var time = songTimeInfo();
         
     if(songName == "ad")
     {
@@ -401,7 +440,7 @@ var showNewSongPopup = function()
             songName:		songName,
             albumName:		albumName,
             isLiked:		isLiked,
-			elapsedTime:	elapsedTime
+			elapsedTime:	time.elapsedTime
         }
     }, function(response) {});
 

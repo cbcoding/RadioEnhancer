@@ -142,6 +142,7 @@
                         +'&songName='+info.songName
                         +'&albumName='+info.albumName
                         +'&isLiked='+info.isLiked
+                        +'&tabID='+tabID
                         +hidden
                     );
                 }
@@ -285,12 +286,6 @@
                     scrobbleUpdate: action
                 }, function(response){});
             }
-            
-
-            //message listeners
-            chrome.extension.getViews({type:"notification"}).forEach(function(win) {
-                win.refreshPandora();
-            });
             
             chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             {
