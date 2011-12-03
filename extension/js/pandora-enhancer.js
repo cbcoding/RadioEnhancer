@@ -21,6 +21,11 @@ chrome.extension.onConnect.addListener(function(port)
         {
             port.postMessage({timeInfo: songTimeInfo()});
         }
+        
+        if (message.getStationList)
+        {
+            port.postMessage({stationList: getStationList()});
+        }
     });
 });
 
@@ -81,11 +86,19 @@ var volumeLevelRestored = 100;
 var isMuted;
 
 
+var getStationList = function(){
+    var stationList = {};
+    jQuery("#stationList > .stationListItem ul li div.stationNameText").each(function(index){
+        var stationName = $(this).attr("title");
+        stationList[index] = stationName;
+    });
+    
+    return stationList;
+}
+
 var songTimeInfo = function()
 {
     var timeInfo = {}
-    
-    //todo: get these values in seconds. this math is wrong.
     
     var elapsedTime = jQuery(".elapsedTime").html();
     elapsedTime = elapsedTime.split(':');
@@ -96,11 +109,6 @@ var songTimeInfo = function()
     timeInfo['remainingTime'] = (parseInt(remainingTime[0]*60) + parseInt(remainingTime[1]));
     
     timeInfo['totalTime'] = timeInfo['elapsedTime'] + timeInfo['remainingTime'];
-    
-    /*
-    timeInfo['elapsedTime']     = elapsedTime;
-    timeInfo['remainingTime']   = remainingTime;
-    */
     return timeInfo;
 }
 
@@ -287,7 +295,7 @@ var extendStationList = function()
     jQuery('.stationListHolder').css('height', '740px !important');
     jQuery('.stationContent').css('height', '100% !important');
     jQuery('.jspContainer').css('height', '100% !important');
-
+    jQuery('#stationSortDate').css('border-radius', '6px !important');
 };
 
 var selectableLyrics = function()
@@ -393,7 +401,7 @@ var doSongChange = function()
     debugLog('PandoraEnhancer - Song changed.');
 
     song_skip_tries = 0;
-    setTimeout("showNewSongPopup()", 100);
+    setTimeout("showNewSongPopup()", 100);   
 };
 
 var showNewSongPopup = function()
@@ -465,6 +473,23 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+    
+    //TODO: make sure this works
+    jQuery(".showMoreLyrics").livequery('click', function(){
+        setTimeout(function(){
+            var lyricsHTML = jQuery(".lyricsText").html();
+            decensorLyrics(lyricsHTML);
+        },1000);
+    });
+    
+    
+    jQuery(".buyButton").live('click', function(){
+        //TODO: take this out for production rofl
+        debugLog("U MAD BRO?");
+        var artist = jQuery(".playerBarArtist")[0].textContent
+        console.log(jQuery('#buy_menu_dd ul').html());
+        jQuery('#buy_menu_dd ul').append('<li><a target="_blank" href="http://thepiratebay.org/search/' + artist + '/" class="soJellyBro">Find Elsewhere</a></li>');
+    });
 
     if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {

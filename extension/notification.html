@@ -8,7 +8,7 @@
             }
             
             var bgPage  = chrome.extension.getBackgroundPage();
-            var PEjs    = chrome.tabs.connect(parseInt(param('tabID')), {name: 'songTimeInfo'});
+            var PEjs    = chrome.tabs.connect(parseInt(param('tabID')));
             
             $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
                 var action = $(this).prop("id");
@@ -52,7 +52,25 @@
                 }
             });
             
-            $(document).ready(function(){
+            $(document).ready(function()
+            {
+                //listener
+                PEjs.onMessage.addListener(function(message){
+                    if (message.timeInfo)
+                    {
+                        var elapsedTime     = message.timeInfo.elapsedTime;
+                        var remainingTime   = message.timeInfo.remainingTime; //unused right now
+                        var totalTime       = message.timeInfo.totalTime;
+                        var trackingPercent = (elapsedTime / totalTime) * 100;
+                        $("#tracking").css("width", trackingPercent + "%");
+                    }
+                    
+                    if (message.stationList)
+                    {
+                        console.log(message.stationList);
+                    }
+                });
+                
                 if(param('isLiked') == "true")
 				{
                     $("#thumbs_up").addClass('isLiked');
@@ -81,20 +99,9 @@
                 
                 setInterval(function(){
                     PEjs.postMessage({getTimeInfo: true});
-                }, 1000);                
+                }, 1500);
                 
-                PEjs.onMessage.addListener(function(message){
-                    if (message.timeInfo)
-                    {
-                        var elapsedTime     = message.timeInfo.elapsedTime;
-                        //var remainingTime   = message.timeInfo.remainingTime;
-                        var totalTime       = message.timeInfo.totalTime;
-                        var trackingPercent = (elapsedTime / totalTime) * 100;
-                        $("#tracking").css("width", trackingPercent + "%");
-                    }
-                    
-                    
-                });
+                PEjs.postMessage({getStationList: true});
                 
                 
                 
@@ -215,6 +222,7 @@
 				background-image: url('images/notification/button_unmute.png');
 			}
             
+            #tracking-container { background: #ffffff; }            
             #tracking {
                 background: #273245;
                 height: 2px;
@@ -258,7 +266,14 @@
 				<div id="unmute" class="playerControl"></div>
 				<!-- <input type="range"  min="0" max="100" style="width: 95%" /> -->
                 <div id="tracking"></div>
-			</div>        
+			</div>
+            
+            <!--
+            <div id="tracking-container">
+                <div id="tracking"></div>
+            </div>
+            -->
+            
         </div>
     </body>
 </html>

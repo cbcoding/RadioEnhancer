@@ -229,43 +229,11 @@
                 
             function playerControl(action, hideNotification)
             {
-                var control;
-                switch (action)
-                {
-                    case "thumbs_up":
-                        control = "thumbs_up";
-                        break;
-                    case "thumbs_down":
-                        control = "thumbs_down";
-                        //todo: thumbs down skips song, so it should hide. however, if you're at skip limit, song continues. hmm.
-                        //notification.cancel();
-                        break;
-                    case "play":
-                        control = "play";
-                        break;
-                    case "pause":
-                        control = "pause";
-                        break;
-                    case "skip":
-                        control = "skip";
-                        break;
-                    case "mute":
-                        control = "mute";
-                        break;
-                    case "unmute":
-                        control = "unmute";
-                        break;
-                        
-                    default:
-                        return false;
-                        break;
-                }
-                
                 chrome.tabs.sendRequest(tabID, {
-                    'playerControl': control
+                    'playerControl': action
                 }, function(response){});
                 
-                if (control == "pause"){
+                if (action == "pause"){
                     clearTimeout(notification_timeout);
                 }
             }
