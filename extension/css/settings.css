@@ -1,0 +1,160 @@
+body {
+    font-family: helvetica, arial, sans-serif;
+    font-size: 10pt;
+    width: 300px;
+}
+
+#about_pandora_enhancer{
+    font-weight: bold;
+    margin-top: 5px;
+    padding-top: 5px;
+    font-size: 7pt;
+    border-top: 1px solid black;
+    width: 300px;
+    text-align: center;
+}
+
+input[type="text"]{
+    width: 35px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+label{
+    font-size: 8pt;
+    padding-left: 5px;
+}
+
+.actions{
+    margin-top: 10px;
+    width: 300px;
+    text-align: right;
+}
+
+.link{
+    color: #00317F;
+}
+
+.link:hover{ cursor: pointer; text-decoration: underline; }
+
+.controlButton{
+    width: 49%;
+    padding: 5px 20;
+    border: 1px solid #d9e0ea;
+    -webkit-border-radius: 8px;
+    background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+}
+
+.controlButton:hover{
+    background: -webkit-linear-gradient(top, #f0f4f7 0%,#F2F2F2 100%);
+}
+
+.controlButton:active{
+    background: -webkit-linear-gradient(top, #d9e0ea 0%,#f0f4f7 100%);
+}
+
+.controlButton[disabled]{
+    background: none;
+}
+
+#social{
+    clear:both;
+    width: 300px;
+}
+
+.float_left{
+    float: left;
+    width: 80px;
+}
+
+#scrobbleTokenContainer{
+    display: none;
+    padding-right: 5px;
+}
+
+
+.tabBox .tabs {
+    margin: 10px 0;
+    padding: 0 10px;
+    overflow: hidden;
+    margin-bottom: -1px;
+    height: 2.25em;
+}
+
+.tabBox .tabs li {
+    float: left;
+    list-style: none;
+    margin-top: 4px;
+    margin-right: 4px;
+    height: 2em;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid #f0f4f7;
+}
+
+.tabBox .tabs li.selected {
+    z-index: 3;
+}
+
+.tabBox .tabs a {
+    float: left;
+    height: 2em;
+    line-height: 2em;
+    -webkit-border-radius: 8px 8px 0 0;
+    background: #EEE;
+    border: 1px solid #CCC;
+    border-bottom: 0;
+    padding: 0 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+.tabBox .tabs .selected a {
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f0f4f7 100%);
+    -webkit-box-shadow: #CCC 0 0 .25em;
+}
+
+.tabBox .tabs a:hover {
+    background: -webkit-linear-gradient(#EEF, #FFF 70%);
+}
+
+.tabBox .content {
+    height: 180px; /*should change if we add new settings*/
+    clear: left;
+    position: relative;
+    z-index: 2;
+    padding: 10px 5px 15px;
+    border: 1px solid #CCC;
+    background: #FFF;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: #CCC 0 0 .25em;
+    box-shadow: #CCC 0 0 .25em;
+    background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+}
+
+.tabBox .content div {
+    display: none;
+}
+
+.tabBox .content div.active {
+    display: block;
+}
+
+#pe-text-logo{
+    width: 195px;
+    overflow: hidden;
+    font-size: 18pt;
+    font-weight: bold;
+    color: #082247;
+    line-height: 24px;
+}
+
+#pe-text-logo img{
+    float: left;
+    padding: 0 5px 10px 0;
+}
+
+.clear {
+    clear: both;
+}

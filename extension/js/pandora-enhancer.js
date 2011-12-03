@@ -482,7 +482,7 @@ jQuery(document).ready(function()
         },1000);
     });
     
-    
+    /*
     jQuery(".buyButton").live('click', function(){
         //TODO: take this out for production rofl
         debugLog("U MAD BRO?");
@@ -490,6 +490,7 @@ jQuery(document).ready(function()
         console.log(jQuery('#buy_menu_dd ul').html());
         jQuery('#buy_menu_dd ul').append('<li><a target="_blank" href="http://thepiratebay.org/search/' + artist + '/" class="soJellyBro">Find Elsewhere</a></li>');
     });
+    */
 
     if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {
