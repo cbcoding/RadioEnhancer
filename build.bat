@@ -1,6 +1,5 @@
 @echo off
 
-
 echo "Making build..."
 xcopy extension build /s /i /q
 

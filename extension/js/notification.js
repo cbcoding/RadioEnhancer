@@ -53,7 +53,7 @@ $(document).ready(function()
     //listener
     PEjs.onMessage.addListener(function(message){
         if (message.timeInfo)
-            {
+        {
             var elapsedTime     = message.timeInfo.elapsedTime;
             var remainingTime   = message.timeInfo.remainingTime; //unused right now
             var totalTime       = message.timeInfo.totalTime;
@@ -62,11 +62,30 @@ $(document).ready(function()
         }
 
         if (message.stationList)
+        {
+            if (message.stationList !== null)
             {
-            console.log(message.stationList);
+                console.log(message.stationList);
+                $.each(message.stationList, function(index, value){
+                    var selected = (index == "selected") ? "selected" : "";
+                    $("#station_listing").css("display", "block").append('<option ' + selected + '>' + value + '</option>');
+                });
+            }
         }
     });
-
+    
+    //get some info
+    setInterval(function(){
+        PEjs.postMessage({getTimeInfo: true});
+    }, 1500);
+    PEjs.postMessage({getStationList: true});
+    
+    $("#station_listing").change(function(){
+        var stationName = $(this).val();
+        var index = $(this).prop("selectedIndex");
+        PEjs.postMessage({changeStation: stationName});
+    });
+    
     if(param('isLiked') == "true")
         {
         $("#thumbs_up").addClass('isLiked');
@@ -93,9 +112,4 @@ $(document).ready(function()
         }
     });
 
-    setInterval(function(){
-        PEjs.postMessage({getTimeInfo: true});
-    }, 1500);
-
-    PEjs.postMessage({getStationList: true});
 });

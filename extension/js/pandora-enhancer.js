@@ -12,6 +12,27 @@ chrome.extension.sendRequest({
     notificationType: 'showPageAction'
 }, function(response) { /* json */ });
 
+//debug & dispatched events
+var debugLog = function(text)
+{
+    if(settings.pe.debug_mode == "false") return;
+    console.log(text);
+};
+
+var dispatchClick = function(selector){
+    var subject = selector;
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    subject.dispatchEvent(event);
+};
+
+var dispatchHover = function(selector){
+    var subject = selector;
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('mousemove', true, true);
+    subject.dispatchEvent(event);
+};
+
 //listeners
 chrome.extension.onConnect.addListener(function(port)
 {
@@ -24,7 +45,15 @@ chrome.extension.onConnect.addListener(function(port)
         
         if (message.getStationList)
         {
-            port.postMessage({stationList: getStationList()});
+            if (settings.pe.notification_show_station_list != "false")
+            {   //if this message is not sent, the station list box will not be displayed
+                port.postMessage({stationList: getStationList()});
+            }
+        }
+        
+        if (message.changeStation)
+        {
+            changeStation(message.changeStation);
         }
     });
 });
@@ -86,14 +115,29 @@ var volumeLevelRestored = 100;
 var isMuted;
 
 
-var getStationList = function(){
+var getStationList = function()
+{
     var stationList = {};
     jQuery("#stationList > .stationListItem ul li div.stationNameText").each(function(index){
-        var stationName = $(this).attr("title");
+        var stationName = jQuery(this).attr("title");
+        if (jQuery(this).parent().parent().parent().hasClass('selected')) index = 'selected';
         stationList[index] = stationName;
     });
     
     return stationList;
+}
+
+var changeStation = function(station)
+{    
+    if (isNaN(station))
+    {
+        dispatchClick(jQuery("div.stationNameText[title='" + station + "']")[0]);
+    }
+    else if (!isNaN(station))
+    {
+        dispatchClick(jQuery("#stationList div:nth-child(" + station + ")")[0]);
+    }
+    debugLog("PandoraEnhancer - Changing Station");
 }
 
 var songTimeInfo = function()
@@ -117,8 +161,7 @@ var songTimeInfo = function()
 var scrobbleControl = function(action)
 {
     if (action == 'showScrobbleStatus')
-    {
-		
+    {		
         debugLog("PandoraEnhancer - Scrobbler - Logged in");
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
         
@@ -242,31 +285,12 @@ var playerControl = function(action)
     }
 };
 
-var debugLog = function(text)
-{
-    if(settings.pe.debug_mode == "false") return;
-    console.log(text);
-};
-
-var dispatchClick = function(selector){
-    var subject = selector;
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('click', true, true);
-    subject.dispatchEvent(event);
-};
-
-var dispatchHover = function(selector){
-	var subject = selector;
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('mousemove', true, true);
-    subject.dispatchEvent(event);
-};
-
 var hideAds = function()
 {
     jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
+    jQuery("#adLayout").css("width", "auto !important"); //bg fix on smaller viewport widths
     ads_hidden++;
 };
 

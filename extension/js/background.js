@@ -149,26 +149,27 @@ function showSongChangeNotification(info)
 function localStorageSettings()
 {
     var settings = {
-        selectable_lyrics:                localStorage["selectable_lyrics"],
+        selectable_lyrics:              localStorage["selectable_lyrics"],
         decensor_lyrics:                localStorage["decensor_lyrics"],
-        remove_ads:                        localStorage["remove_ads"],
+        remove_ads:                     localStorage["remove_ads"],
         remove_promobox:                localStorage["remove_promobox"],
-        remove_videos:                    localStorage["remove_videos"],
+        remove_videos:                  localStorage["remove_videos"],
         remove_tooltips:                localStorage["remove_tooltips"],
         remove_still_listening:         localStorage["remove_still_listening"],
-        remove_ribbon:                    localStorage["remove_ribbon"],
+        remove_ribbon:                  localStorage["remove_ribbon"],
         notification_timeout:           localStorage["notification_timeout"],
         notification_song_change:       localStorage["notification_song_change"],
         notification_video_ad:          localStorage["notification_video_ad"],
         notification_still_listening:   localStorage["notification_still_listening"],
         notification_always_show:       localStorage["notification_always_show"],
-        header_config:                    localStorage["header_config"],
+        notification_show_station_list: localStorage["notification_show_station_list"],
+        header_config:                  localStorage["header_config"],
         player_controls:                localStorage["player_controls"],
-        debug_mode:                        localStorage["debug_mode"],
+        debug_mode:                     localStorage["debug_mode"],
         lastfm_love_with_like:          localStorage["lastfm_love_with_like"],
         scrobble_delay:                 localStorage["scrobble_delay"],
-        scrobble_session_key:            localStorage["scrobble_session_key"],
-        scrobble_session_name:            localStorage["scrobble_session_name"]
+        scrobble_session_key:           localStorage["scrobble_session_key"],
+        scrobble_session_name:          localStorage["scrobble_session_name"]
     };
 
     var defaults = {
@@ -185,6 +186,7 @@ function localStorageSettings()
         notification_video_ad:          true,
         notification_still_listening:   true,
         notification_always_show:       false,
+        notification_show_station_list: false,
         header_config:                  true,
         player_controls:                true,
         debug_mode:                     false,
@@ -250,11 +252,11 @@ function scrobbleAction(action)
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 {
     var notificationType    = request.notificationType;
-    var msgParams    = request.msgParams;
+    var msgParams           = request.msgParams;
     var playerControl       = request.playerControl;
     var returnStatus        = false;
-    tabID               = sender.tab.id;
-    currentURL          = sender.tab.url;
+    tabID                   = sender.tab.id;
+    currentURL              = sender.tab.url;
 
     if(notificationType == 'getLocalStorage')
         {

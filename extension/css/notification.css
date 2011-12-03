@@ -116,3 +116,12 @@ body {
     height: 2px;
     width: 0%;
 }
+
+#station_listing {
+    width: 100%;
+    margin: 0;
+    background: #042e5c;
+    color: #ffffff;
+    -webkit-appearance: none;
+    display: none;
+}
