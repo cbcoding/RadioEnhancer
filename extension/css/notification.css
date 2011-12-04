@@ -117,6 +117,7 @@ body {
     width: 0%;
 }
 
+/* normal dropdown for station list
 #station_listing {
     width: 100%;
     margin: 0;
@@ -124,4 +125,46 @@ body {
     color: #ffffff;
     -webkit-appearance: none;
     display: none;
+}
+*/
+
+.station_list dd, .station_list dt, .station_list ul {
+    margin-top: -10px;
+    padding: 0px;
+}
+.station_list dd {
+    position: relative;
+}
+.station_list a, .station_list a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+    font-size: 12px;
+}
+.station_list dt a {
+    display: block;
+    width: 100%;
+}
+.station_list dt a span {
+    float: left;
+    margin-top: -18px;
+}
+.station_list dd ul {
+    background: #e4dfcb;
+    color: #C5C0B0;
+    display: none;
+    left: -41px;
+    padding: 5px 0px;
+    position: absolute;
+    top: 42px;
+    width: 300px;
+    list-style:none;
+}
+.station_list dd ul li a {
+    padding: 5px;
+    display: block;
+    color: #000;
+}
+.station_list dd ul li a:hover {
+    background-color: #d0c9af;
 }

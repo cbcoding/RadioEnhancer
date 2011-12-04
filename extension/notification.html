@@ -4,49 +4,58 @@
         <script src="js/notification.js"></script>
         <link rel="stylesheet" type="text/css" href="css/notification.css">
     </head>
-    
+
     <body>
-		<div id="notificationContainer">
-			<div id="songInfoContainer">
-				<div id="albumArt">
-					<script>
-						if(param('albumArt').length > 0 && param('albumArt') != '/images/no_album_art.jpg')
-						{
-							document.write('<img src="' + param('albumArt') + '" width="48" height="48" />');
-						}
-						else
-						{
-							document.write('<img src="images/logo-48.png" width="48" height="48" />');
-						}
-					</script>
-				</div>
-				<div id="artistInfo">
-					<div id="songName"><script>document.write(param('songName'));</script></div>
-					<div id="artistName">by <script>document.write(param('artistName'));</script></div>
-					<div id="albumName">on <script>document.write(param('albumName'));</script></div>
-				</div>
-			</div>
-			
-			<div id="playerControlContainer">
-				<div id="thumbs_down" class="playerControl"></div>
-				<div id="thumbs_up" class="playerControl"></div>
-				<div id="play" class="playerControl"></div>
-				<div id="pause" class="playerControl"></div>
-				<div id="skip" class="playerControl"></div>
-				<div id="mute" class="playerControl"></div>
-				<div id="unmute" class="playerControl"></div>
-				<!-- <input type="range"  min="0" max="100" style="width: 95%" /> -->
+        <div id="notificationContainer">
+            <div id="songInfoContainer">
+                <div id="albumArt">
+                    <script>
+                        if(param('albumArt').length > 0 && param('albumArt') != '/images/no_album_art.jpg')
+                            {
+                            document.write('<img src="' + param('albumArt') + '" width="48" height="48" />');
+                        }
+                        else
+                            {
+                            document.write('<img src="images/logo-48.png" width="48" height="48" />');
+                        }
+                    </script>
+                </div>
+                <div id="artistInfo">
+                    <div id="songName"><script>document.write(param('songName'));</script></div>
+                    <div id="artistName">by <script>document.write(param('artistName'));</script></div>
+                    <div id="albumName">on <script>document.write(param('albumName'));</script></div>
+                </div>
+            </div>
+
+            <div id="playerControlContainer">
+                <div id="thumbs_down" class="playerControl"></div>
+                <div id="thumbs_up" class="playerControl"></div>
+                <div id="play" class="playerControl"></div>
+                <div id="pause" class="playerControl"></div>
+                <div id="skip" class="playerControl"></div>
+                <div id="mute" class="playerControl"></div>
+                <div id="unmute" class="playerControl"></div>
+                <!-- <input type="range"  min="0" max="100" style="width: 95%" /> -->
                 <div id="tracking"></div>
-			</div>
-            
-            <select id="station_listing"></select>
-            
+
+                <dl class="station_list">
+                    <dt><a href="#"><span>&nbsp;[+]</span></a></dt>
+                    <dd><ul><!-- stuff gets generated here --></ul></dd>
+                </dl>
+
+            </div>
+
+            <!-- <select id="station_listing"></select> -->
+
+
+
+
             <!--
             <div id="tracking-container">
-                <div id="tracking"></div>
+            <div id="tracking"></div>
             </div>
             -->
-            
+
         </div>
     </body>
 </html>

@@ -68,7 +68,8 @@ $(document).ready(function()
                 console.log(message.stationList);
                 $.each(message.stationList, function(index, value){
                     var selected = (index == "selected") ? "selected" : "";
-                    $("#station_listing").css("display", "block").append('<option ' + selected + '>' + value + '</option>');
+                    //$("#station_listing").css("display", "block").append('<option ' + selected + '>' + value + '</option>');
+                    $(".station_list dd ul").append('<li><a href="#">' + value + '</a></li>');
                 });
             }
         }
@@ -80,10 +81,22 @@ $(document).ready(function()
     }, 1500);
     PEjs.postMessage({getStationList: true});
     
+    /* old station list
     $("#station_listing").change(function(){
         var stationName = $(this).val();
         var index = $(this).prop("selectedIndex");
         PEjs.postMessage({changeStation: stationName});
+    });
+    */
+    
+    $(".station_list dt a").click(function(){
+        $(".station_list dd ul").toggle();
+    });
+
+    $(".station_list dd ul li a").live('click', function(){
+        var stationName = $(this).html();
+        PEjs.postMessage({changeStation: stationName});
+        $(".station_list dd ul").hide();
     });
     
     if(param('isLiked') == "true")
