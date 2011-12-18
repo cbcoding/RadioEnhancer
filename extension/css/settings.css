@@ -2,6 +2,7 @@ body {
     font-family: helvetica, arial, sans-serif;
     font-size: 10pt;
     width: 300px;
+    overflow: hidden;
 }
 
 #about_pandora_enhancer{
@@ -157,4 +158,9 @@ label{
 
 .clear {
     clear: both;
+}
+
+#about > #header {
+    color: #082247;
+    font-weight: bold;    
 }

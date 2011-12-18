@@ -12,7 +12,7 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
     {
         case "thumbs_up":
         if(!$("#thumbs_up").hasClass('isLiked'))
-            {
+        {
             $("#thumbs_up").addClass('isLiked');
             $("#thumbs_up").removeClass('playerControl');
             bgPage.window.playerControl("thumbs_up");
@@ -56,7 +56,7 @@ $(document).ready(function()
         {
             var elapsedTime     = message.timeInfo.elapsedTime;
             var remainingTime   = message.timeInfo.remainingTime; //unused right now
-            var totalTime       = message.timeInfo.totalTime;
+            var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong, causing the tracking bar to freak out for an interval. wtf?
             var trackingPercent = (elapsedTime / totalTime) * 100;
             $("#tracking").css("width", trackingPercent + "%");
         }

@@ -132,7 +132,7 @@ $(document).ready(function(){
         window.close();
     });
 
-    $("#PE-version").html(ext.version);
+    $(".PE-version").html(ext.version);
 
     $(".link").click(function(){
         var person = $(this).prop("id");

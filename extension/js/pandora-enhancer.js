@@ -92,7 +92,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
     }
 });
 
-//settings
+//todo: i can make these actual settings perhaps.
 var settings = {
     background_image:   'http://www.pandora.com/static/valances/pandora/default/skin_background.jpg',
     background_color:   '#09102a'
@@ -257,7 +257,12 @@ var playerControl = function(action)
             debugLog("PandoraEnhancer - Pause");
             break;
         case "skip":
-            dispatchClick(jQuery('.skipButton')[0]);
+            var ppskip = jQuery(".unlimitedSkipButton")[0];
+            if (ppskip !== undefined){
+                dispatchClick(ppskip);
+            } else {
+                dispatchClick(jQuery('.skipButton')[0]);
+            }
             debugLog("PandoraEnhancer - Skip");
             break;
         
@@ -498,23 +503,12 @@ jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
     
-    //TODO: make sure this works
     jQuery(".showMoreLyrics").livequery('click', function(){
         setTimeout(function(){
             var lyricsHTML = jQuery(".lyricsText").html();
             decensorLyrics(lyricsHTML);
         },1000);
     });
-    
-    /*
-    jQuery(".buyButton").live('click', function(){
-        //TODO: take this out for production rofl
-        debugLog("U MAD BRO?");
-        var artist = jQuery(".playerBarArtist")[0].textContent
-        console.log(jQuery('#buy_menu_dd ul').html());
-        jQuery('#buy_menu_dd ul').append('<li><a target="_blank" href="http://thepiratebay.org/search/' + artist + '/" class="soJellyBro">Find Elsewhere</a></li>');
-    });
-    */
 
     if (settings.pe.scrobble_session_key && settings.pe.scrobble_session_key != "null")
     {

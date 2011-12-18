@@ -32,7 +32,7 @@ var openNotification = function(type, notification, force)
 
     var stay = false;
     if(localStorage['notification_always_show'] == "true" && !force)
-        {
+    {
         stay = true;
     }
 
@@ -67,9 +67,9 @@ function copyLyrics(lyrics)
 function stillListeningNotification()
 {
     var notification = webkitNotifications.createNotification(
-    'images/logo-32.png',
-    'Still listening...',
-    'Please wait until music continues...'
+        'images/logo-32.png',
+        'Still listening...',
+        'Please wait until music continues...'
     );
 
     openNotification('stillListening', notification, true);
@@ -82,11 +82,11 @@ function stillListeningNotification()
 function hideVideoAdNotification()
 {
     if(localStorage["remove_videos"] != "false")
-        {
+    {
         var notification = webkitNotifications.createNotification(
-        'images/logo-32.png',
-        'Video Ad Blocked',
-        'Please wait until music continues...'
+            'images/logo-32.png',
+            'Video Ad Blocked',
+            'Please wait until music continues...'
         );
 
         openNotification('hideVideoAd', notification, true);
@@ -111,7 +111,7 @@ function showSongChangeNotification(info)
 {
     hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
     if (info.songName == 'audioad')
-        {
+    {
         info.albumArt        = 'images/logo-32.png';
         info.artistName        = 'Pandora';
         info.songName        = 'Audio Ad';
@@ -119,23 +119,23 @@ function showSongChangeNotification(info)
     }
 
     if (localStorage["player_controls"] != "true")
-        {
+    {
         notification = webkitNotifications.createNotification(
-        info.albumArt,
-        info.songName,
-        info.artistName + " (" + info.albumName + ")"
+            info.albumArt,
+            info.songName,
+            info.artistName + " (" + info.albumName + ")"
         );
     } else {
         //html notifications are the new shit
         notification = webkitNotifications.createHTMLNotification(
-        'notification.html?'
-        +'albumArt='+info.albumArt
-        +'&artistName='+info.artistName
-        +'&songName='+info.songName
-        +'&albumName='+info.albumName
-        +'&isLiked='+info.isLiked
-        +'&tabID='+tabID
-        +hidden
+            'notification.html?'
+            +'albumArt='+info.albumArt
+            +'&artistName='+info.artistName
+            +'&songName='+info.songName
+            +'&albumName='+info.albumName
+            +'&isLiked='+info.isLiked
+            +'&tabID='+tabID
+            +hidden
         );
     }
 
@@ -200,7 +200,7 @@ function localStorageSettings()
     for (var key in settings)
     {
         if (settings[key] == undefined)
-            {
+        {
             settings[key] = defaults[key];
             localStorage[key] = defaults[key];
         }

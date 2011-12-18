@@ -18,10 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.2.0 Changelog
- - New: Change stations right from the player control notification - configure in settings.
- - New: Song tracking above the player controls. - SUBJECT TO CHANGE
+ - New: Change stations right from the player control notification - configure in settings - REMOVE THIS UNTIL BETTER WAY IS FOUND
+ - New: Song tracking above the player control notification. - SUBJECT TO CHANGE
  - Change: Lyrics should be de-censored when using the 'more lyrics' button as well as our Copy link.
  - Fix: bottom-left corner is no longer the only corner without a border-radius.
+ - Compatibility for PP.
 
 1.1.0 Changelog
  - New: Added 'always show notification window' option - now you can have player controls permanently displayed.
