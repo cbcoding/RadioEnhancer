@@ -75,8 +75,8 @@ label{
 
 
 .tabBox .tabs {
-    margin: 10px 0;
-    padding: 0 10px;
+    margin: 5px 0;
+    padding: 0 5px;
     overflow: hidden;
     margin-bottom: -1px;
     height: 2.25em;
@@ -86,7 +86,7 @@ label{
     float: left;
     list-style: none;
     margin-top: 4px;
-    margin-right: 4px;
+    margin-right: 3px;
     height: 2em;
     overflow: hidden;
     position: relative;
@@ -106,7 +106,7 @@ label{
     background: #EEE;
     border: 1px solid #CCC;
     border-bottom: 0;
-    padding: 0 10px;
+    padding: 0 8px;
     color: #000;
     text-decoration: none;
 }

@@ -314,14 +314,18 @@ var playerControl = function(action)
             }, function(response) {});
             break;
         case "skip":
-            var ppskip = jQuery(".unlimitedSkipButton")[0];
-            if (ppskip !== undefined){
-                dispatchClick(ppskip);
+            var ppskip = jQuery(".unlimitedSkipButton");
+            if(ppskip.length > 0)
+			{
+                dispatchClick(ppskip[0]);
                 var skip = "unlimited skip";
-            } else {
+            } 
+			else 
+			{
                 dispatchClick(jQuery('.skipButton')[0]);
                 var skip = "normal skip";
             }
+
             debugLog("PandoraEnhancer - Skip");
             chrome.extension.sendRequest({
                 notificationType:   'analytics',
