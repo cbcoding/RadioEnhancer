@@ -18,22 +18,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.2.0 Changelog
- - New: Song tracking above the player control notification.
- - Change: Lyrics should be de-censored when using the 'more lyrics' button as well as our Copy link.
- - Change: Settings window now has an "About" tab. Check it out!
- - Fix: bottom-left corner is no longer the only corner without a border-radius.
+ - New: Song progress bar added to notification.
+ - New: Google Analytics integration.
+ - Change: Lyrics are now de-censored when using the "more lyrics" button as well as the Copy link.
+ - Change: Settings window now has an "About" section. Let us know if you find any bugs!
+ - Fix: bottom-left corner of the main Pandora window is no longer the only corner without a border-radius.
  - Compatibility for Pandora Two (INTERNAL).
 
 1.1.0 Changelog
- - New: Added 'always show notification window' option - now you can have player controls permanently displayed.
- - New: Added 'love on last.fm when liked on Pandora'.
+ - New: Added "always show notification window" option - now you can have player controls permanently displayed.
+ - New: Added "love on last.fm when liked on Pandora".
  - New: Comedy feature - de-censored the song lyrics when copying to clipboard.
  - Change: Settings window redone with tabs - much nicer looking.
- - Change: in settings, replaced 'follow' with 'tweet' button.
+ - Change: in settings, replaced "follow" with "tweet" button.
  - Change: Moved "Configure" header link into the user menu (click your email address at the top right).
  - Change: Behavior of default settings on first-load.
  - Fix: a native Pandora bug! Album art icon on the top right no longer appears off-screen.
- - Fix: notification issue where it receives a mouseevent on the document when there wasn't one.
+ - Fix: notification issue where it receives a mouseevent on the document when there wasn"t one.
  - Fix: Notification window will no longer close when your mouse is over it when resuming play.
 
 1.0.1 Changelog
