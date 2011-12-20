@@ -173,7 +173,13 @@ var scrobbleControl = function(action)
             +'</span></span>'
         );
         
-        gaTrack('Last.fm', 'logged in');
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Last.fm',
+                event_action:   'logged in'
+            }
+        }, function(response) {});
     }
     
     if (action == "loveTrack")
@@ -189,7 +195,13 @@ var scrobbleControl = function(action)
             }
         }, function(response) {});
         
-        gaTrack('Last.fm', 'track loved');
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Last.fm',
+                event_action:   'track loved'
+            }
+        }, function(response) {});
     }
     
     if (action == "unloveTrack") 
@@ -205,7 +217,13 @@ var scrobbleControl = function(action)
             }
         }, function(response) {});
         
-        gaTrack('Last.fm', 'track unloved');
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Last.fm',
+                event_action:   'track unloved'
+            }
+        }, function(response) {});
     }
     
     if (action == 'hideScrobbleStatus')
@@ -213,7 +231,13 @@ var scrobbleControl = function(action)
         debugLog("PandoraEnhancer - Scrobbler - Logged out");
         jQuery("#scrobbleDiv").remove();
         jQuery("#scrobbleStatus").html('Logged out');
-        gaTrack('Last.fm', 'logged out');
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Last.fm',
+                event_action:   'logged out'
+            }
+        }, function(response) {});
     }
     
     if (action == 'nowPlaying')
@@ -225,7 +249,13 @@ var scrobbleControl = function(action)
     {
         debugLog("PandoraEnhancer - Scrobbler - Scrobbled");
         jQuery("#scrobbleStatus").html('Scrobbled');
-        gaTrack('Last.fm', 'track scrobbled');
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Last.fm',
+                event_action:   'track scrobbled'
+            }
+        }, function(response) {});
     }
 }
 
@@ -242,32 +272,64 @@ var playerControl = function(action)
             }
             
             debugLog("PandoraEnhancer - Thumbs up, dude!");
-            gaTrack('PE Player Control', 'thumbs up');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'thumbs up'
+                }
+            }, function(response) {});
             break;
         case "thumbs_down":
             dispatchClick(jQuery('.thumbDownButton')[0]);
             debugLog("PandoraEnhancer - Thumbs down :-(");
-            gaTrack('PE Player Control', 'thumbs down');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'thumbs down'
+                }
+            }, function(response) {});
             break;
         case "play":
             dispatchClick(jQuery('.playButton')[0]);
             debugLog("PandoraEnhancer - Play");
-            gaTrack('PE Player Control', 'play');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'play'
+                }
+            }, function(response) {});
             break;
         case "pause":
             dispatchClick(jQuery('.pauseButton')[0]);
             debugLog("PandoraEnhancer - Pause");
-            gaTrack('PE Player Control', 'pause');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'pause'
+                }
+            }, function(response) {});
             break;
         case "skip":
             var ppskip = jQuery(".unlimitedSkipButton")[0];
             if (ppskip !== undefined){
                 dispatchClick(ppskip);
+                var skip = "unlimited skip";
             } else {
                 dispatchClick(jQuery('.skipButton')[0]);
+                var skip = "normal skip";
             }
             debugLog("PandoraEnhancer - Skip");
-            gaTrack('PE Player Control', 'Pandora Two: unlimited skip');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   skip
+                }
+            }, function(response) {});
             break;
         
         case "mute":
@@ -279,7 +341,13 @@ var playerControl = function(action)
             isMuted = true;
             jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
             debugLog("PandoraEnhancer - Mute");
-            gaTrack('PE Player Control', 'mute');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'mute'
+                }
+            }, function(response) {});
             break;
         case "unmute":
             //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
@@ -287,7 +355,13 @@ var playerControl = function(action)
 			jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
             isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
-            gaTrack('PE Player Control', 'un-mute');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PE Player Control',
+                    event_action:   'un-mute'
+                }
+            }, function(response) {});
             break;
             
         default:
@@ -303,7 +377,13 @@ var hideAds = function()
     jQuery("#mainContentContainer").css("float", "none !important");
     jQuery("#adLayout").css("width", "auto !important"); //bg fix on smaller viewport widths
     ads_hidden++;
-    gaTrack('Ads Blocked', 'visual');
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Ads Blocked',
+            event_action:   'visual'
+        }
+    }, function(response) {});
 };
 
 var hideVideoAd = function()
@@ -316,14 +396,26 @@ var hideVideoAd = function()
 		debugLog("PandoraEnhancer - Removing video ad.");
 	});
     ads_hidden++;
-    gaTrack('Ads Blocked', 'video');
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Ads Blocked',
+            event_action:   'video'
+        }
+    }, function(response) {});
 
 };
 
 var hideRibbon = function(){
     debugLog("PandoraEnhancer - Hiding ribbon.");
     dispatchClick(jQuery('.account_message_close > a')[0]);
-    gaTrack('Ads Blocked', 'ribbon');
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Ads Blocked',
+            event_action:   'ribbon'
+        }
+    }, function(response) {});
 };
 
 var extendStationList = function()
@@ -380,7 +472,13 @@ var decensorLyrics = function(lyrics)
         }
         debugLog("PandoraEnhancer - De-censoring lyrics.");        
         jQuery(".lyricsText").html(lyrics);
-        gaTrack('Lyrics', 'de-censored');
+        chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Lyrics',
+            event_action:   'de-censored'
+        }
+    }, function(response) {});
     }
 };
 
@@ -410,14 +508,26 @@ var copyLyricsToClipboard = function()
             }
         });
     },1000);
-    gaTrack('Lyrics', 'coped to clipboard');
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Lyrics',
+            event_action:   'copied to clipboard'
+        }
+    }, function(response) {});
 };
 
 var totallyStillListening = function()
 {
     debugLog("PandoraEnhancer - Still listening bypass.");
     dispatchClick(jQuery('.still_listening')[0]);
-    gaTrack('Ads Blocked', 'still listening');
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Ads Blocked',
+            event_action:   'still listening'
+        }
+    }, function(response) {});
 };
 
 var doSongChange = function()
@@ -548,7 +658,13 @@ jQuery(document).ready(function()
         chrome.extension.sendRequest({
             showSettings: true
         }, function(response){});
-        gaTrack('Settings', 'via header menu');
+        chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'Settings',
+            event_action:   'via header menu'
+        }
+    }, function(response) {});
     });
 
     if(settings.pe.remove_ribbon != "false")
@@ -595,7 +711,13 @@ jQuery(document).ready(function()
         jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
             jQuery(this).remove();
             ads_hidden++;
-            gaTrack('Ads Blocked', 'visual');
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'Ads Blocked',
+                    event_action:   'visual'
+                }
+            }, function(response) {});
         });
 
         hideAds();
