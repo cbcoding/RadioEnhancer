@@ -1,3 +1,12 @@
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-26372393-2']);
+_gaq.push(['_trackPageview']);
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
 var bgPage = chrome.extension.getBackgroundPage();
 var debugLog = function(text)
 {
@@ -74,8 +83,9 @@ var enableSaveButton = function()
         var saved = saveCurrentOptions();
 
         if(saved)
-            {
+        {
             debugLog("saved settings");
+            _gaq.push(['_trackEvent', 'Settings', 'saved settings']);
             bgPage.window.refreshPandora();
             window.close();
         } else {

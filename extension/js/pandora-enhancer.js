@@ -176,7 +176,7 @@ var scrobbleControl = function(action)
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
-                event_name:     'Last.fm',
+                event_name:     'Last.FM',
                 event_action:   'logged in'
             }
         }, function(response) {});
@@ -198,7 +198,7 @@ var scrobbleControl = function(action)
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
-                event_name:     'Last.fm',
+                event_name:     'Last.FM',
                 event_action:   'track loved'
             }
         }, function(response) {});
@@ -220,7 +220,7 @@ var scrobbleControl = function(action)
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
-                event_name:     'Last.fm',
+                event_name:     'Last.FM',
                 event_action:   'track unloved'
             }
         }, function(response) {});
@@ -234,7 +234,7 @@ var scrobbleControl = function(action)
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
-                event_name:     'Last.fm',
+                event_name:     'Last.FM',
                 event_action:   'logged out'
             }
         }, function(response) {});
@@ -252,7 +252,7 @@ var scrobbleControl = function(action)
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
-                event_name:     'Last.fm',
+                event_name:     'Last.FM',
                 event_action:   'track scrobbled'
             }
         }, function(response) {});
