@@ -150,7 +150,7 @@ $(document).ready(function(){
     });
     
     //first run
-    if (param('first_run') == "true")
+    if (localStorage["first_run"] == "true")
     {
         localStorage["first_run"] = false;
         $(".first_run").fadeIn("slow");

@@ -366,6 +366,6 @@ $(function(){
     
     if (localStorage['first_run'] == "true")
     {
-        chrome.tabs.create({url:chrome.extension.getURL('settings.html?first_run=true')});
+        chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
     }
 });
