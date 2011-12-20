@@ -3,6 +3,10 @@ var debugLog = function(text)
 {
     bgPage.debugLog(text);
 };
+function param(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
 
 var loadCurrentOptions = function()
 {
@@ -10,37 +14,6 @@ var loadCurrentOptions = function()
     $("input").each(function(index){
         var name = $(this).prop("name");
         var value = localStorage[name];
-
-        /*
-        if (value == undefined)
-        {
-        debugLog("No setting found, setting default...");
-        localStorage[name] = true;
-
-        if(name == 'debug_mode' || name == 'header_config' || name == "notification_always_show")
-        {
-        localStorage[name] = false;
-        value = false;
-        }
-
-        if (name == "notification_timeout")
-        {
-        localStorage[name] = 3.5;
-        }
-
-        if(name == "scrobble_username")
-        {
-        localStorage[name] = '';
-        }
-
-        if(name == "scrobble_delay")
-        {
-        localStorage[name] = 60;
-        }
-
-        value = localStorage[name];
-        }
-        */
 
         if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
             $(this).val(value);
@@ -175,5 +148,14 @@ $(document).ready(function(){
             $("#notification_timeout").removeAttr("disabled");
         }
     });
+    
+    //first run
+    if (param('first_run') == "true")
+    {
+        localStorage["first_run"] = false;
+        $(".first_run").fadeIn("slow");
+    }
+    
+    gaTrack('Settings', 'settings window viewed');
 
 });

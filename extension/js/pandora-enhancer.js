@@ -173,14 +173,7 @@ var scrobbleControl = function(action)
             +'</span></span>'
         );
         
-        /*
-        jQuery(".rightcolumn > .nowplaying").append(
-            '<div class="info" id="scrobbleDiv" style="float:left; margin-top:-45px; margin-left:-75px;">'
-            +'<div style="float: left;height:16px;"><img src="' + scrobbleImage + '"></div>'
-            +'<div id="scrobbleStatus" style="float: left;margin:0 5px;text-align:right;"></div>'
-            +'</div>'
-        );
-        */
+        gaTrack('Last.fm', 'logged in');
     }
     
     if (action == "loveTrack")
@@ -195,6 +188,8 @@ var scrobbleControl = function(action)
                 songName:   songName
             }
         }, function(response) {});
+        
+        gaTrack('Last.fm', 'track loved');
     }
     
     if (action == "unloveTrack") 
@@ -209,6 +204,8 @@ var scrobbleControl = function(action)
                 songName:   songName,
             }
         }, function(response) {});
+        
+        gaTrack('Last.fm', 'track unloved');
     }
     
     if (action == 'hideScrobbleStatus')
@@ -216,6 +213,7 @@ var scrobbleControl = function(action)
         debugLog("PandoraEnhancer - Scrobbler - Logged out");
         jQuery("#scrobbleDiv").remove();
         jQuery("#scrobbleStatus").html('Logged out');
+        gaTrack('Last.fm', 'logged out');
     }
     
     if (action == 'nowPlaying')
@@ -227,6 +225,7 @@ var scrobbleControl = function(action)
     {
         debugLog("PandoraEnhancer - Scrobbler - Scrobbled");
         jQuery("#scrobbleStatus").html('Scrobbled');
+        gaTrack('Last.fm', 'track scrobbled');
     }
 }
 
@@ -243,18 +242,22 @@ var playerControl = function(action)
             }
             
             debugLog("PandoraEnhancer - Thumbs up, dude!");
+            gaTrack('PE Player Control', 'thumbs up');
             break;
         case "thumbs_down":
             dispatchClick(jQuery('.thumbDownButton')[0]);
             debugLog("PandoraEnhancer - Thumbs down :-(");
+            gaTrack('PE Player Control', 'thumbs down');
             break;
         case "play":
             dispatchClick(jQuery('.playButton')[0]);
             debugLog("PandoraEnhancer - Play");
+            gaTrack('PE Player Control', 'play');
             break;
         case "pause":
             dispatchClick(jQuery('.pauseButton')[0]);
             debugLog("PandoraEnhancer - Pause");
+            gaTrack('PE Player Control', 'pause');
             break;
         case "skip":
             var ppskip = jQuery(".unlimitedSkipButton")[0];
@@ -264,6 +267,7 @@ var playerControl = function(action)
                 dispatchClick(jQuery('.skipButton')[0]);
             }
             debugLog("PandoraEnhancer - Skip");
+            gaTrack('PE Player Control', 'Pandora Two: unlimited skip');
             break;
         
         case "mute":
@@ -275,6 +279,7 @@ var playerControl = function(action)
             isMuted = true;
             jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
             debugLog("PandoraEnhancer - Mute");
+            gaTrack('PE Player Control', 'mute');
             break;
         case "unmute":
             //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
@@ -282,6 +287,7 @@ var playerControl = function(action)
 			jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
             isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
+            gaTrack('PE Player Control', 'un-mute');
             break;
             
         default:
@@ -297,6 +303,7 @@ var hideAds = function()
     jQuery("#mainContentContainer").css("float", "none !important");
     jQuery("#adLayout").css("width", "auto !important"); //bg fix on smaller viewport widths
     ads_hidden++;
+    gaTrack('Ads Blocked', 'visual');
 };
 
 var hideVideoAd = function()
@@ -308,12 +315,15 @@ var hideVideoAd = function()
 		jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
 		debugLog("PandoraEnhancer - Removing video ad.");
 	});
+    ads_hidden++;
+    gaTrack('Ads Blocked', 'video');
 
 };
 
 var hideRibbon = function(){
     debugLog("PandoraEnhancer - Hiding ribbon.");
     dispatchClick(jQuery('.account_message_close > a')[0]);
+    gaTrack('Ads Blocked', 'ribbon');
 };
 
 var extendStationList = function()
@@ -370,6 +380,7 @@ var decensorLyrics = function(lyrics)
         }
         debugLog("PandoraEnhancer - De-censoring lyrics.");        
         jQuery(".lyricsText").html(lyrics);
+        gaTrack('Lyrics', 'de-censored');
     }
 };
 
@@ -399,12 +410,14 @@ var copyLyricsToClipboard = function()
             }
         });
     },1000);
+    gaTrack('Lyrics', 'coped to clipboard');
 };
 
 var totallyStillListening = function()
 {
     debugLog("PandoraEnhancer - Still listening bypass.");
     dispatchClick(jQuery('.still_listening')[0]);
+    gaTrack('Ads Blocked', 'still listening');
 };
 
 var doSongChange = function()
@@ -535,6 +548,7 @@ jQuery(document).ready(function()
         chrome.extension.sendRequest({
             showSettings: true
         }, function(response){});
+        gaTrack('Settings', 'via header menu');
     });
 
     if(settings.pe.remove_ribbon != "false")
@@ -581,6 +595,7 @@ jQuery(document).ready(function()
         jQuery("#ad_container, #ad_frame, #adContainer, #videoPageInfo, .contextual_help_container").livequery(function(){
             jQuery(this).remove();
             ads_hidden++;
+            gaTrack('Ads Blocked', 'visual');
         });
 
         hideAds();

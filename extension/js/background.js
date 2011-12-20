@@ -169,7 +169,8 @@ function localStorageSettings()
         lastfm_love_with_like:          localStorage["lastfm_love_with_like"],
         scrobble_delay:                 localStorage["scrobble_delay"],
         scrobble_session_key:           localStorage["scrobble_session_key"],
-        scrobble_session_name:          localStorage["scrobble_session_name"]
+        scrobble_session_name:          localStorage["scrobble_session_name"],
+        first_run:                      localStorage["first_run"]
     };
 
     var defaults = {
@@ -193,7 +194,8 @@ function localStorageSettings()
         lastfm_love_with_like:          false,
         scrobble_delay:                 30,
         scrobble_session_key:           null,
-        scrobble_session_name:          null
+        scrobble_session_name:          null,
+        first_run:                      true
     };
 
 
@@ -248,6 +250,21 @@ function scrobbleAction(action)
         scrobbleUpdate: action
     }, function(response){});
 }
+
+/**
+* Google Analytics
+*/
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-26372393-2']);
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+function gaTrack(event_name, event_action) {
+    _gaq.push(['_trackEvent', event_name, event_action]);
+};
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 {
@@ -345,4 +362,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 
 $(function(){
     localStorageSettings();
+    
+    if (localStorage['first_run'] == "true")
+    {
+        chrome.tabs.create({url:chrome.extension.getURL('settings.html?first_run=true')});
+    }
 });
