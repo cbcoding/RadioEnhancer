@@ -156,6 +156,5 @@ $(document).ready(function(){
         $(".first_run").fadeIn("slow");
     }
     
-    gaTrack('Settings', 'settings window viewed');
-
+    _gaq.push(['_trackPageview']);
 });

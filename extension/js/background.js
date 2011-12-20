@@ -256,6 +256,7 @@ function scrobbleAction(action)
 */
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-26372393-2']);
+_gaq.push(['_trackPageview']);
 (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = 'https://ssl.google-analytics.com/ga.js';
@@ -317,11 +318,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     
     if (notificationType == 'analytics')
     {
-        if (msgParams.event_name == "PE Loaded"){
-            _gaq.push(['_trackPageview']);
-        } else {
-            _gaq.push(['_trackEvent', msgParams.event_name, msgParams.event_action]);
-        }
+        _gaq.push(['_trackEvent', msgParams.event_name, msgParams.event_action]);
     }
 
     if(!request.notificationType)

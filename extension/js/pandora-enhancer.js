@@ -628,7 +628,8 @@ jQuery(document).ready(function()
     chrome.extension.sendRequest({
         notificationType:   'analytics',
         msgParams: {
-            event_name:     'PE Loaded',
+            event_name:     'PandoraEnhancer',
+            event_action:   'on pandora.com'
         }
     }, function(response) {});
     
