@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 1.2.0 Changelog
  - New: Song tracking above the player control notification.
  - Change: Lyrics should be de-censored when using the 'more lyrics' button as well as our Copy link.
- - Change: Settings window now has an 'About' tab. Check it out!
+ - Change: Settings window now has an "About" tab. Check it out!
  - Fix: bottom-left corner is no longer the only corner without a border-radius.
  - Compatibility for Pandora Two (INTERNAL).
 
