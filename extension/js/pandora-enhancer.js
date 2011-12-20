@@ -625,6 +625,12 @@ var appendHeaderConfig = function()
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+    chrome.extension.sendRequest({
+        notificationType:   'analytics',
+        msgParams: {
+            event_name:     'PE Loaded',
+        }
+    }, function(response) {});
     
     jQuery(".showMoreLyrics").livequery('click', function(){
         setTimeout(function(){
@@ -659,12 +665,12 @@ jQuery(document).ready(function()
             showSettings: true
         }, function(response){});
         chrome.extension.sendRequest({
-        notificationType:   'analytics',
-        msgParams: {
-            event_name:     'Settings',
-            event_action:   'via header menu'
-        }
-    }, function(response) {});
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Settings',
+                event_action:   'via header menu'
+            }
+        }, function(response) {});
     });
 
     if(settings.pe.remove_ribbon != "false")
