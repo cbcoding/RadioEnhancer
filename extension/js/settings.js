@@ -159,12 +159,5 @@ $(document).ready(function(){
         }
     });
     
-    //first run
-    if (localStorage["first_run"] == "true")
-    {
-        localStorage["first_run"] = false;
-        $(".first_run").fadeIn("slow");
-    }
-    
     _gaq.push(['_trackPageview']);
 });

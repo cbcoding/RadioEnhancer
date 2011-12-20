@@ -169,8 +169,7 @@ function localStorageSettings()
         lastfm_love_with_like:          localStorage["lastfm_love_with_like"],
         scrobble_delay:                 localStorage["scrobble_delay"],
         scrobble_session_key:           localStorage["scrobble_session_key"],
-        scrobble_session_name:          localStorage["scrobble_session_name"],
-        first_run:                      localStorage["first_run"]
+        scrobble_session_name:          localStorage["scrobble_session_name"]
     };
 
     var defaults = {
@@ -194,8 +193,7 @@ function localStorageSettings()
         lastfm_love_with_like:          false,
         scrobble_delay:                 30,
         scrobble_session_key:           null,
-        scrobble_session_name:          null,
-        first_run:                      true
+        scrobble_session_name:          null
     };
 
 
@@ -242,6 +240,8 @@ function ourWebsites(person)
         chrome.tabs.create({url: 'http://brandon-sachs.com'});
     if (person == "twitter")
         chrome.tabs.create({url: 'http://twitter.com/PandoraEnhancer'});
+    if (person == "bug")
+        chrome.tabs.create({url: 'http://cbcoding.com/?page_id=11'});
 }
 
 function scrobbleAction(action)
@@ -364,8 +364,18 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 $(function(){
     localStorageSettings();
     
-    if (localStorage['first_run'] == "true")
+    var ext = chrome.app.getDetails();
+    var version = ext.version;
+    
+    if (typeof localStorage['version'] == 'undefined')
     {
-        chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
+        localStorage['version'] = version;
+        _gaq.push(['_trackEvent', 'PandoraEnhancer', 'Installed v' + version]);
+    }
+    
+    if (localStorage['version'] < version)
+    {
+        localStorage['version'] = version;
+        _gaq.push(['_trackEvent', 'PandoraEnhancer', 'Upgraded to v' + version]);
     }
 });
