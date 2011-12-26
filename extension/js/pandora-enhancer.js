@@ -550,8 +550,8 @@ var doSongChange = function()
         {
             song_skip_tries++;
             setTimeout("doSongChange()", 100); //try again in 1/10 of second.
+			return;
         }
-        return;
     }
 
     debugLog('PandoraEnhancer - Song changed.');
