@@ -538,22 +538,21 @@ var totallyStillListening = function()
 var doSongChange = function()
 {
 	jQuery('.playerBarArt').css('position', 'relative');
-    
-    var currentAlbumArt = jQuery(".playerBarArt")[0];
+    var currentAlbumArt = jQuery(".playerBarArt")[0];  
 
     if(currentAlbumArt != null)
     {
-        oldAlbumArt = jQuery(currentAlbumArt).attr("src");
+        oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
     }
-    
+
     if(currentAlbumArt == null || oldAlbumArt == newAlbumArt)
     {
-        if(song_skip_tries < 20) //default 5
+        if(song_skip_tries < 5)
         {
             song_skip_tries++;
-            setTimeout("doSongChange()", 100);
+            setTimeout("doSongChange()", 100); //try again in 1/10 of second.
+			return;
         }
-        return;
     }
 
     debugLog('PandoraEnhancer - Song changed.');
@@ -703,12 +702,10 @@ jQuery(document).ready(function()
             appendHeaderConfig();
         //});
     }
-    
+
     if(settings.pe.notification_song_change != "false")
     {
-        jQuery('.stationSlides').live('DOMNodeInserted', function(event)
-        {
-            //todo: this fires unnecessarily when pandora first loads. this can be improved.
+        jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
             doSongChange();
         });
     }
