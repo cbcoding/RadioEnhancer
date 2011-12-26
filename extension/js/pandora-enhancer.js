@@ -463,6 +463,7 @@ var selectableLyrics = function()
 
 var decensorLyrics = function(lyrics)
 {
+    //TODO: sometimes they censor song names too from the top right and in the light blue area
     if (settings.pe.decensor_lyrics != "false")
     {
         //todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
@@ -537,19 +538,20 @@ var totallyStillListening = function()
 var doSongChange = function()
 {
 	jQuery('.playerBarArt').css('position', 'relative');
-    var currentAlbumArt = jQuery(".playerBarArt")[0];  
+    
+    var currentAlbumArt = jQuery(".playerBarArt")[0];
 
     if(currentAlbumArt != null)
     {
-        oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
+        oldAlbumArt = jQuery(currentAlbumArt).attr("src");
     }
-
+    
     if(currentAlbumArt == null || oldAlbumArt == newAlbumArt)
     {
-        if(song_skip_tries < 5)
+        if(song_skip_tries < 20) //default 5
         {
             song_skip_tries++;
-            setTimeout("doSongChange()", 100); //try again in 1/10 of second.
+            setTimeout("doSongChange()", 100);
         }
         return;
     }
@@ -557,11 +559,12 @@ var doSongChange = function()
     debugLog('PandoraEnhancer - Song changed.');
 
     song_skip_tries = 0;
-    setTimeout("showNewSongPopup()", 100);   
+    setTimeout("showNewSongPopup()", 100);
 };
 
 var showNewSongPopup = function()
 {
+    
     newAlbumArt = oldAlbumArt;
 
     //idunno if it matters, but i prefer artist - song (album) //setting?
@@ -580,7 +583,7 @@ var showNewSongPopup = function()
     
     if(songName == "audioad")
     {
-        debugLog("PandoraEnhancer - Muting audio ad.");
+        //debugLog("PandoraEnhancer - Muting audio ad.");
         chrome.extension.sendRequest({
             notificationType: 'songChange',
             msgParams: {
@@ -591,6 +594,15 @@ var showNewSongPopup = function()
                 albumName:  "Pandora",
             }
         }, function(response) {});
+        
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Ads Blocked',
+                event_action:   'audio'
+            }
+        }, function(response) {});
+        
         return false;
     }
 
@@ -691,10 +703,12 @@ jQuery(document).ready(function()
             appendHeaderConfig();
         //});
     }
-
+    
     if(settings.pe.notification_song_change != "false")
     {
-        jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
+        jQuery('.stationSlides').live('DOMNodeInserted', function(event)
+        {
+            //todo: this fires unnecessarily when pandora first loads. this can be improved.
             doSongChange();
         });
     }
