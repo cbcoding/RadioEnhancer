@@ -538,14 +538,16 @@ var totallyStillListening = function()
 var doSongChange = function()
 {
 	jQuery('.playerBarArt').css('position', 'relative');
-    var currentAlbumArt = jQuery(".playerBarArt")[0];  
-
-    if(currentAlbumArt != null)
+    var currentAlbumArt = jQuery(".playerBarArt")[0];
+    
+    if (currentAlbumArt == undefined) return; //while loading pandora
+    
+    if (currentAlbumArt != null)
     {
         oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
     }
 
-    if(currentAlbumArt == null || oldAlbumArt == newAlbumArt)
+    if (currentAlbumArt == null || oldAlbumArt == newAlbumArt)
     {
         if(song_skip_tries < 5)
         {
@@ -563,7 +565,6 @@ var doSongChange = function()
 
 var showNewSongPopup = function()
 {
-    
     newAlbumArt = oldAlbumArt;
 
     //idunno if it matters, but i prefer artist - song (album) //setting?
@@ -594,6 +595,7 @@ var showNewSongPopup = function()
             }
         }, function(response) {});
         
+        /*
         chrome.extension.sendRequest({
             notificationType:   'analytics',
             msgParams: {
@@ -601,6 +603,7 @@ var showNewSongPopup = function()
                 event_action:   'audio'
             }
         }, function(response) {});
+        */
         
         return false;
     }
