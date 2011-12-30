@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 1.2.2 Changelog
  - Bug fix: Album art in notification should no longer be for previous song.
  - Bug fix: Notification wouldn't display if Pandora took too long for song to load.
+ - Bug fix: Google Analytics issues.
 
 1.2.1 Changelog
  - Quick analytics fix, oops. Undocumented.
