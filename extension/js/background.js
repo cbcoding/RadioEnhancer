@@ -110,7 +110,7 @@ function getAudioAdStatus(){
     return audio_ad;
 }
 
-var notification_timeout, notification, ad = false;
+var notification_timeout, notification, ad;
 function showSongChangeNotification(info)
 {
     hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
@@ -121,6 +121,8 @@ function showSongChangeNotification(info)
         info.songName   = 'Audio Ad';
         info.albumName  = 'Pandora';
         ad = true;
+    } else {
+        ad = false;
     }
 
     if (localStorage["player_controls"] != "true")
@@ -332,11 +334,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             var dateNow = new Date();
             var timestamp = Math.round(dateNow.getTime()/1000);
             responseDispatcher('scrobble',{
-                artistName:        msgParams.artistName,
-                songName:        msgParams.songName,
-                albumName:        msgParams.albumName,
-                timestamp:        timestamp,
-                elapsedTime:    msgParams.elapsedTime
+                artistName:  msgParams.artistName,
+                songName:    msgParams.songName,
+                albumName:   msgParams.albumName,
+                timestamp:   timestamp,
+                elapsedTime: msgParams.elapsedTime
             });
         }
     }
@@ -349,6 +351,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     if (notificationType == 'analytics-pageview')
     {
         _gaq.push(['_trackPageview', msgParams.url]);
+        console.log("pageview on /pandora.com");
     }
 
     if(!request.notificationType)
