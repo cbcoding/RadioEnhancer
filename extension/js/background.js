@@ -76,7 +76,7 @@ function stillListeningNotification()
 
     timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);", (localStorage["notification_timeout"]*1000));
     
-    _gaq.push(['_trackEvent', 'Notifications', 'Still Listening']);
+    _gaq.push(['_trackEvent', 'Notifications', 'Still Listening (standard)']);
 
     return {'message':'still-listening'};
 }
@@ -95,7 +95,7 @@ function hideVideoAdNotification()
 
         timeouts['hideVideoAd'] = setTimeout("closeNotification('hideVideoAd', false);", (localStorage["notification_timeout"]*1000));
         
-        _gaq.push(['_trackEvent', 'Notifications', 'Video Ad Blocked']);
+        _gaq.push(['_trackEvent', 'Notifications', 'Video Ad Blocked (standard)']);
     }
 
     return {'message':'video-ad-hidden'};
@@ -351,7 +351,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     if (notificationType == 'analytics-pageview')
     {
         _gaq.push(['_trackPageview', msgParams.url]);
-        console.log("pageview on /pandora.com");
     }
 
     if(!request.notificationType)
