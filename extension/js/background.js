@@ -75,6 +75,8 @@ function stillListeningNotification()
     openNotification('stillListening', notification, true);
 
     timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);", (localStorage["notification_timeout"]*1000));
+    
+    _gaq.push(['_trackEvent', 'Notifications', 'Still Listening']);
 
     return {'message':'still-listening'};
 }
@@ -92,6 +94,8 @@ function hideVideoAdNotification()
         openNotification('hideVideoAd', notification, true);
 
         timeouts['hideVideoAd'] = setTimeout("closeNotification('hideVideoAd', false);", (localStorage["notification_timeout"]*1000));
+        
+        _gaq.push(['_trackEvent', 'Notifications', 'Video Ad Blocked']);
     }
 
     return {'message':'video-ad-hidden'};
@@ -112,19 +116,22 @@ function showSongChangeNotification(info)
     hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
     if (info.songName == 'audioad')
     {
-        info.albumArt        = 'images/logo-32.png';
-        info.artistName        = 'Pandora';
-        info.songName        = 'Audio Ad';
-        info.albumName        = 'Pandora';
+        info.albumArt   = 'images/logo-32.png';
+        info.artistName = 'Pandora';
+        info.songName   = 'Audio Ad';
+        info.albumName  = 'Pandora';
     }
 
     if (localStorage["player_controls"] != "true")
     {
+        //standard notifications
         notification = webkitNotifications.createNotification(
             info.albumArt,
             info.songName,
             info.artistName + " (" + info.albumName + ")"
         );
+        
+        _gaq.push(['_trackEvent', 'Notifications', 'Song Change (standard)']);
     } else {
         //html notifications are the new shit
         notification = webkitNotifications.createHTMLNotification(
@@ -142,6 +149,8 @@ function showSongChangeNotification(info)
     openNotification('songChange', notification, false);
 
     timeouts['songchange'] = setTimeout("closeNotification('songChange', false);", (localStorage["notification_timeout"]*1000));
+    
+    _gaq.push(['_trackEvent', 'Notifications', 'Song Change (HTML)']);
 
     return {'message':'PE Notification shown'};
 }
@@ -319,6 +328,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     if (notificationType == 'analytics')
     {
         _gaq.push(['_trackEvent', msgParams.event_name, msgParams.event_action]);
+    }
+    
+    if (notificationType == 'analytics-pageview')
+    {
+        _gaq.push(['_trackPageview', msgParams.url]);
     }
 
     if(!request.notificationType)

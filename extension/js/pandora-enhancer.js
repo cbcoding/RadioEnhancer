@@ -549,7 +549,7 @@ var doSongChange = function()
 
     if (currentAlbumArt == null || oldAlbumArt == newAlbumArt)
     {
-        if(song_skip_tries < 5)
+        if(song_skip_tries < 20) //album art fix
         {
             song_skip_tries++;
             setTimeout("doSongChange()", 100); //try again in 1/10 of second.
@@ -644,10 +644,9 @@ jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
     chrome.extension.sendRequest({
-        notificationType:   'analytics',
+        notificationType:   'analytics-pageview',
         msgParams: {
-            event_name:     'PandoraEnhancer',
-            event_action:   'on pandora.com'
+            url:     '/pandora.com'
         }
     }, function(response) {});
     

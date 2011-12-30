@@ -133,7 +133,5 @@ $(document).ready(function()
             bgPage.window.updateNotificationStayOpen('songChange', false);
         }
     });
-    
-    _gaq.push(['_trackPageview']);
 
 });
