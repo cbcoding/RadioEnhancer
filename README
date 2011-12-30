@@ -17,6 +17,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.2.2 Changelog
+ - Bug fix: Album art in notification should no longer be for previous song.
+ - Bug fix: Notification wouldn't display if Pandora took too long for song to load.
+
+1.2.1 Changelog
+ - Quick analytics fix, oops. Undocumented.
+
 1.2.0 Changelog
  - New: Song progress bar added to notification.
  - New: Google Analytics integration.
