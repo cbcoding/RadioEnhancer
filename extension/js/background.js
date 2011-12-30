@@ -110,7 +110,7 @@ function getAudioAdStatus(){
     return audio_ad;
 }
 
-var notification_timeout, notification;
+var notification_timeout, notification, ad = false;
 function showSongChangeNotification(info)
 {
     hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
@@ -120,6 +120,7 @@ function showSongChangeNotification(info)
         info.artistName = 'Pandora';
         info.songName   = 'Audio Ad';
         info.albumName  = 'Pandora';
+        ad = true;
     }
 
     if (localStorage["player_controls"] != "true")
@@ -131,7 +132,15 @@ function showSongChangeNotification(info)
             info.artistName + " (" + info.albumName + ")"
         );
         
-        _gaq.push(['_trackEvent', 'Notifications', 'Song Change (standard)']);
+        if (ad)
+        {
+            _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (standard)']);
+        }
+        else
+        {
+            _gaq.push(['_trackEvent', 'Notifications', 'Song Change (standard)']);
+        }
+        
     } else {
         //html notifications are the new shit
         notification = webkitNotifications.createHTMLNotification(
@@ -144,13 +153,20 @@ function showSongChangeNotification(info)
             +'&tabID='+tabID
             +hidden
         );
+        
+        if (ad)
+        {
+            _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (HTML)']);
+        }
+        else
+        {
+            _gaq.push(['_trackEvent', 'Notifications', 'Song Change (HTML)']);
+        }
     }
 
     openNotification('songChange', notification, false);
 
     timeouts['songchange'] = setTimeout("closeNotification('songChange', false);", (localStorage["notification_timeout"]*1000));
-    
-    _gaq.push(['_trackEvent', 'Notifications', 'Song Change (HTML)']);
 
     return {'message':'PE Notification shown'};
 }
