@@ -202,6 +202,8 @@ var scrobbleControl = function(action)
                 event_action:   'track loved'
             }
         }, function(response) {});
+        
+        debugLog("PandoraEnhancer - Loving on Last.fm");
     }
     
     if (action == "unloveTrack") 
@@ -224,6 +226,8 @@ var scrobbleControl = function(action)
                 event_action:   'track unloved'
             }
         }, function(response) {});
+        
+        debugLog("PandoraEnhancer - Un-loving on Last.fm");
     }
     
     if (action == 'hideScrobbleStatus')
@@ -267,7 +271,6 @@ var playerControl = function(action)
             dispatchClick(jQuery('.thumbUpButton')[0]);
             
             if (settings.pe.lastfm_love_with_like == "true"){
-                debugLog("PandoraEnhancer - Loving on Last.fm");
                 scrobbleControl("loveTrack");
             }
             
