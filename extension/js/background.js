@@ -134,7 +134,7 @@ function showSongChangeNotification(info)
             info.artistName + " (" + info.albumName + ")"
         );
         
-        if (ad)
+        if (ad === true)
         {
             _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (standard)']);
         }
@@ -156,7 +156,7 @@ function showSongChangeNotification(info)
             +hidden
         );
         
-        if (ad)
+        if (ad === true)
         {
             _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (HTML)']);
         }
@@ -196,7 +196,8 @@ function localStorageSettings()
         lastfm_love_with_like:          localStorage["lastfm_love_with_like"],
         scrobble_delay:                 localStorage["scrobble_delay"],
         scrobble_session_key:           localStorage["scrobble_session_key"],
-        scrobble_session_name:          localStorage["scrobble_session_name"]
+        scrobble_session_name:          localStorage["scrobble_session_name"],
+        last_dev_message:               localStorage["last_dev_message"]
     };
 
     var defaults = {
@@ -220,7 +221,8 @@ function localStorageSettings()
         lastfm_love_with_like:          false,
         scrobble_delay:                 30,
         scrobble_session_key:           null,
-        scrobble_session_name:          null
+        scrobble_session_name:          null,
+        last_dev_message:               0
     };
 
 
@@ -278,6 +280,14 @@ function scrobbleAction(action)
     }, function(response){});
 }
 
+function lastDevMsg(id)
+{
+    if (localStorage['last_dev_message'] = id)
+        return true;
+        
+    return false;
+}
+
 /**
 * Google Analytics
 */
@@ -298,6 +308,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     var returnStatus        = false;
     tabID                   = sender.tab.id;
     currentURL              = sender.tab.url;
+    
+    if (notificationType == "lastDevMsg")
+    {
+        returnStatus = lastDevMsg(request.msgId);
+    }
 
     if(notificationType == 'getLocalStorage')
         {

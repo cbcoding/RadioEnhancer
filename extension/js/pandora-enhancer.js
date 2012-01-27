@@ -268,21 +268,21 @@ var playerControl = function(action)
     switch (action)
     {
         case "thumbs_up":
-            dispatchClick(jQuery('.thumbUpButton')[0]);
-            
-            if (settings.pe.lastfm_love_with_like == "true"){
-                scrobbleControl("loveTrack");
+        dispatchClick(jQuery('.thumbUpButton')[0]);
+
+        if (settings.pe.lastfm_love_with_like == "true"){
+            scrobbleControl("loveTrack");
+        }
+
+        debugLog("PandoraEnhancer - Thumbs up, dude!");
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'PE Player Control',
+                event_action:   'thumbs up'
             }
-            
-            debugLog("PandoraEnhancer - Thumbs up, dude!");
-            chrome.extension.sendRequest({
-                notificationType:   'analytics',
-                msgParams: {
-                    event_name:     'PE Player Control',
-                    event_action:   'thumbs up'
-                }
-            }, function(response) {});
-            break;
+        }, function(response) {});
+        break;
         case "thumbs_down":
             dispatchClick(jQuery('.thumbDownButton')[0]);
             debugLog("PandoraEnhancer - Thumbs down :-(");
@@ -317,33 +317,33 @@ var playerControl = function(action)
             }, function(response) {});
             break;
         case "skip":
-            var ppskip = jQuery(".unlimitedSkipButton");
-            if(ppskip.length > 0)
-			{
-                dispatchClick(ppskip[0]);
-                var skip = "unlimited skip";
-            } 
-			else 
-			{
-                dispatchClick(jQuery('.skipButton')[0]);
-                var skip = "normal skip";
-            }
+        var ppskip = jQuery(".unlimitedSkipButton");
+        if(ppskip.length > 0)
+            {
+            dispatchClick(ppskip[0]);
+            var skip = "unlimited skip";
+        } 
+        else 
+            {
+            dispatchClick(jQuery('.skipButton')[0]);
+            var skip = "normal skip";
+        }
 
-            debugLog("PandoraEnhancer - Skip");
-            chrome.extension.sendRequest({
-                notificationType:   'analytics',
-                msgParams: {
-                    event_name:     'PE Player Control',
-                    event_action:   skip
-                }
-            }, function(response) {});
-            break;
-        
+        debugLog("PandoraEnhancer - Skip");
+        chrome.extension.sendRequest({
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'PE Player Control',
+                event_action:   skip
+            }
+        }, function(response) {});
+        break;
+
         case "mute":
             if (jQuery(".volumeKnob").css("left") == "35px") return false;
             volumeLevelRestored = jQuery(".volumeKnob").css("left");
             volumeLevelRestored = volumeLevelRestored.replace("px","");
-			volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
+            volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
             //volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
             isMuted = true;
             jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
@@ -358,8 +358,8 @@ var playerControl = function(action)
             break;
         case "unmute":
             //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
-			jQuery('.volumeBackground').css('display', 'block');
-			jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
+            jQuery('.volumeBackground').css('display', 'block');
+            jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
             isMuted = false;
             debugLog("PandoraEnhancer - Un-mute");
             chrome.extension.sendRequest({
@@ -370,7 +370,7 @@ var playerControl = function(action)
                 }
             }, function(response) {});
             break;
-            
+
         default:
             return false;
             break;
@@ -396,12 +396,12 @@ var hideAds = function()
 var hideVideoAd = function()
 {
     //this removes the ad window, but does NOT resume playing music automatically. it takes a few seconds
-	chrome.extension.sendRequest({
-		notificationType: 'hideVideoAd'
-	}, function(response){
-		jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
-		debugLog("PandoraEnhancer - Removing video ad.");
-	});
+    chrome.extension.sendRequest({
+        notificationType: 'hideVideoAd'
+    }, function(response){
+        jQuery("#videoPlayerContainer").addClass("hideVideoAd").remove();
+        debugLog("PandoraEnhancer - Removing video ad.");
+    });
     ads_hidden++;
     chrome.extension.sendRequest({
         notificationType:   'analytics',
@@ -415,7 +415,8 @@ var hideVideoAd = function()
 
 var hideRibbon = function(){
     debugLog("PandoraEnhancer - Hiding ribbon.");
-    dispatchClick(jQuery('.account_message_close > a')[0]);
+    //dispatchClick(jQuery('.account_message_close > a')[0]);
+    jQuery(".pandoraRibbonContainer, .ribbonContent").remove();
     chrome.extension.sendRequest({
         notificationType:   'analytics',
         msgParams: {
@@ -440,7 +441,7 @@ var selectableLyrics = function()
 {
     //lol they went above and beyond to prevent this. so strange.
     if(jQuery("#PE-copyLyrics").length == 0)
-    {
+        {
         jQuery(".item.lyrics > .heading").append(
         '<span id="PE-copyLyrics"> - Copy Lyrics to Clipboard</span>'
         ).css({
@@ -468,12 +469,12 @@ var decensorLyrics = function(lyrics)
 {
     //TODO: sometimes they censor song names too from the top right and in the light blue area
     if (settings.pe.decensor_lyrics != "false")
-    {
+        {
         //todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
         //yeah, they censor "fart". im freakin' dying over here!
         var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy", "clit", "cock"];
         var nice =  [/f\*\*k/gi, /s\*\*t/gi, /b\*\*ch/gi, /a\*\*/gi, /f\*rt/gi, /n\*\*ga/gi, /p\*\*sy/gi, /cl\*t/gi, /c\*\*k/gi];
-        
+
         for (i = 0; i < dirty.length; i++)
         {
             lyrics = lyrics.replace(nice[i], dirty[i]);
@@ -481,12 +482,12 @@ var decensorLyrics = function(lyrics)
         debugLog("PandoraEnhancer - De-censoring lyrics.");        
         jQuery(".lyricsText").html(lyrics);
         chrome.extension.sendRequest({
-        notificationType:   'analytics',
-        msgParams: {
-            event_name:     'Lyrics',
-            event_action:   'de-censored'
-        }
-    }, function(response) {});
+            notificationType:   'analytics',
+            msgParams: {
+                event_name:     'Lyrics',
+                event_action:   'de-censored'
+            }
+        }, function(response) {});
     }
 };
 
@@ -498,13 +499,13 @@ var copyLyricsToClipboard = function()
     //i really don't like how this is implemented. find the event that fires after it receives the lyrics.        
     setTimeout(function(){
         var lyricsHTML = jQuery(".lyricsText").html();
-        
+
         decensorLyrics(lyricsHTML);
-                
+
         //this preserves line breaks for copy+paste
         var lyrics = lyricsHTML.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r\n");
         lyrics += "\nCopied by PandoraEnhancer for Chrome";
-                
+
         chrome.extension.sendRequest({
             copyLyrics: true,
             lyricText: lyrics
@@ -540,23 +541,23 @@ var totallyStillListening = function()
 
 var doSongChange = function()
 {
-	jQuery('.playerBarArt').css('position', 'relative');
+    jQuery('.playerBarArt').css('position', 'relative');
     var currentAlbumArt = jQuery(".playerBarArt")[0];
-    
+
     if (currentAlbumArt == undefined) return; //while loading pandora
-    
+
     if (currentAlbumArt != null)
-    {
+        {
         oldAlbumArt = jQuery(currentAlbumArt).attr("src"); 
     }
 
     if (currentAlbumArt == null || oldAlbumArt == newAlbumArt)
-    {
-        if(song_skip_tries < 20) //album art fix
         {
+        if(song_skip_tries < 20) //album art fix
+            {
             song_skip_tries++;
             setTimeout("doSongChange()", 100); //try again in 1/10 of second.
-			return;
+            return;
         }
     }
 
@@ -572,20 +573,20 @@ var showNewSongPopup = function()
 
     //idunno if it matters, but i prefer artist - song (album) //setting?
     var artistName  = jQuery(".playerBarArtist")[0].textContent,
-        songName	= jQuery(".playerBarSong")[0].textContent,
-        albumName	= jQuery(".playerBarAlbum")[0].textContent,
-        isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
+    songName	= jQuery(".playerBarSong")[0].textContent,
+    albumName	= jQuery(".playerBarAlbum")[0].textContent,
+    isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
 
-	var time = songTimeInfo();
-        
+    var time = songTimeInfo();
+
     if(songName == "ad")
-    {
+        {
         hideVideoAd();
         return false;
     }
-    
+
     if(songName == "audioad")
-    {
+        {
         //debugLog("PandoraEnhancer - Muting audio ad.");
         chrome.extension.sendRequest({
             notificationType: 'songChange',
@@ -597,22 +598,22 @@ var showNewSongPopup = function()
                 albumName:  "Pandora",
             }
         }, function(response) {});
-        
+
         /*
         chrome.extension.sendRequest({
-            notificationType:   'analytics',
-            msgParams: {
-                event_name:     'Ads Blocked',
-                event_action:   'audio'
-            }
+        notificationType:   'analytics',
+        msgParams: {
+        event_name:     'Ads Blocked',
+        event_action:   'audio'
+        }
         }, function(response) {});
         */
-        
+
         return false;
     }
 
     if (isMuted) playerControl("unmute");
-    
+
     chrome.extension.sendRequest({
         notificationType: 'songChange',
         msgParams: {
@@ -621,7 +622,7 @@ var showNewSongPopup = function()
             songName:		songName,
             albumName:		albumName,
             isLiked:		isLiked,
-			elapsedTime:	time.elapsedTime
+            elapsedTime:	time.elapsedTime
         }
     }, function(response) {});
 
@@ -642,17 +643,43 @@ var appendHeaderConfig = function()
     jQuery("#user_menu_dd > ul").append("<li class='menu able' id='PE-config-link'><a href='#'>PandoraEnhancer</a></li>");
 };
 
+var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
+{
+    //always check for a message upon pandora load, or should we check if it's more than once per day
+    jQuery.getJSON("http://localhost/pandoraenhancer/pe.json", function(r)
+    {
+        if (settings.pe.last_dev_message < r.msgId)
+        {
+            console.log("NEW UPDATE!");
+            console.log(r.message);
+            
+            chrome.extension.sendRequest({
+                notificationType: 'lastDevMsg',
+                msgId:            r.msgId
+            });
+        }
+        else
+        {
+            console.log("no new updates");
+        }
+    });
+    
+}
+
 
 jQuery(document).ready(function()
 {    
     debugLog("PandoraEnhancer loaded.");
+
+    checkForMessageFromTheCoolDudesWhoMadeThisThing();
+    
     chrome.extension.sendRequest({
         notificationType:   'analytics-pageview',
         msgParams: {
             url:     '/pandora.com'
         }
     }, function(response) {});
-    
+
     jQuery(".showMoreLyrics").livequery('click', function(){
         setTimeout(function(){
             var lyricsHTML = jQuery(".lyricsText").html();
@@ -670,17 +697,17 @@ jQuery(document).ready(function()
         jQuery("#promobox").live('DOMNodeInserted', function(){
             extendStationList();
         });
-		extendStationList();
+        extendStationList();
     }
 
     jQuery(".volumeButton").live('click', function(){
         playerControl("mute");
     });
-    
+
     jQuery(".volumeButton.muted").live('click', function(){
         playerControl("unmute");
     });
-    
+
     jQuery("#PE-config-link").live('click', function(){
         chrome.extension.sendRequest({
             showSettings: true
@@ -695,42 +722,42 @@ jQuery(document).ready(function()
     });
 
     if(settings.pe.remove_ribbon != "false")
-    {
+        {
         jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
             hideRibbon();
         });
     }
 
     if(settings.pe.header_config && settings.pe.header_config != "false")
-    {
+        {
         //jQuery(".stationChangeSelectorNoMenu").livequery(function(){
-            appendHeaderConfig();
+        appendHeaderConfig();
         //});
     }
 
     if(settings.pe.notification_song_change != "false")
-    {
+        {
         jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
             doSongChange();
         });
     }
 
     if(settings.pe.remove_still_listening != "false")
-	{
-		jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
-			if(jQuery('.still_listening').length > 0)
-			{
-				if(settings.pe.notification_still_listening != "false")
-				{
-					showStillListeningNotification();
-				}
-				setTimeout("totallyStillListening()", 5000);
-			}
-		});
-	}
-	
+        {
+        jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
+            if(jQuery('.still_listening').length > 0)
+                {
+                if(settings.pe.notification_still_listening != "false")
+                    {
+                    showStillListeningNotification();
+                }
+                setTimeout("totallyStillListening()", 5000);
+            }
+        });
+    }
+
     if(settings.pe.remove_ads != "false")
-    {
+        {
         jQuery("#mainContentContainer, #mainContainer").livequery(function(){
             hideAds();
         });
@@ -751,7 +778,7 @@ jQuery(document).ready(function()
     }
 
     if(settings.pe.selectable_lyrics != "false")
-    {
+        {
         jQuery(".lyricsText").livequery(function(){
             selectableLyrics();
         });
@@ -762,17 +789,17 @@ jQuery(document).ready(function()
     }
 
     if(settings.pe.remove_videos != "false")
-    {
+        {
         jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted', function(event){
             (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
         });
     }
 
-	if(settings.pe.lastfm_love_with_like == 'true')
-	{
-		jQuery(".thumbUpButton > a").click(function(){
+    if(settings.pe.lastfm_love_with_like == 'true')
+        {
+        jQuery(".thumbUpButton > a").click(function(){
             debugLog("PandoraEnhancer - Loving on Last.fm");
-			scrobbleControl("loveTrack");
-		});
-	}
+            scrobbleControl("loveTrack");
+        });
+    }
 });
