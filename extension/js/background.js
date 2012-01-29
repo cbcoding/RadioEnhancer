@@ -315,27 +315,27 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     }
 
     if(notificationType == 'getLocalStorage')
-        {
+    {
         returnStatus = localStorageSettings();
     }
 
     if(notificationType == 'showPageAction')
-        {
+    {
         returnStatus = showPageAction(sender.tab.id);
     }
 
     if(notificationType == 'stillListening')
-        {
+    {
         returnStatus = stillListeningNotification();
     }
 
     if(notificationType == 'hideVideoAd')
-        {
+    {
         returnStatus = hideVideoAdNotification();
     }
 
     if(notificationType == 'songChange')
-        {
+    {
         returnStatus = showSongChangeNotification({
             albumArt:   msgParams.albumArt,
             artistName: msgParams.artistName,
@@ -369,11 +369,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     }
 
     if(!request.notificationType)
-        {
+    {
         if(request.lastfmAction)
-            {
+        {
             if (request.lastfmAction == 'love')
-                {
+            {
                 responseDispatcher('loveTrack', {
                     artistName: msgParams.artistName,
                     songName:   msgParams.songName
@@ -381,7 +381,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             }
 
             if (request.lasfm == 'unlove')
-                {
+            {
                 responseDispatcher('unloveTrack', {                                
                     artistName: notificationParams.artistName,
                     songName:   notificationParams.songName,

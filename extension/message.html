@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <script src="js/jquery-1.6.4.min.js"></script>
+    </head>
+
+    <style>
+        body {
+            background: #e5e5e5;
+            font: 1em bold Helvetica, Arial, sans-serif;
+        }
+
+        div#container {
+            width: 420px;
+            height: auto;
+
+            margin-bottom : 10px;
+            margin-right  : auto;
+            margin-left   : auto;
+            margin-top    : 10px;
+            padding       : 5px;
+
+            -webkit-border-radius: 8px;
+            border: 2px solid white;
+
+            -webkit-box-shadow: 0px 0px 5px #000;
+
+            background: -webkit-linear-gradient(top, #f7f7f7 0%,#f0f4f7 100%);
+        }
+
+        div#header {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #082247;
+            margin: 5px 0;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        div#header > .enhancer { color: #0e3d7f; }
+
+        div#content {
+            padding: 5px;
+        }
+
+        div#content > #date {
+            padding-bottom: 5px;
+            font-weight: 900;
+        }
+
+        #about_pandora_enhancer{
+            font-weight: bold;
+            font-size: 7pt;
+            text-align: center;
+        }
+
+        .link{
+            color: #00317F;
+        }
+
+        .link:hover{ cursor: pointer; text-decoration: underline; }
+    </style>
+
+    <script>
+        /*
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26372393-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        */
+
+        var bgPage = chrome.extension.getBackgroundPage();
+        var debugLog = function(text){bgPage.debugLog(text);};
+        
+        function param(name) {
+            var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
+        $(document).ready(function(){
+            
+        });
+
+
+    </script>
+
+    <body>
+
+        <div id="container">
+
+            <div id="header">
+                Pandora<span class="enhancer">Enhancer</span>
+            </div>
+
+            <div id="content">
+                <div id="date">fuck your date</div>
+                <div id="message">shut up</div>
+            </div>
+
+        </div>
+
+    </body>
+</html>
