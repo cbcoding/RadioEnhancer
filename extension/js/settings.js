@@ -20,9 +20,12 @@ function param(name) {
 var loadCurrentOptions = function()
 {
     //load options and set values
-    $("input").each(function(index){
+    $("form input").each(function(index){        
+        
         var name = $(this).prop("name");
         var value = localStorage[name];
+        
+        if (name == "donation_amount") return;
 
         if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
             $(this).val(value);
@@ -160,4 +163,29 @@ $(document).ready(function(){
     });
     
     _gaq.push(['_trackPageview']);
+    
+    $("#donation_amount").live('change', function(){
+        var total = $(this).prop("value"),
+            url   = $("#donation_link").attr("href"),
+            we_get= total*(1 - (2.90/100))-0.30
+        
+        $(".donation_amount.total").html("$"+total);
+        $("#donation_link").attr("href", url.replace(/amount=([0-9]{1,2})/, 'amount='+total));
+        
+        /*
+            paypal fee calculator
+            A = the amount to charge - var total
+            B = The net amount you wish to receive after PayPal charges - we_get
+            C = The PayPal fixed transaction fee - 0.30
+            D = The PayPal percentage fee - 2.90
+            
+            A = (B + C) / 1 - (D / 100)
+            derives to
+            B = A (1 - (D/100)) - C
+        */
+        
+        $(".donation_amount.after_fees").html("$"+we_get.toFixed(2));
+        
+    });
+    
 });

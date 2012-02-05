@@ -164,3 +164,24 @@ label{
     color: #082247;
     font-weight: bold;    
 }
+
+#donate {
+    display: block;
+    width: 99%;
+}
+
+#donate > #left, #donate > #right {
+    text-align: center;
+    float: left;
+    width: 49%;
+}
+
+#donate > #right {
+    padding-top: 3px;
+    font: 8pt Helvetica, Arial, sans-serif;
+}
+
+.donation_amount {
+    font: bold 10pt Helvetica, Arial, sans-serif;
+    color: green;
+}

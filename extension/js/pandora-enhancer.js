@@ -645,22 +645,38 @@ var appendHeaderConfig = function()
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
+    //todo: finish this message system
     //always check for a message upon pandora load, or should we check if it's more than once per day
-    jQuery.getJSON("http://localhost/pandoraenhancer/pe.json", function(r)
+    //we should also do some sort of analytics on this
+    //jQuery.getJSON("http://localhost/pandoraenhancer/pe.json", function(r)
+    jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
     {
         if (settings.pe.last_dev_message < r.msgId)
         {
             console.log("NEW UPDATE!");
             console.log(r.message);
             
+            /*
+            //fucking temporary holy shit
+            setTimeout(function(){
+                window.location = "http://www.pandora.com/#/account/pandoraenhancer";
+                
+                //that'll show a window. then clear the current html and inject my own
+                var tits = $("#mainContent > .error_page");
+                $(tits).find('h2').html("A message from the dudes who developed PandoraEnhancer...");
+                $(tits).find('p').html('<span style="font-weight:900;">' + r.date + '</span><br>' + r.message);
+            }, 2000);
+            */
+            
+            
+            
+            
+            /* uncomment to update last message
             chrome.extension.sendRequest({
                 notificationType: 'lastDevMsg',
                 msgId:            r.msgId
             });
-        }
-        else
-        {
-            console.log("no new updates");
+            */
         }
     });
     

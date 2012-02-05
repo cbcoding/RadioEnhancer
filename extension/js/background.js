@@ -134,7 +134,7 @@ function showSongChangeNotification(info)
             info.artistName + " (" + info.albumName + ")"
         );
         
-        if (ad === true)
+        if (ad)
         {
             _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (standard)']);
         }
