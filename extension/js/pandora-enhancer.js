@@ -161,7 +161,7 @@ var songTimeInfo = function()
 var scrobbleControl = function(action)
 {
     if (action == 'showScrobbleStatus')
-    {		
+    {    	
         debugLog("PandoraEnhancer - Scrobbler - Logged in");
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
         
@@ -416,7 +416,7 @@ var hideVideoAd = function()
 var hideRibbon = function(){
     debugLog("PandoraEnhancer - Hiding ribbon.");
     //dispatchClick(jQuery('.account_message_close > a')[0]);
-    jQuery(".pandoraRibbonContainer, .ribbonContent").remove();
+    jQuery("#pandoraRibbonContainer, .pandoraRibbonContainer, .ribbonContent").remove();
     chrome.extension.sendRequest({
         notificationType:   'analytics',
         msgParams: {
