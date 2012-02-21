@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.3 Changelog
+ - New: Donate button added to settings window.
+ - New: Message check (no idea what to put here, brah).
+ - Bug fix: Notification window will now close when Pandora is closed.
+
 1.2.2 Changelog
  - Bug fix: Album art in notification should no longer be for previous song.
  - Bug fix: Notification wouldn't display if Pandora took too long for song to load.

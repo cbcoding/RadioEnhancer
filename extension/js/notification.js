@@ -86,8 +86,13 @@ $(document).ready(function()
     
     //get some info
     setInterval(function(){
-        PEjs.postMessage({getTimeInfo: true});
+        try {
+            PEjs.postMessage({getTimeInfo: true});
+        } catch (e) {
+            bgPage.notification.cancel();
+        }
     }, 1500);
+    
     PEjs.postMessage({getStationList: true});
     
     /* old station list

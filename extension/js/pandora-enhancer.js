@@ -416,7 +416,7 @@ var hideVideoAd = function()
 var hideRibbon = function(){
     debugLog("PandoraEnhancer - Hiding ribbon.");
     //dispatchClick(jQuery('.account_message_close > a')[0]);
-    jQuery(".pandoraRibbonContainer, .ribbonContent").remove();
+    jQuery("#pandoraRibbonContainer, .pandoraRibbonContainer, .ribbonContent").remove();
     chrome.extension.sendRequest({
         notificationType:   'analytics',
         msgParams: {
@@ -643,20 +643,24 @@ var appendHeaderConfig = function()
     jQuery("#user_menu_dd > ul").append("<li class='menu able' id='PE-config-link'><a href='#'>PandoraEnhancer</a></li>");
 };
 
+
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
+    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+    return this;
+}
+
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
-    //todo: finish this message system
     //always check for a message upon pandora load, or should we check if it's more than once per day
     //we should also do some sort of analytics on this
-    //jQuery.getJSON("http://localhost/pandoraenhancer/pe.json", function(r)
     jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
     {
-        if (settings.pe.last_dev_message < r.msgId)
+        if (settings.pe.last_dev_message < r.msgId || r.msgId == "reset")
         {
-            console.log("NEW UPDATE!");
-            console.log(r.message);
-            
             /*
+            //method 2 - hijack their own shit lol
             //fucking temporary holy shit
             setTimeout(function(){
                 window.location = "http://www.pandora.com/#/account/pandoraenhancer";
@@ -668,15 +672,100 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
             }, 2000);
             */
             
+            //method 3 - on-page modal with overlay
+            $("body").prepend(
+                
+                '<div id="PE-overlay" style="z-index:9998 !important;position:absolute;height:100%;width: 100%;margin:0 auto;background:#000;opacity:.7">'
+                +'</div>' //pe-overlay
+                
+                +'<div id="PE-modal" style="'
+                    +'z-index:9999 !important;'
+                    +'height:auto;'
+                    +'width:420px;'
+                    +'color:#000000;'
+                    +'background:-webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);'
+                    +'border:2px solid #d0d0d0;'
+                    +'-webkit-border-radius: 8px;'
+                    +'-webkit-box-shadow: 0 0 50px #000;'
+                    +'text-align: center;'
+                +'">'
+                
+                    /* top-right X circle close button
+                    +'<div id="PE-modal-close" style="'
+                        +'display: block;'
+                        +'float: right;'
+                        +'margin: -10px -15px 0 0;'
+                        +'padding: 3px;'
+                        +'border: 4px solid #ffffff;'
+                        +'-webkit-border-radius: 20px;'
+                        +'width: 20px; height: 20px;'
+                        +'text-align: center;'
+                        +'background: #bfbfbf;'
+                        +'font-weight: 900; font-size: 13pt;'
+                        +'cursor: pointer;'
+                    +'">X</div>'
+                    */
+                    
+                    +'<div id="PE-modal-header" style="'
+                        +'display: block;'
+                        +'text-align: center;'
+                        +'height:25%; width:100%;'
+                        +'-webkit-border-radius: 8px;'
+                        +'padding: 5px;'
+                        +'font-weight: 900: font-size: 10pt;'
+                    +'">'
+                        +'A wild Modal appears!<br>'
+                        +'<span style="font-size:18pt;font-weight:900;color:#00317f;">PandoraEnhancer</span>'
+                    +'</div>'
+                    
+                    +'<div id="PE-modal-content" style="'
+                        +'display: block;'
+                        +'margin: 0 auto;'
+                        +'text-align: center;'
+                        +'padding: 10px 0 30px;'
+                        +'height:50%; width:90%;'
+                    +'">'
+                        + '<b>' + r.date + '</b><br>' + r.message
+                    +'</div>'
+                    
+                    
+                    +'<div id="PE-modal-close" style="'
+                        +'display: block;'
+                        +'text-align: center;'
+                        +'height:25%; width:100%;'
+                    +'">'
+                        +'<span style="'
+                            +'display: block;'
+                            +'border: 1px solid #c4c4c4;'
+                            +'-webkit-border-radius: 8px;'
+                            +'cursor: pointer;'
+                            +'font-weight: 900; font-size: 10pt;'
+                            +'padding: 10px;'
+                            +'background:-webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);'
+                            +'width: 200px;'
+                            +'-webkit-box-shadow: 0 0 5px #d8d8d8;'
+                            +'margin: -10px auto;'
+                        +'">Close</span>'
+                    +'</div>'
+                
+                +'</div>' //pe-modal
+            );
             
+            $("#PE-modal").center();
             
-            
-            /* uncomment to update last message
+            r.msgId = (r.msgId == "reset") ? "0" : r.msgId;
             chrome.extension.sendRequest({
                 notificationType: 'lastDevMsg',
                 msgId:            r.msgId
             });
-            */
+            
+            chrome.extension.sendRequest({
+                notificationType:   'analytics',
+                msgParams: {
+                    event_name:     'PandoraEnhancer',
+                    event_action:   'Checked for Message'
+                }
+            }, function(response) {});
         }
     });
     
@@ -689,6 +778,7 @@ jQuery(document).ready(function()
 
     checkForMessageFromTheCoolDudesWhoMadeThisThing();
     
+    //todo: this isnt doing anything important. talk to curt, cut this
     chrome.extension.sendRequest({
         notificationType:   'analytics-pageview',
         msgParams: {
@@ -735,6 +825,11 @@ jQuery(document).ready(function()
                 event_action:   'via header menu'
             }
         }, function(response) {});
+    });
+    
+    jQuery("#PE-modal-close").live('click', function(){
+        console.log("closing modal");
+        jQuery("#PE-overlay, #PE-modal").remove();
     });
 
     if(settings.pe.remove_ribbon != "false")
