@@ -714,18 +714,17 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
                         +'padding: 5px;'
                         +'font-weight: 900: font-size: 10pt;'
                     +'">'
-                        +'A wild Modal appears!<br>'
                         +'<span style="font-size:18pt;font-weight:900;color:#00317f;">PandoraEnhancer</span>'
                     +'</div>'
                     
                     +'<div id="PE-modal-content" style="'
                         +'display: block;'
                         +'margin: 0 auto;'
-                        +'text-align: center;'
+                        +'text-align: left;'
                         +'padding: 10px 0 30px;'
                         +'height:50%; width:90%;'
                     +'">'
-                        + '<b>' + r.date + '</b><br>' + r.message
+                        + '<span style="font-weight:900;">' + r.date + '</span><br>' + r.message
                     +'</div>'
                     
                     
