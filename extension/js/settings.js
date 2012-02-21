@@ -164,7 +164,7 @@ $(document).ready(function(){
     
     _gaq.push(['_trackPageview']);
     
-    $("#donation_amount").live('change', function(){
+    /*$("#donation_amount").live('change', function(){
         var total = $(this).prop("value"),
             url   = $("#donation_link").attr("href"),
             we_get= total*(1 - (2.90/100))-0.30
@@ -182,10 +182,10 @@ $(document).ready(function(){
             A = (B + C) / 1 - (D / 100)
             derives to
             B = A (1 - (D/100)) - C
-        */
+        *
         
         $(".donation_amount.after_fees").html("$"+we_get.toFixed(2));
         
-    });
+    });*/
     
 });

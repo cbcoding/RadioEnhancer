@@ -93,14 +93,15 @@
                             
                             <span id="donate">
                                 <span id="left">
-                                    <input name="donation_amount" id="donation_amount" type="range" min="1" max="50" value="5">
-                                    <a id="donation_link" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypal@friedwalrus.com&currency_code=USD&item_name=PandoraEnhancer+Donation&return=http://http://cbcoding.com/?page_id=29&amount=5">
+                                    <!--<input name="donation_amount" id="donation_amount" type="range" min="1" max="50" value="5">-->
+                                    <a id="donation_link" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypal@friedwalrus.com&currency_code=USD&item_name=PandoraEnhancer+Donation&return=http://http://cbcoding.com/?page_id=29">
                                         <img src="images/paypal.png">
                                     </a>
                                 </span>
                                 
                                 <span id="right">
-                                    If you donate <span class="donation_amount total">$5</span>, after PayPal fees we will receive <span class="donation_amount after_fees">$4.55</span>. Click the PayPal icon to continue.
+                                    <!--If you donate <span class="donation_amount total">$5</span>, after PayPal fees we will receive <span class="donation_amount after_fees">$4.55</span>. Click the PayPal icon to continue.-->
+                                    We've worked hard to bring you this free program. How much was our time worth to you? Give us your fucking money.
                                 </span>
                             </span>
                             
@@ -126,27 +127,29 @@
     </body>
 
     <script type="text/javascript">
-        (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/plusone.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
+        setTimeout(function(){
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
 
-        (function() {
-            var po = document.createElement('script'); 
-            po.type = 'text/javascript'; 
-            po.async = true;
-            po.src = 'http://platform.twitter.com/widgets.js';
-            var s = document.getElementsByTagName('script')[0]; 
-            s.parentNode.insertBefore(po, s);
-        })();
-        (function() {
-            var po = document.createElement('script'); 
-            po.type = 'text/javascript'; 
-            po.async = true;
-            po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
-            var s = document.getElementsByTagName('script')[0]; 
-            s.parentNode.insertBefore(po, s);
-        }());
+            (function() {
+                var po = document.createElement('script'); 
+                po.type = 'text/javascript'; 
+                po.async = true;
+                po.src = 'http://platform.twitter.com/widgets.js';
+                var s = document.getElementsByTagName('script')[0]; 
+                s.parentNode.insertBefore(po, s);
+            })();
+            (function() {
+                var po = document.createElement('script'); 
+                po.type = 'text/javascript'; 
+                po.async = true;
+                po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
+                var s = document.getElementsByTagName('script')[0]; 
+                s.parentNode.insertBefore(po, s);
+            }());
+        },100);
     </script>
 </html>

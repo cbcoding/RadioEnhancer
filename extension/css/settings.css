@@ -173,12 +173,13 @@ label{
 #donate > #left, #donate > #right {
     text-align: center;
     float: left;
-    width: 49%;
+    width: 23%;
 }
 
 #donate > #right {
     padding-top: 3px;
     font: 8pt Helvetica, Arial, sans-serif;
+    width: 75%;
 }
 
 .donation_amount {

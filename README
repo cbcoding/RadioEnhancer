@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  - New: Donate button added to settings window.
  - New: Message check (no idea what to put here, brah).
  - Bug fix: Notification window will now close when Pandora is closed.
+ - Fix: Settings menu from the Ominbar icon should load faster.
 
 1.2.2 Changelog
  - Bug fix: Album art in notification should no longer be for previous song.
