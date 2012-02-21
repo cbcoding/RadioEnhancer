@@ -161,7 +161,7 @@ var songTimeInfo = function()
 var scrobbleControl = function(action)
 {
     if (action == 'showScrobbleStatus')
-    {		
+    {    	
         debugLog("PandoraEnhancer - Scrobbler - Logged in");
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
         
