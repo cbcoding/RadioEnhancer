@@ -17,11 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.3.2 Changelog
+ - Change: URL parameters no longer used to get song info in notification popups.
+ - Fix: due to the above change, info with ampersands no longer get cut off.
+
 1.3 Changelog
  - New: Donate button added to settings window.
- - New: Message check (no idea what to put here, brah).
+ - New: Added way to communicate with users for important updates.
  - Bug fix: Notification window will now close when Pandora is closed.
- - Fix: Settings menu from the Ominbar icon should load faster.
+ - Fix: Settings window should significantly load faster.
 
 1.2.2 Changelog
  - Bug fix: Album art in notification should no longer be for previous song.

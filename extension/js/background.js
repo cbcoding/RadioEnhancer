@@ -110,10 +110,13 @@ function getAudioAdStatus(){
     return audio_ad;
 }
 
-var notification_timeout, notification, ad;
+
+var songinfo, notification_timeout, notification, ad;
 function showSongChangeNotification(info)
 {
-    hidden = (localStorage['autoMuteAudioAds'] == "true") ? "&autoMute=true" : "";
+	//prevents a bunch of extra popups, when changing stations in particular
+	if (songinfo !== undefined && info.songName == songinfo.songName) return false;
+    
     if (info.songName == 'audioad')
     {
         info.albumArt   = 'images/logo-32.png';
@@ -134,17 +137,17 @@ function showSongChangeNotification(info)
             info.artistName + " (" + info.albumName + ")"
         );
         
-        if (ad)
-        {
+        if (ad){
             _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (standard)']);
-        }
-        else
-        {
+        } else {
             _gaq.push(['_trackEvent', 'Notifications', 'Song Change (standard)']);
-        }
-        
-    } else {
+        }                
+    }
+    else
+    {
         //html notifications are the new shit
+        notification = webkitNotifications.createHTMLNotification('notification.html');
+        /*
         notification = webkitNotifications.createHTMLNotification(
             'notification.html?'
             +'albumArt='+info.albumArt
@@ -155,15 +158,17 @@ function showSongChangeNotification(info)
             +'&tabID='+tabID
             +hidden
         );
+        */
         
-        if (ad === true)
-        {
+        if (ad){
             _gaq.push(['_trackEvent', 'Notifications', 'Audio Ad Blocked (HTML)']);
-        }
-        else
-        {
+        } else {
             _gaq.push(['_trackEvent', 'Notifications', 'Song Change (HTML)']);
         }
+        
+        info.autoMute = (localStorage['autoMuteAudioAds'] == "true") ? true : false;
+        info.tabID = tabID;
+		songinfo = info;
     }
 
     openNotification('songChange', notification, false);
@@ -172,6 +177,16 @@ function showSongChangeNotification(info)
 
     return {'message':'PE Notification shown'};
 }
+
+//called by notifiction window
+function getCurrentSongInfo()
+{
+	return songinfo;
+}
+
+
+
+
 
 function localStorageSettings()
 {
@@ -308,6 +323,21 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     var returnStatus        = false;
     tabID                   = sender.tab.id;
     currentURL              = sender.tab.url;
+    
+    if (notificationType == "devMessageCheck")
+    {
+    	//throws Access-Control-Allow-Origin error
+        /*var request = jQuery.ajax({
+            url: 'http://cbcoding.com/pe.json',
+            type: 'get',
+            success: function(response) {
+                console.log(response);
+            },
+            failure: function(response) {
+                console.log(response);
+            }
+        });*/
+    }
     
     if (notificationType == "lastDevMsg")
     {

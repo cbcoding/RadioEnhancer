@@ -1,6 +1,6 @@
 {
     "name": "PandoraEnhancer",
-    "version": "1.3",
+    "version": "1.3.2",
     "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora's awesome HTML5 interface.",
     "background_page":  "background.html",
     "options_page":     "settings.html",
@@ -15,9 +15,9 @@
             "js": [
                 "js/jquery-1.6.4.min.js",
                 "js/jquery.livequery.min.js",
-		"js/jquery.simulate.js",
+				"js/jquery.simulate.js",
                 "js/pandora-enhancer.js",
-		"js/lastfm-api.js"
+				"js/lastfm-api.js"
             ],
             "matches": [
                 "*://*.pandora.com/*"
@@ -26,8 +26,7 @@
         }
     ],
     "permissions": [
-        "notifications",
-        "http://cbcoding.com/*"
+        "notifications"
     ],
     "page_action": {
         "default_title": "PandoraEnhancer",

@@ -7,20 +7,16 @@ _gaq.push(['_trackPageview']);
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
-function param(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
 var bgPage  = chrome.extension.getBackgroundPage();
-var PEjs    = chrome.tabs.connect(parseInt(param('tabID')));
+var songInfo = bgPage.window.getCurrentSongInfo();
+var PEjs    = chrome.tabs.connect(songInfo.tabID);
 
 $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
     var action = $(this).prop("id");
     switch (action)
     {
         case "thumbs_up":
-        if(!$("#thumbs_up").hasClass('isLiked'))
+        if (!$("#thumbs_up").hasClass('isLiked'))
         {
             $("#thumbs_up").addClass('isLiked');
             $("#thumbs_up").removeClass('playerControl');
@@ -59,17 +55,29 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
 
 $(document).ready(function()
 {
+	$("#artistInfo > #songName").html(songInfo.songName);
+	$("#artistInfo > #albumName").html("by " + songInfo.albumName);
+	$("#artistInfo > #artistName").html("on " + songInfo.artistName);
+	
+	var album_art = (songInfo.albumArt != "/images/no_album_art.jpg")
+		? '<img src="' + songInfo.albumArt + '" width="48" height="48" />'
+		: '<img src="images/logo-48.png" width="48" height="48" />';
+		
+	$("#songInfoContainer > #albumArt").html(album_art);
+	
     //listener
     PEjs.onMessage.addListener(function(message){
         if (message.timeInfo)
         {
             var elapsedTime     = message.timeInfo.elapsedTime;
             var remainingTime   = message.timeInfo.remainingTime; //unused right now
-            var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong, causing the tracking bar to freak out for an interval. wtf?
+            var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong :-(
             var trackingPercent = (elapsedTime / totalTime) * 100;
             $("#tracking").css("width", trackingPercent + "%");
         }
 
+        /*
+        //station list stuff
         if (message.stationList)
         {
             if (message.stationList !== null)
@@ -82,6 +90,7 @@ $(document).ready(function()
                 });
             }
         }
+        */
     });
     
     //get some info
@@ -92,7 +101,6 @@ $(document).ready(function()
             bgPage.notification.cancel();
         }
     }, 1500);
-    
     PEjs.postMessage({getStationList: true});
     
     /* old station list
@@ -113,14 +121,14 @@ $(document).ready(function()
         $(".station_list dd ul").hide();
     });
     
-    if(param('isLiked') == "true")
-        {
+    if (songInfo.isLiked)
+    {
         $("#thumbs_up").addClass('isLiked');
         $("#thumbs_up").removeClass('playerControl');
     }
 
-    if (param('autoMute') && param('autoMute') == "true" && param('songName') == "Audio Ad")
-        {
+    if (songInfo.autoMute && songInfo.songName == "Audio Ad")
+    {
         bgPage.window.setAudioAdStatus(true);
         bgPage.window.playerControl("mute");
     } else {
@@ -133,8 +141,8 @@ $(document).ready(function()
     $('#notificationContainer').mouseenter(function(event){
         bgPage.window.updateNotificationStayOpen('songChange', true);
     }).mouseleave(function(){
-        if($("#pause").css('display') != 'none')
-            {
+        if ($("#pause").css('display') != 'none')
+        {
             bgPage.window.updateNotificationStayOpen('songChange', false);
         }
     });

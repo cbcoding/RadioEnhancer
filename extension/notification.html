@@ -8,22 +8,12 @@
     <body>
         <div id="notificationContainer">
             <div id="songInfoContainer">
-                <div id="albumArt">
-                    <script>
-                        if(param('albumArt').length > 0 && param('albumArt') != '/images/no_album_art.jpg')
-                            {
-                            document.write('<img src="' + param('albumArt') + '" width="48" height="48" />');
-                        }
-                        else
-                            {
-                            document.write('<img src="images/logo-48.png" width="48" height="48" />');
-                        }
-                    </script>
-                </div>
+                <div id="albumArt"></div>
+                
                 <div id="artistInfo">
-                    <div id="songName"><script>document.write(param('songName'));</script></div>
-                    <div id="artistName">by <script>document.write(param('artistName'));</script></div>
-                    <div id="albumName">on <script>document.write(param('albumName'));</script></div>
+                    <div id="songName">PandoraEnhancer</div>
+                    <div id="artistName">Brandon Sachs & Curt Hostetter</div>
+                    <div id="albumName">Sounds of Manliness</div>
                 </div>
             </div>
 

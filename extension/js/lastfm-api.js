@@ -1,10 +1,16 @@
-//make these settings
+/***
+* PandoraEnhancer LastFM API
+*/
+
 var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';
 var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
 var scrobbleUrl = 'http://ws.audioscrobbler.com/2.0/';
 var scrobbleSessionKey = null;
 var scrobbleSessionName = null;
+
+//make this a setting
 var scrobbleDelay = 30;
+//var scrobbleDelay = localStorage['scrobble_delay'];
 
 var scrobblePayload = {
 	timestamp: 0,
@@ -127,10 +133,12 @@ var sendAPIRequest = function(requestType, requestData, requestMethod, callbackF
         url: scrobbleUrl,
         type: requestMethod,
         data: requestParams,
-        success: function(response) {
+        success: function(response)
+		{
 			if(callbackFxn) callbackFxn(response);
         },
-        failure: function(response) {
+        failure: function(response)
+		{
 			if(callbackFxn) callbackFxn(response);
         }
     });

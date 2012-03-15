@@ -653,9 +653,17 @@ jQuery.fn.center = function () {
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
-    //always check for a message upon pandora load, or should we check if it's more than once per day
+    //always check for a message upon pandora load, or should we check if it's more than once per day?
     //we should also do some sort of analytics on this
-    jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
+    
+    chrome.extension.sendRequest({
+        notificationType: 'devMessageCheck'
+    },function(response){});
+    
+    
+    //TODO: work on this
+    //jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
+    jQuery(".randomstring").bind('live', function() //temporary - remove this
     {
         if (settings.pe.last_dev_message < r.msgId || r.msgId == "reset")
         {
@@ -762,13 +770,14 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
                 msgId:            r.msgId
             });
             
-            chrome.extension.sendRequest({
+            //analytics
+            /*chrome.extension.sendRequest({
                 notificationType:   'analytics',
                 msgParams: {
                     event_name:     'PandoraEnhancer',
                     event_action:   'Checked for Message'
                 }
-            }, function(response) {});
+            }, function(response) {});*/
         }
     });
     
