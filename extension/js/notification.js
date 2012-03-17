@@ -16,14 +16,20 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
     switch (action)
     {
         case "thumbs_up":
-        if (!$("#thumbs_up").hasClass('isLiked'))
-        {
-            $("#thumbs_up").addClass('isLiked');
-            $("#thumbs_up").removeClass('playerControl');
-            bgPage.window.playerControl("thumbs_up");
-        }
+	        if (!$("#thumbs_up").hasClass('isLiked'))
+	        {
+	            $("#thumbs_up").addClass('isLiked').removeClass('playerControl');
+	            $("#thumbs_down").addClass('playerControl').removeClass('isLiked');
+	            bgPage.window.playerControl("thumbs_up");
+	        }
         break;
         case "thumbs_down":
+        	if (!$("#thumbs_down").hasClass('isLiked'))
+	        {
+	            $("#thumbs_down").addClass('isLiked').removeClass('playerControl');
+	            $("#thumbs_up").addClass('playerControl').removeClass('isLiked');
+	            bgPage.window.playerControl("thumbs_up");
+	        }
             bgPage.window.playerControl("thumbs_down");
             break;
         case "play":
@@ -53,6 +59,32 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
     }
 });
 
+
+var pandoraUIControl = function(element){
+	switch (element)
+	{
+		case "thumbDownButton":
+			$("#thumbs_down").addClass('isLiked').removeClass('playerControl');
+	        $("#thumbs_up").addClass('playerControl').removeClass('isLiked');
+			break;
+		
+		case "thumbUpButton":
+			$("#thumbs_up").addClass('isLiked').removeClass('playerControl');
+	        $("#thumbs_down").addClass('playerControl').removeClass('isLiked');
+			break;
+		
+		case "playButton":
+			$("#play").hide();
+			$("#pause").show();
+			break;
+		
+		case "pauseButton":
+			$("#pause").hide();
+			$("#play").show();
+			break;
+	}
+}
+
 $(document).ready(function()
 {
 	$("#artistInfo > #songName").html(songInfo.songName);
@@ -76,8 +108,8 @@ $(document).ready(function()
             $("#tracking").css("width", trackingPercent + "%");
         }
 
-        /*
         //station list stuff
+        /*
         if (message.stationList)
         {
             if (message.stationList !== null)
@@ -101,7 +133,8 @@ $(document).ready(function()
             bgPage.notification.cancel();
         }
     }, 1500);
-    PEjs.postMessage({getStationList: true});
+    
+    //PEjs.postMessage({getStationList: true});
     
     /* old station list
     $("#station_listing").change(function(){

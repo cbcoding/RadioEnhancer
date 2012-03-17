@@ -329,7 +329,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     	//throws Access-Control-Allow-Origin error
         /*var request = jQuery.ajax({
             url: 'http://cbcoding.com/pe.json',
-            type: 'get',
+            type: 'post',
+            data: {yHeloThar : 'helo thar'},
             success: function(response) {
                 console.log(response);
             },
@@ -337,6 +338,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
                 console.log(response);
             }
         });*/
+    }
+    
+    if (notificationType == "pandoraUI")
+    {
+    	// "syncs" pandora's UI player control state to notification window
+		chrome.extension.getViews({type:"notification"}).forEach(function(notification) {
+			notification.pandoraUIControl(request.action);
+		});
     }
     
     if (notificationType == "lastDevMsg")

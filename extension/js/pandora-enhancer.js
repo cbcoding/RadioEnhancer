@@ -656,11 +656,12 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
     //always check for a message upon pandora load, or should we check if it's more than once per day?
     //we should also do some sort of analytics on this
     
+    //test from background
     chrome.extension.sendRequest({
         notificationType: 'devMessageCheck'
     },function(response){});
     
-    
+    //test from content script
     //TODO: work on this
     //jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
     jQuery(".randomstring").bind('live', function() //temporary - remove this
@@ -785,18 +786,25 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 
 
 jQuery(document).ready(function()
-{    
+{
     debugLog("PandoraEnhancer loaded.");
-
     checkForMessageFromTheCoolDudesWhoMadeThisThing();
+
+	jQuery('.thumbDownButton, .thumbUpButton, .playButton, .pauseButton').live('mouseup', function(){
+		var button = jQuery(this);
+		chrome.extension.sendRequest({
+			notificationType: 'pandoraUI',
+			action: button.attr("class")
+		});
+	});
     
-    //todo: this isnt doing anything important. talk to curt, cut this
-    chrome.extension.sendRequest({
+    //todo: wtf is the purpose of this?
+    /*chrome.extension.sendRequest({
         notificationType:   'analytics-pageview',
         msgParams: {
             url:     '/pandora.com'
         }
-    }, function(response) {});
+    }, function(response) {});*/
 
     jQuery(".showMoreLyrics").livequery('click', function(){
         setTimeout(function(){
@@ -868,10 +876,10 @@ jQuery(document).ready(function()
     if(settings.pe.remove_still_listening != "false")
     {
         jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
-            if(jQuery('.still_listening').length > 0)
-                {
+            if (jQuery('.still_listening').length > 0)
+        	{
                 if(settings.pe.notification_still_listening != "false")
-                    {
+                {
                     showStillListeningNotification();
                 }
                 setTimeout("totallyStillListening()", 5000);

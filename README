@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.3.2 Changelog
+ - New: Pandora UI state changes now transfer over to notification window.
  - Change: URL parameters no longer used to get song info in notification popups.
  - Fix: due to the above change, info with ampersands no longer get cut off.
 
