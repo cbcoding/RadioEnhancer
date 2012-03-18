@@ -18,28 +18,24 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
         case "thumbs_up":
 	        if (!$("#thumbs_up").hasClass('isLiked'))
 	        {
-	            $("#thumbs_up").addClass('isLiked').removeClass('playerControl');
-	            $("#thumbs_down").addClass('playerControl').removeClass('isLiked');
+	            pandoraUIControl("thumbDownButton");
 	            bgPage.window.playerControl("thumbs_up");
 	        }
         break;
         case "thumbs_down":
         	if (!$("#thumbs_down").hasClass('isLiked'))
 	        {
-	            $("#thumbs_down").addClass('isLiked').removeClass('playerControl');
-	            $("#thumbs_up").addClass('playerControl').removeClass('isLiked');
+	            pandoraUIControl("thumbUpButton");
 	            bgPage.window.playerControl("thumbs_up");
 	        }
             bgPage.window.playerControl("thumbs_down");
             break;
         case "play":
-            $(this).hide();
-            $("#pause").show();
+            pandoraUIControl("play");
             bgPage.window.playerControl("play", false);
             break;
         case "pause":
-            $(this).hide();
-            $("#play").show();
+            pandoraUIControl("pause");
             bgPage.window.playerControl("pause");
             bgPage.window.updateNotificationStayOpen('songChange', true);
             break;
