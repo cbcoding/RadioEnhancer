@@ -17,6 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.3.3 Changelog
+ - Fix: Notification controls work correctly now.
+
 1.3.2 Changelog
  - New: Scrobble delay is now configurable.
  - New: Pandora UI state changes now transfer over to notification window.
