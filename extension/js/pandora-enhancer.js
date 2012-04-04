@@ -653,18 +653,13 @@ jQuery.fn.center = function () {
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
-    //always check for a message upon pandora load, or should we check if it's more than once per day?
-    //we should also do some sort of analytics on this
-    
-    //test from background
-    chrome.extension.sendRequest({
-        notificationType: 'devMessageCheck'
-    },function(response){});
-    
-    //test from content script
-    //TODO: work on this
-    //jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
-    jQuery(".randomstring").bind('live', function() //temporary - remove this
+    //if we put this in the background script, it will only check once per chrome-load
+    //if we keep this in here, it'll check every time someone goes to pandora.com
+    //argument for background: less stress on our servers. not a big deal though.
+    //argument against background: i personally very rarely close chrome, so i (as a normal user) likely wouldnt see a new message (from us) until i reboot my computer
+    //keep analytics?
+
+    jQuery.getJSON("http://cbcoding.com/pe.json", function(r)
     {
         if (settings.pe.last_dev_message < r.msgId || r.msgId == "reset")
         {
@@ -683,10 +678,10 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
             
             //method 3 - on-page modal with overlay
             $("body").prepend(
+            	//pe-overlay
+                '<div id="PE-overlay" style="z-index:9998 !important;position:absolute;height:100%;width: 100%;margin:0 auto;background:#000;opacity:.7"></div>'
                 
-                '<div id="PE-overlay" style="z-index:9998 !important;position:absolute;height:100%;width: 100%;margin:0 auto;background:#000;opacity:.7">'
-                +'</div>' //pe-overlay
-                
+                //modal window
                 +'<div id="PE-modal" style="'
                     +'z-index:9999 !important;'
                     +'height:auto;'
@@ -799,12 +794,12 @@ jQuery(document).ready(function()
 	});
     
     //todo: wtf is the purpose of this?
-    /*chrome.extension.sendRequest({
+    chrome.extension.sendRequest({
         notificationType:   'analytics-pageview',
         msgParams: {
             url:     '/pandora.com'
         }
-    }, function(response) {});*/
+    }, function(response) {});
 
     jQuery(".showMoreLyrics").livequery('click', function(){
         setTimeout(function(){

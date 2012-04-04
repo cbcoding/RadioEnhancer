@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 1.3.2 Changelog
  - New: Pandora UI state changes now transfer over to notification window.
  - Change: URL parameters no longer used to get song info in notification popups.
- - Fix: due to the above change, info with ampersands no longer get cut off.
+ - Fix: due to the above change, song info with ampersands (&) no longer get cut off.
 
 1.3 Changelog
  - New: Donate button added to settings window.
@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  - Change: Moved "Configure" header link into the user menu (click your email address at the top right).
  - Change: Behavior of default settings on first-load.
  - Fix: a native Pandora bug! Album art icon on the top right no longer appears off-screen.
- - Fix: notification issue where it receives a mouseevent on the document when there wasn"t one.
+ - Fix: notification issue where it receives a mouseevent on the document when there wasn't one.
  - Fix: Notification window will no longer close when your mouse is over it when resuming play.
 
 1.0.1 Changelog

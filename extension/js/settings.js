@@ -37,14 +37,14 @@ var loadCurrentOptions = function()
     });
 
     if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-        {
+    {
         $('#scrobbleLoginButton').css('display', 'none');
         $('#scrobbleTokenContainer').css('display', 'block');
         $('#scrobbleToken').text(localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
     }
 
     if (localStorage['notification_always_show'] == "true")
-        {
+    {
         $("#notification_timeout").attr("disabled", "disabled");
     }
 };
@@ -64,12 +64,12 @@ var saveCurrentOptions = function()
         var value = false;
 
         if($(this).prop('type') == 'checkbox')
-            {
+        {
             value = $(this).prop('checked');
         }
 
         if($(this).prop('type') == 'text')
-            {
+        {
             value = $(this).val();
         }
 

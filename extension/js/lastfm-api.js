@@ -7,6 +7,7 @@ var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
 var scrobbleUrl = 'http://ws.audioscrobbler.com/2.0/';
 var scrobbleSessionKey = null;
 var scrobbleSessionName = null;
+
 var scrobbleDelay = 30;
 
 var scrobblePayload = {
@@ -18,6 +19,8 @@ if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
 {
 	scrobbleDelay = localStorage['scrobble_delay'];
 }
+
+console.log(localStorage['scrobble_delay']);
 
 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
 {
