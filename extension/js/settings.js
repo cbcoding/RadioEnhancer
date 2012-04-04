@@ -64,12 +64,12 @@ var saveCurrentOptions = function()
         var value = false;
 
         if($(this).prop('type') == 'checkbox')
-            {
+        {
             value = $(this).prop('checked');
         }
 
         if($(this).prop('type') == 'text')
-            {
+        {
             value = $(this).val();
         }
 

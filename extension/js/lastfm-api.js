@@ -9,8 +9,11 @@ var scrobbleSessionKey = null;
 var scrobbleSessionName = null;
 
 //make this a setting
-var scrobbleDelay = 30;
-//var scrobbleDelay = localStorage['scrobble_delay'];
+//var scrobbleDelay = 30;
+var scrobbleDelay = localStorage['scrobble_delay'];
+console.log("scrobble delay:");
+console.log(scrobbleDelay);
+
 
 var scrobblePayload = {
 	timestamp: 0,

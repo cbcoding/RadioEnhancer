@@ -297,9 +297,7 @@ function scrobbleAction(action)
 
 function lastDevMsg(id)
 {
-    if (localStorage['last_dev_message'] = id)
-        return true;
-        
+    if (localStorage['last_dev_message'] = id) return true;
     return false;
 }
 
@@ -326,18 +324,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     
     if (notificationType == "devMessageCheck")
     {
-    	//throws Access-Control-Allow-Origin error
-        /*var request = jQuery.ajax({
-            url: 'http://cbcoding.com/pe.json',
-            type: 'post',
-            data: {yHeloThar : 'helo thar'},
-            success: function(response) {
-                console.log(response);
-            },
-            failure: function(response) {
-                console.log(response);
-            }
-        });*/
+    	//message check shit thats in pe.js here
     }
     
     if (notificationType == "pandoraUI")
