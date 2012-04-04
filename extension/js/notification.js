@@ -88,8 +88,8 @@ var pandoraUIControl = function(element){
 $(document).ready(function()
 {
 	$("#artistInfo > #songName").html(songInfo.songName);
-	$("#artistInfo > #albumName").html("by " + songInfo.albumName);
-	$("#artistInfo > #artistName").html("on " + songInfo.artistName);
+	$("#artistInfo > #albumName").html("on " + songInfo.albumName);
+	$("#artistInfo > #artistName").html("by " + songInfo.artistName);
 	
 	var album_art = (songInfo.albumArt != "/images/no_album_art.jpg")
 		? '<img src="' + songInfo.albumArt + '" width="48" height="48" />'
