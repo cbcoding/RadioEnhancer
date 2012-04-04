@@ -15,19 +15,25 @@ var scrobblePayload = {
 	sk: ''
 };
 
-if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
+var loadScrobbleInfo = function()
 {
-	scrobbleDelay = parseInt(localStorage['scrobble_delay']);
-}
+	if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
+	{
+		scrobbleDelay = parseInt(localStorage['scrobble_delay']);
+	}
 
-if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-{
-	scrobbleSessionKey = localStorage['scrobble_session_key'];
-	scrobbleSessionName = localStorage['scrobble_session_name'];
-}
+	if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
+	{
+		scrobbleSessionKey = localStorage['scrobble_session_key'];
+		scrobbleSessionName = localStorage['scrobble_session_name'];
+	}
+};
+
+loadScrobbleInfo();
 
 var responseDispatcher = function(type, payload) 
 {
+	loadScrobbleInfo();
 	if(type == 'authenticated')
 	{
 		getUserSession(payload);
@@ -87,7 +93,7 @@ var responseDispatcher = function(type, payload)
         
         //update "scrobbleStatus" to now playing
         scrobbleAction('nowPlaying');
-
+		
 		if(payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
 		{
 			setTimeout("sendScrobble();", (parseInt(scrobbleDelay)+1)*1000);
