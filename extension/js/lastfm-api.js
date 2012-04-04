@@ -20,8 +20,6 @@ if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
 	scrobbleDelay = localStorage['scrobble_delay'];
 }
 
-console.log(localStorage['scrobble_delay']);
-
 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
 {
 	scrobbleSessionKey = localStorage['scrobble_session_key'];
@@ -88,11 +86,11 @@ var responseDispatcher = function(type, payload)
 		sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
         
         //update "scrobbleStatus" to now playing
-        scrobbleAction('nowPlaying');        
-		
+        scrobbleAction('nowPlaying');
+
 		if(payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
 		{
-			setTimeout("sendScrobble();", (scrobbleDelay+5)*1000);
+			setTimeout("sendScrobble();", (scrobbleDelay+1)*1000);
 		}
 		return;
 	}
@@ -102,11 +100,10 @@ var sendScrobble = function()
 {
 	var dateNow = new Date();
 	var nowTimestamp = Math.round(dateNow.getTime()/1000);
-	if(nowTimestamp - scrobblePayload['timestamp'] > scrobbleDelay)
+
+	if(nowTimestamp - scrobblePayload['timestamp'] >= scrobbleDelay)
 	{
 		sendAPIRequest('track.scrobble', scrobblePayload, 'POST');
-		//sendAPIRequest('track.updateNowPlaying', scrobblePayload, 'POST');
-        
         //update "scrobbleStatus" to scrobbled
         scrobbleAction('scrobbled');        
 	}

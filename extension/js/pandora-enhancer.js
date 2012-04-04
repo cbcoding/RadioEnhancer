@@ -103,6 +103,7 @@ chrome.extension.sendRequest({
     notificationType: 'getLocalStorage',
 }, function(response){
     settings.pe = response.message;
+	console.log(settings.pe);
 });
 
 var oldAlbumArt = null;
