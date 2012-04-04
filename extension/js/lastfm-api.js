@@ -7,15 +7,17 @@ var scrobbleSecret = '31b129a3ac23f2b171a5a8f4eaf6963a';
 var scrobbleUrl = 'http://ws.audioscrobbler.com/2.0/';
 var scrobbleSessionKey = null;
 var scrobbleSessionName = null;
-
-//make this a setting
 var scrobbleDelay = 30;
-//var scrobbleDelay = localStorage['scrobble_delay'];
 
 var scrobblePayload = {
 	timestamp: 0,
 	sk: ''
 };
+
+if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
+{
+	scrobbleDelay = localStorage['scrobble_delay'];
+}
 
 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
 {
