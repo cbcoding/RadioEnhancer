@@ -28,18 +28,13 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
 	            pandoraUIControl("thumbDownButton");
 	            bgPage.window.playerControl("thumbs_down");
 	        }
-            bgPage.window.playerControl("thumbs_down");
             break;
         case "play":
-			$('#pause').show();
-            $("#play").hide();
-            pandoraUIControl("play");
+            pandoraUIControl("playButton");
             bgPage.window.playerControl("play", false);
             break;
         case "pause":
-			$('#pause').hide();
-            $("#play").show();
-            pandoraUIControl("pause");
+            pandoraUIControl("pauseButton");
             bgPage.window.playerControl("pause");
             bgPage.window.updateNotificationStayOpen('songChange', true);
             break;
