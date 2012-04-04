@@ -17,7 +17,7 @@ var scrobblePayload = {
 
 if(localStorage['scrobble_delay'] && localStorage['scrobble_delay'] != 'null')
 {
-	scrobbleDelay = localStorage['scrobble_delay'];
+	scrobbleDelay = parseInt(localStorage['scrobble_delay']);
 }
 
 if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
@@ -90,7 +90,7 @@ var responseDispatcher = function(type, payload)
 
 		if(payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
 		{
-			setTimeout("sendScrobble();", (scrobbleDelay+1)*1000);
+			setTimeout("sendScrobble();", (scrobbleDelay+3)*1000);
 		}
 		return;
 	}
