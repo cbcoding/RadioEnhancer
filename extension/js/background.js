@@ -322,11 +322,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     tabID                   = sender.tab.id;
     currentURL              = sender.tab.url;
     
-    if (notificationType == "devMessageCheck")
-    {
-    	//message check shit thats in pe.js here
-    }
-    
     if (notificationType == "pandoraUI")
     {
     	// "syncs" pandora's UI player control state to notification window

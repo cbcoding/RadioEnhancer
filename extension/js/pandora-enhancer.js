@@ -653,14 +653,8 @@ jQuery.fn.center = function () {
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
-    //if we put this in the background script, it will only check once per chrome-load
-    //if we keep this in here, it'll check every time someone goes to pandora.com
-    //argument for background: less stress on our servers. not a big deal though.
-    //argument against background: i personally very rarely close chrome, so i (as a normal user) likely wouldnt see a new message (from us) until i reboot my computer
-    //keep analytics?
-	
 	jQuery.ajax({
-		type: 	"GET",
+		type: 	"get",
 		url	:	"http://cbcoding.com/pe.json",
 		dataType: "json",
 		cache: false,
@@ -771,13 +765,13 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 	            });
 	            
 	            //analytics
-	            /*chrome.extension.sendRequest({
+	            chrome.extension.sendRequest({
 	                notificationType:   'analytics',
 	                msgParams: {
 	                    event_name:     'PandoraEnhancer',
 	                    event_action:   'Checked for Message'
 	                }
-	            }, function(response) {});*/
+	            }, function(response) {});
 	        }
 		}
 	});
