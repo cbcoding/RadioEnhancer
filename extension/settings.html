@@ -35,8 +35,8 @@
                 <div class="tabBox">
                     <ul class="tabs">
                         <li id="general" class="selected"><a href="#">General</a></li>
-                        <li id="lastfm"><a href="#">last.fm</a></li>
                         <li id="notifications"><a href="#">Notifications</a></li>
+                        <li id="misc"><a href="#">Misc</a></li>
                         <li id="about"><a href="#">About</a></li>
                     </ul>
 
@@ -56,13 +56,25 @@
                             <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
                         </div>
 
-                        <div id="lastfm">
-                            <button id="scrobbleLoginButton">Authenticate</button>
+                        <div id="misc">
+                        	<div class="subtitle">last.fm<span id="scrobbleToken"></span></div>
+                            <button id="scrobbleLoginButton" class="controlButton">Authenticate</button>
                             <div id="scrobbleTokenContainer">
-                                <span id="scrobbleToken"></span><button id="scrobbleLogoutButton">Logout</button>
-                                <br />
-                                <input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label><br />
+                                <input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label>
+                                <br>
                                 <label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />
+                                <br>
+                                <button id="scrobbleLogoutButton" class="controlButton">Logout</button>
+                            </div>
+                            <hr>
+                            <div class="subtitle" style="display: inline;">Scheduler
+                            	<div id="schedule_enable">
+                            		<label><input type="radio" name="toggle"><span>On</span></label>
+    								<label><input type="radio" name="toggle" checked><span>Off</span></label>
+                            	</div>
+                            </div>
+                            <div id="scheduler">
+                            	
                             </div>
                         </div>
 

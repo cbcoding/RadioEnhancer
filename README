@@ -17,6 +17,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.3.4 Changelog
+ - Fix: Station listing should now properly extend to the bottom of the main window.
+ - Fix: Main content window should now be properly centered.
+
 1.3.3 Changelog
  - Fix: Notification controls work correctly now.
 

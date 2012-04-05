@@ -382,7 +382,7 @@ var hideAds = function()
     jQuery("body").css("background-color", "none !important");
     jQuery("#mainContainer").css({"background-image":settings.background_image + " !important", "background-color":settings.background_color});
     jQuery("#mainContentContainer").css("float", "none !important");
-    jQuery("#adLayout").css("width", "auto !important"); //bg fix on smaller viewport widths
+    jQuery("#adLayout").css("width", "666px"); //NUMBAH OF THE BEEEEEEEEEEEEEEEEEEEEEEEAST! \m/
     ads_hidden++;
     chrome.extension.sendRequest({
         notificationType:   'analytics',
@@ -431,10 +431,10 @@ var extendStationList = function()
     debugLog("PandoraEnhancer - Fixing station list.");
     jQuery('#promobox').remove();
     jQuery('.platformPromo').remove();
-    jQuery('.stationListHolder').css('height', '740px !important');
+    jQuery('.stationListHolder').css('height', '703px');
     jQuery('.stationContent').css('height', '100% !important');
     jQuery('.jspContainer').css('height', '100% !important');
-    jQuery('#stationSortDate').css('border-radius', '6px !important');
+    jQuery('#stationSortDate').css('border-radius', '6px');
 };
 
 var selectableLyrics = function()
