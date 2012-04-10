@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.3.4 Changelog
+ - Change: last.fm section in settings window looks a bit nicer now.
  - Fix: Station listing should now properly extend to the bottom of the main window.
  - Fix: Main content window should now be properly centered.
 

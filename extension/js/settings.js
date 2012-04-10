@@ -40,7 +40,7 @@ var loadCurrentOptions = function()
     {
         $('#scrobbleLoginButton').css('display', 'none');
         $('#scrobbleTokenContainer').css('display', 'block');
-        $('#scrobbleToken').text(' - logged in as ' + localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
+        $('#scrobbleToken').text('Logged in as ' + localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
     }
 
     if (localStorage['notification_always_show'] == "true")
