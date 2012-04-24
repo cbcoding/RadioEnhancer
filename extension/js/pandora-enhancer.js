@@ -434,7 +434,7 @@ var extendStationList = function()
     jQuery('.stationListHolder').css('height', '703px');
     jQuery('.stationContent').css('height', '100% !important');
     jQuery('.jspContainer').css('height', '100% !important');
-    jQuery('#stationSortDate').css('border-radius', '6px');
+    jQuery('#stationSortDate').css('border-bottom-left-radius', '6px');
 };
 
 var selectableLyrics = function()
