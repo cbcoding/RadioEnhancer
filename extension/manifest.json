@@ -1,6 +1,6 @@
 {
-    "name": "PandoraEnhancer",
-    "version": "1.3.4",
+    "name": "RadioEnhancer",
+    "version": "1.4.0",
     "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora's awesome HTML5 interface.",
     "background_page":  "background.html",
     "options_page":     "settings.html",
@@ -16,7 +16,7 @@
                 "js/jquery-1.6.4.min.js",
                 "js/jquery.livequery.min.js",
 				"js/jquery.simulate.js",
-                "js/pandora-enhancer.js",
+                "js/radio-enhancer.js",
 				"js/lastfm-api.js"
             ],
             "matches": [
@@ -29,7 +29,7 @@
         "notifications"
     ],
     "page_action": {
-        "default_title": "PandoraEnhancer",
+        "default_title": "RadioEnhancer",
         "default_icon": "images/logo-16.png",
         "default_popup": "settings.html"
     }

@@ -1,5 +1,5 @@
 /***
-* PandoraEnhancer LastFM API
+* RadioEnhancer LastFM API
 */
 
 var scrobbleKey = 'cc8e53bcccab48d580f4843d5f9593d7';

@@ -5,7 +5,7 @@ body {
     overflow: hidden;
 }
 
-#about_pandora_enhancer{
+#about_radio_enhancer{
     font-weight: bold;
     margin-top: 5px;
     padding-top: 5px;
@@ -146,7 +146,7 @@ label{
     display: block;
 }
 
-#pe-text-logo{
+#re-text-logo{
     width: 195px;
     overflow: hidden;
     font-size: 18pt;
@@ -155,7 +155,7 @@ label{
     line-height: 24px;
 }
 
-#pe-text-logo img{
+#re-text-logo img{
     float: left;
     padding: 0 5px 10px 0;
 }

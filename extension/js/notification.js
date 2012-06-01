@@ -55,6 +55,7 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
 });
 
 
+//6/1/2012 - i'm leaving this function name. it makes sense, and if we expand we know which site these are for.
 var pandoraUIControl = function(element){
 	switch (element)
 	{

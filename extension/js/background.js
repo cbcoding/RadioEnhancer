@@ -1,3 +1,7 @@
+/***
+* RadioEnhancer Background
+*/
+
 var timeouts = {};
 var openNotifications = {};
 
@@ -57,7 +61,7 @@ function showPageAction(tabID)
 
 function copyLyrics(lyrics)
 {
-    var clip = jQuery("#PE-clipboard-temp");
+    var clip = jQuery("#RE-clipboard-temp");
     clip.val(lyrics);
     clip.select();
     document.execCommand("copy");
@@ -283,7 +287,7 @@ function ourWebsites(person)
     if (person == "brandon")
         chrome.tabs.create({url: 'http://brandon-sachs.com'});
     if (person == "twitter")
-        chrome.tabs.create({url: 'http://twitter.com/PandoraEnhancer'});
+        chrome.tabs.create({url: 'http://twitter.com/RadioEnhancer'});
     if (person == "bug")
         chrome.tabs.create({url: 'http://cbcoding.com/?page_id=11'});
 }
@@ -365,8 +369,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
             isLiked:    msgParams.isLiked
         });
 
-        if(localStorage["scrobble_session_key"] && localStorage["scrobble_session_key"] != 'null')
-            {
+        if(localStorage["scrobble_session_key"] && localStorage["scrobble_session_key"] != 'null' && msgParams.songName != 'audioad')
+        {
             var dateNow = new Date();
             var timestamp = Math.round(dateNow.getTime()/1000);
             responseDispatcher('scrobble',{
@@ -438,12 +442,12 @@ $(function(){
     if (typeof localStorage['version'] == 'undefined')
     {
         localStorage['version'] = version;
-        _gaq.push(['_trackEvent', 'PandoraEnhancer', 'Installed v' + version]);
+        _gaq.push(['_trackEvent', 'RadioEnhancer', 'Installed v' + version]);
     }
     
     if (localStorage['version'] < version)
     {
         localStorage['version'] = version;
-        _gaq.push(['_trackEvent', 'PandoraEnhancer', 'Upgraded to v' + version]);
+        _gaq.push(['_trackEvent', 'RadioEnhancer', 'Upgraded to v' + version]);
     }
 });
