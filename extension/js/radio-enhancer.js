@@ -655,7 +655,7 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 {
 	jQuery.ajax({
 		type: 	"get",
-		url	:	"http://cbcoding.com/pe.json",
+		url	:	"http://cbcoding.com/re.json",
 		dataType: "json",
 		cache: false,
 		success: function(r){
