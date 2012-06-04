@@ -4,7 +4,7 @@ echo "Making build..."
 xcopy extension build /s /i /q
 
 echo "Compressing resources..."
-java -jar "resources/yui/build/yuicompressor-2.4.7.jar" "build/js/pandora-enhancer.js" -o "build/js/pandora-enhancer.js"
+java -jar "resources/yui/build/yuicompressor-2.4.7.jar" "build/js/radio-enhancer.js" -o "build/js/pandora-enhancer.js"
 java -jar "resources/yui/build/yuicompressor-2.4.7.jar" "build/js/lastfm-api.js" -o "build/js/lastfm-api.js"
 java -jar "resources/yui/build/yuicompressor-2.4.7.jar" "build/js/notification.js" -o "build/js/notification.js"
 java -jar "resources/yui/build/yuicompressor-2.4.7.jar" "build/js/settings.js" -o "build/js/settings.js"
