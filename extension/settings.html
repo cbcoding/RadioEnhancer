@@ -1,157 +1,135 @@
 <html>
     <head>
-        <script src="js/jquery-1.6.4.min.js"></script>
-        <script src="js/settings.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/settings.css">
+	<script src="js/jquery-1.6.4.min.js"></script>
+	<script src="js/settings.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/settings.css">
     </head>
 
     <body>
 
-        <div id="fb-root"></div>
-        <form id="settings">
-            <div class="re-container">
-                <div class="re-header">
-                    <div id="re-text-logo">
-                        <img src="images/logo-48.png">
-                        Radio<br>
-                        <span id="text-logo-span">Enhancer</span>
-                    </div>
-                </div>
+	<div id="fb-root"></div>
+	<form id="settings">
+	    <div class="re-container">
+		<div class="re-header">
+		    <div id="re-text-logo">
+			<img src="images/logo-48.png">
+			Radio<br>
+			<span id="text-logo-span">Enhancer</span>
+		    </div>
+		</div>
 
-                <div id="social">
-                    <div class="float_left" id="gplus">
-                        <div class="g-plusone" data-size="medium" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>
-                    </div>
+		<div id="social">
+		    <div class="float_left" id="gplus">
+			<!--<div class="g-plusone" data-size="medium" data-href="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg"></div>-->
+			<div class="g-plusone" data-size="medium" data-href="https://chrome.google.com/webstore/detail/lfijnebfkjdclmcedinoknekamigckii"></div>
+		    </div>
 
-                    <!-- <div class="float_left" id="twitter"><a href="https://twitter.com/RadioEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a></div> -->
+		    <!-- <div class="float_left" id="twitter"><a href="https://twitter.com/RadioEnhancer" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a></div> -->
 
-                    <div class="float_left" id="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg" data-text="Check out RadioEnhancer for Chrome!" data-count="horizontal" data-via="RadioEnhancer">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></div>
+		    <!--<div class="float_left" id="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/ipfamfogncacknldkaoekchdeddmfnlg" data-text="Check out RadioEnhancer for Chrome!" data-count="horizontal" data-via="RadioEnhancer">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script></div>-->
+		    <div class="float_left" id="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/lfijnebfkjdclmcedinoknekamigckii" data-text="Check out RadioEnhancer for Chrome!" data-count="horizontal" data-via="RadioEnhancer">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script></div>
+		    
+		    <!--<div class="fb-like float_left" data-href="http://www.facebook.com/pandoraenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="margin-left: 25px;"></div>-->
+		    <!--<div class="fb-like float_left" data-href="https://www.facebook.com/radioenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="margin-left: 25px;"></div>-->
+		    
+		</div>
 
-                    <div class="fb-like float_left" data-href="http://www.facebook.com/pandoraenhancer" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="margin-left: 25px;"></div>
-                </div>
+		<div class="clear"></div>
 
-                <div class="clear"></div>
-
-                <div class="tabBox">
-                    <ul class="tabs">
-                        <li id="general" class="selected"><a href="#">General</a></li>
-                        <li id="lastfm"><a href="#">last.fm</a></li>
-                        <li id="notifications"><a href="#">Notifications</a></li>
-                        <li id="about"><a href="#">About</a></li>
-                    </ul>
-
-
-                    <div class="content">
-
-                        <div id="general" class="active">
-                            <input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="remove_ribbon" id="remove_ribbon"><label for="remove_ribbon">remove top ribbon</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="decensor_lyrics" id="decensor_lyrics"><label for="decensor_lyrics">de-censor lyrics</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="header_config" id="header_config"><label for="header_config">append "configure" link to Pandora user menu</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
-                        </div>
-
-                        <div id="lastfm">
-                        	<div class="subtitle" id="scrobbleToken">last.fm</div>
-                            <button id="scrobbleLoginButton" class="controlButton">Authenticate</button>
-                            <div id="scrobbleTokenContainer">
-                                <input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label>
-                                <br>
-                                <label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />
-                                <br>
-                                <button id="scrobbleLogoutButton" class="controlButton">Logout</button>
-                            </div>
-                        </div>
-
-                        <div id="notifications">
-                            <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
-                            <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
-                            <!-- <input class="setting_checkbox" type="checkbox" name="notification_show_station_list" id="notification_show_station_list"><label for="notification_show_station_list">show station list in notification</label><br /> -->
-                            <input class="setting_checkbox" type="checkbox" name="notification_always_show" id="notification_always_show"><label for="notification_always_show">always show notification window</label><br />
-                            <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" id="notification_timeout" maxlength="4">
-                        </div>
-
-                        <div id="about">
-                            <span id="header">RadioEnhancer <span class="RE-version">80085</span></span>
-                            <hr>
-                            Brandon Sachs - <span class="link" id="brandon">http://brandon-sachs.com</span>
-                            <br>
-                            Curt Hostetter &nbsp; - <span class="link" id="curt">http://curthostetter.com</span>
-                            <br><br>
-                            Follow us on twitter - <span class="link" id="twitter">@RadioEnhancer</span>
-                            <br>
-                            Found a bug? Let us know - <span class="link" id="bug">http://cbcoding.com</span>
-                            
-                            <hr>
-                            
-                            </form> <!-- end of main settings form -->
-                            
-                            <span id="donate">
-                                <span id="left">
-                                    <!--<input name="donation_amount" id="donation_amount" type="range" min="1" max="50" value="5">-->
-                                    <a id="donation_link" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypal@friedwalrus.com&currency_code=USD&item_name=RadioEnhancer+Donation&return=http://http://cbcoding.com/?page_id=29">
-                                        <img src="images/paypal.png" />
-                                    </a>
-                                </span>
-                                
-                                <span id="right">
-                                    <!--If you donate <span class="donation_amount total">$5</span>, after PayPal fees we will receive <span class="donation_amount after_fees">$4.55</span>. Click the PayPal icon to continue.-->
-                                    If you like the extension, any contribution is appreciated; we build RadioEnhancer in our spare time. Click the icon to the left to donate to the project.
-                                </span>
-                            </span>
-                            
-                            
-                        </div>
-
-                    </div>
-                </div>
+		<div class="tabBox">
+		    <ul class="tabs">
+			<li id="general" class="selected"><a href="#">General</a></li>
+			<li id="lastfm"><a href="#">last.fm</a></li>
+			<li id="notifications"><a href="#">Notifications</a></li>
+			<li id="about"><a href="#">About</a></li>
+		    </ul>
 
 
-                <div class="actions">
-                    <button id="saveButton" class="controlButton" disabled>Save</button> <button class="controlButton" id="cancelButton">Cancel</button>
-                </div>
+		    <div class="content">
+
+			<div id="general" class="active">
+			    <input class="setting_checkbox" type="checkbox" name="remove_ads" id="remove_ads"><label for="remove_ads">remove banner ads</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="remove_videos" id="remove_videos"><label for="remove_videos">remove video ads</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="remove_still_listening" id="remove_still_listening"><label for="remove_still_listening">skip "Still Listening?" dialog</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="remove_promobox" id="remove_promobox"><label for="remove_promobox">remove promobox + extend Station List</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="remove_tooltips" id="remove_tooltips"><label for="remove_tooltips">remove tooltips</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="remove_ribbon" id="remove_ribbon"><label for="remove_ribbon">remove top ribbon</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="selectable_lyrics" id="selectable_lyrics"><label for="selectable_lyrics">selectable/copy lyrics</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="decensor_lyrics" id="decensor_lyrics"><label for="decensor_lyrics">de-censor lyrics</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="header_config" id="header_config"><label for="header_config">append "configure" link to Pandora user menu</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="debug_mode" id="debug_mode"><label for="debug_mode">debug mode</label>
+			</div>
+
+			<div id="lastfm">
+				<div class="subtitle" id="scrobbleToken">last.fm</div>
+			    <button id="scrobbleLoginButton" class="controlButton">Authenticate</button>
+			    <div id="scrobbleTokenContainer">
+				<input class="setting_checkbox" type="checkbox" name="lastfm_love_with_like" id="lastfm_love_with_like"><label for="lastfm_love_with_like">love song on last.fm when I thumb up on Pandora</label>
+				<br>
+				<label for="scrobble_delay">song scrobble delay (seconds):</label><input type="text" class="setting_textbox" name="scrobble_delay" maxlength="4" />
+				<br>
+				<button id="scrobbleLogoutButton" class="controlButton">Logout</button>
+			    </div>
+			</div>
+
+			<div id="notifications">
+			    <input class="setting_checkbox" type="checkbox" name="notification_song_change" id="notification_song_change"><label for="notification_song_change">when the song has changed</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="notification_still_listening" id="notification_still_listening"><label for="notification_still_listening">when "Still Listening?" dialog is skipped</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="notification_video_ad" id="notification_video_ad"><label for="notification_video_ad">when a video ad is blocked</label><br />
+			    <input class="setting_checkbox" type="checkbox" name="player_controls" id="player_controls"><label for="player_controls">show player controls in notification</label><br />
+			    <!-- <input class="setting_checkbox" type="checkbox" name="notification_show_station_list" id="notification_show_station_list"><label for="notification_show_station_list">show station list in notification</label><br /> -->
+			    <input class="setting_checkbox" type="checkbox" name="notification_always_show" id="notification_always_show"><label for="notification_always_show">always show notification window</label><br />
+			    <label for="notification_timeout">Display length (seconds):</label><input type="text" class="setting_textbox" name="notification_timeout" id="notification_timeout" maxlength="4">
+			</div>
+
+			<div id="about">
+			    <span id="header">RadioEnhancer <span class="RE-version">80085</span></span>
+			    <hr>
+			    Brandon Sachs - <span class="link" id="brandon">http://brandon-sachs.com</span>
+			    <br>
+			    Curt Hostetter &nbsp; - <span class="link" id="curt">http://curthostetter.com</span>
+			    <br><br>
+			    Follow us on twitter - <span class="link" id="twitter">@RadioEnhancer</span>
+			    <br>
+			    Found a bug? Let us know - <span class="link" id="bug">http://cbcoding.com</span>
+			    
+			    <hr>
+			    
+			    </form> <!-- end of main settings form -->
+			    
+			    <span id="donate">
+				<span id="left">
+				    <!--<input name="donation_amount" id="donation_amount" type="range" min="1" max="50" value="5">-->
+				    <a id="donation_link" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypal@friedwalrus.com&currency_code=USD&item_name=RadioEnhancer+Donation&return=http://http://cbcoding.com/?page_id=29">
+					<img src="images/paypal.png" />
+				    </a>
+				</span>
+				
+				<span id="right">
+				    <!--If you donate <span class="donation_amount total">$5</span>, after PayPal fees we will receive <span class="donation_amount after_fees">$4.55</span>. Click the PayPal icon to continue.-->
+				    If you like the extension, any contribution is appreciated; we build RadioEnhancer in our spare time. Click the icon to the left to donate to the project.
+				</span>
+			    </span>
+			    
+			    
+			</div>
+
+		    </div>
+		</div>
 
 
-                <div id="about_radio_enhancer">
-                    RadioEnhancer (v<span class="RE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
-                </div>
+		<div class="actions">
+		    <button id="saveButton" class="controlButton" disabled>Save</button> <button class="controlButton" id="cancelButton">Cancel</button>
+		</div>
 
-            </div>
-        <!-- </form> -->
+
+		<div id="about_radio_enhancer">
+		    RadioEnhancer (v<span class="RE-version">80085</span>) by <span class="link" id="brandon">Brandon Sachs</span> & <span class="link" id="curt">Curt Hostetter</span>
+		</div>
+
+	    </div>
+	<!-- </form> -->
 
     </body>
-
-    <script type="text/javascript">
-        setTimeout(function(){
-            (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-
-            (function() {
-                var po = document.createElement('script'); 
-                po.type = 'text/javascript'; 
-                po.async = true;
-                po.src = 'http://platform.twitter.com/widgets.js';
-                var s = document.getElementsByTagName('script')[0]; 
-                s.parentNode.insertBefore(po, s);
-            })();
-            (function() {
-                var po = document.createElement('script'); 
-                po.type = 'text/javascript'; 
-                po.async = true;
-                po.src = 'http://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
-                var s = document.getElementsByTagName('script')[0]; 
-                s.parentNode.insertBefore(po, s);
-            }());
-        },100);
-    </script>
+    
 </html>
