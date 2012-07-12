@@ -15,42 +15,42 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
     var action = $(this).prop("id");
     switch (action)
     {
-        case "thumbs_up":
-	        if (!$("#thumbs_up").hasClass('isLiked'))
-	        {
-	            pandoraUIControl("thumbUpButton");
-	            bgPage.window.playerControl("thumbs_up");
-	        }
-        break;
-        case "thumbs_down":
-        	if (!$("#thumbs_down").hasClass('isLiked'))
-	        {
-	            pandoraUIControl("thumbDownButton");
-	            bgPage.window.playerControl("thumbs_down");
-	        }
-            break;
-        case "play":
-            pandoraUIControl("playButton");
-            bgPage.window.playerControl("play", false);
-            break;
-        case "pause":
-            pandoraUIControl("pauseButton");
-            bgPage.window.playerControl("pause");
-            bgPage.window.updateNotificationStayOpen('songChange', true);
-            break;
-        case "skip":
-            bgPage.window.playerControl("skip");
-            break;
-        case "mute":
-            $(this).hide();
-            $("#unmute").show();
-            bgPage.window.playerControl("mute");
-            break;
-        case "unmute":
-            $(this).hide();
-            $("#mute").show();
-            bgPage.window.playerControl("unmute");
-            break;
+	case "thumbs_up":
+		if (!$("#thumbs_up").hasClass('isLiked'))
+		{
+		    pandoraUIControl("thumbUpButton");
+		    bgPage.window.playerControl("thumbs_up");
+		}
+	break;
+	case "thumbs_down":
+		if (!$("#thumbs_down").hasClass('isLiked'))
+		{
+		    pandoraUIControl("thumbDownButton");
+		    bgPage.window.playerControl("thumbs_down");
+		}
+	    break;
+	case "play":
+	    pandoraUIControl("playButton");
+	    bgPage.window.playerControl("play", false);
+	    break;
+	case "pause":
+	    pandoraUIControl("pauseButton");
+	    bgPage.window.playerControl("pause");
+	    bgPage.window.updateNotificationStayOpen('songChange', true);
+	    break;
+	case "skip":
+	    bgPage.window.playerControl("skip");
+	    break;
+	case "mute":
+	    $(this).hide();
+	    $("#unmute").show();
+	    bgPage.window.playerControl("mute");
+	    break;
+	case "unmute":
+	    $(this).hide();
+	    $("#mute").show();
+	    bgPage.window.playerControl("unmute");
+	    break;
     }
 });
 
@@ -61,12 +61,12 @@ var pandoraUIControl = function(element){
 	{
 		case "thumbDownButton":
 			$("#thumbs_down").addClass('isLiked').removeClass('playerControl');
-	        $("#thumbs_up").addClass('playerControl').removeClass('isLiked');
+		$("#thumbs_up").addClass('playerControl').removeClass('isLiked');
 			break;
 		
 		case "thumbUpButton":
 			$("#thumbs_up").addClass('isLiked').removeClass('playerControl');
-	        $("#thumbs_down").addClass('playerControl').removeClass('isLiked');
+		$("#thumbs_down").addClass('playerControl').removeClass('isLiked');
 			break;
 		
 		case "playButton":
@@ -95,85 +95,86 @@ $(document).ready(function()
 	
     //listener
     PEjs.onMessage.addListener(function(message){
-        if (message.timeInfo)
-        {
-            var elapsedTime     = message.timeInfo.elapsedTime;
-            var remainingTime   = message.timeInfo.remainingTime; //unused right now
-            var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong :-(
-            var trackingPercent = (elapsedTime / totalTime) * 100;
-            $("#tracking").css("width", trackingPercent + "%");
-        }
+	if (message.timeInfo)
+	{
+	    //todo: we can do a p2 style detect active jPlayer object and look at jPlayer->status->currentPercentAbsolute
+	    var elapsedTime     = message.timeInfo.elapsedTime;
+	    var remainingTime   = message.timeInfo.remainingTime; //unused right now
+	    var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong :-(
+	    var trackingPercent = (elapsedTime / totalTime) * 100;
+	    $("#tracking").css("width", trackingPercent + "%");
+	}
 
-        //station list stuff
-        /*
-        if (message.stationList)
-        {
-            if (message.stationList !== null)
-            {
-                console.log(message.stationList);
-                $.each(message.stationList, function(index, value){
-                    var selected = (index == "selected") ? "selected" : "";
-                    //$("#station_listing").css("display", "block").append('<option ' + selected + '>' + value + '</option>');
-                    $(".station_list dd ul").append('<li><a href="#">' + value + '</a></li>');
-                });
-            }
-        }
-        */
+	//station list stuff
+	/*
+	if (message.stationList)
+	{
+	    if (message.stationList !== null)
+	    {
+		console.log(message.stationList);
+		$.each(message.stationList, function(index, value){
+		    var selected = (index == "selected") ? "selected" : "";
+		    //$("#station_listing").css("display", "block").append('<option ' + selected + '>' + value + '</option>');
+		    $(".station_list dd ul").append('<li><a href="#">' + value + '</a></li>');
+		});
+	    }
+	}
+	*/
     });
     
     //get some info
     setInterval(function(){
-        try {
-            PEjs.postMessage({getTimeInfo: true});
-        } catch (e) {
-            bgPage.notification.cancel();
-        }
+	try {
+	    PEjs.postMessage({getTimeInfo: true});
+	} catch (e) {
+	    bgPage.notification.cancel();
+	}
     }, 1500);
     
     //PEjs.postMessage({getStationList: true});
     
     /* old station list
     $("#station_listing").change(function(){
-        var stationName = $(this).val();
-        var index = $(this).prop("selectedIndex");
-        PEjs.postMessage({changeStation: stationName});
+	var stationName = $(this).val();
+	var index = $(this).prop("selectedIndex");
+	PEjs.postMessage({changeStation: stationName});
     });
     */
     
     $(".station_list dt a").click(function(){
-        $(".station_list dd ul").toggle();
+	$(".station_list dd ul").toggle();
     });
 
     $(".station_list dd ul li a").live('click', function(){
-        var stationName = $(this).html();
-        PEjs.postMessage({changeStation: stationName});
-        $(".station_list dd ul").hide();
+	var stationName = $(this).html();
+	PEjs.postMessage({changeStation: stationName});
+	$(".station_list dd ul").hide();
     });
     
     if (songInfo.isLiked)
     {
-        $("#thumbs_up").addClass('isLiked');
-        $("#thumbs_up").removeClass('playerControl');
+	$("#thumbs_up").addClass('isLiked');
+	$("#thumbs_up").removeClass('playerControl');
     }
 
     if (songInfo.autoMute && songInfo.songName == "Audio Ad")
     {
-        bgPage.window.setAudioAdStatus(true);
-        bgPage.window.playerControl("mute");
+	bgPage.window.setAudioAdStatus(true);
+	bgPage.window.playerControl("mute");
     } else {
-        if (bgPage.window.getAudioAdStatus())
-            bgPage.window.playerControl("unmute");
+	if (bgPage.window.getAudioAdStatus())
+	    bgPage.window.playerControl("unmute");
 
-        bgPage.window.setAudioAdStatus(false);
+	bgPage.window.setAudioAdStatus(false);
     }
 
     $('#notificationContainer').mouseenter(function(event){
-        bgPage.window.updateNotificationStayOpen('songChange', true);
+	bgPage.window.updateNotificationStayOpen('songChange', true);
     }).mouseleave(function(){
-        if ($("#pause").css('display') != 'none')
-        {
-            bgPage.window.updateNotificationStayOpen('songChange', false);
-        }
+	if ($("#pause").css('display') != 'none')
+	{
+	    bgPage.window.updateNotificationStayOpen('songChange', false);
+	}
     });
 
 });

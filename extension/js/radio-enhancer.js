@@ -317,28 +317,26 @@ var playerControl = function(action)
 	    }, function(response) {});
 	    break;
 	case "skip":
-	var ppskip = jQuery(".unlimitedSkipButton");
-	if(ppskip.length > 0)
-	    {
-	    dispatchClick(ppskip[0]);
-	    var skip = "unlimited skip";
-	} 
-	else 
-	    {
-	    dispatchClick(jQuery('.skipButton')[0]);
-	    var skip = "normal skip";
-	}
-
-	debugLog("RadioEnhancer - Skip");
-	chrome.extension.sendRequest({
-	    notificationType:   'analytics',
-	    msgParams: {
-		event_name:     'RE Player Control',
-		event_action:   skip
+	    var ppskip = jQuery(".unlimitedSkipButton");
+	    if (ppskip.length > 0){
+		dispatchClick(ppskip[0]);
+		var skip = "unlimited skip";
+	    } else {
+		dispatchClick(jQuery('.skipButton')[0]);
+		var skip = "normal skip";
 	    }
-	}, function(response) {});
-	break;
 
+	    debugLog("RadioEnhancer - Skip");
+	    chrome.extension.sendRequest({
+		notificationType:   'analytics',
+		msgParams: {
+		    event_name:     'RE Player Control',
+		    event_action:   skip
+		}
+	    }, function(response) {});
+	    break;
+
+	//todo: mute/unmute toggle gradually lowers overall volume level. fix.
 	case "mute":
 	    if (jQuery(".volumeKnob").css("left") == "35px") return false;
 	    volumeLevelRestored = jQuery(".volumeKnob").css("left");
@@ -441,9 +439,9 @@ var selectableLyrics = function()
 {
     //lol they went above and beyond to prevent this. so strange.
     if(jQuery("#RE-copyLyrics").length == 0)
-	{
+    {
 	jQuery(".item.lyrics > .heading").append(
-	'<span id="RE-copyLyrics"> - Copy Lyrics to Clipboard</span>'
+	    '<span id="RE-copyLyrics"> - Copy Lyrics to Clipboard</span>'
 	).css({
 	    cursor: "pointer"
 	});
@@ -469,7 +467,7 @@ var decensorLyrics = function(lyrics)
 {
     //TODO: sometimes they censor song names too from the top right and in the light blue area
     if (settings.re.decensor_lyrics != "false")
-	{
+    {
 	//todo: make this happen when lyrics expand, not just copied from our link. check .showMoreLyrics click or something. and a setting.
 	//yeah, they censor "fart". im freakin' dying over here!
 	var dirty = ["fuck", "shit", "bitch", "ass", "fart", "nigga", "pussy", "clit", "cock"];
