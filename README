@@ -18,8 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.4.1 Changelog
+ ~ Internal: Upgrade to jQuery 1.7.2.
+ ~ Internal: PandoraUI -> notification controls now handles mute/unmute as well.
+ ~ Internal: Check for message now marks as being viewed after clicking "Close" button.
  - New: Auto-mute audio ads option (default enabled).
  - Fix: Copy lyrics to clipboard works again.
+ - Fix: Muting using the notification controls no longer restores to a lower volume level.
+ - Fix: Clicking the "mute" icon on Pandora will again toggle muting.
 
 1.4.0 Changelog
  - New name: RadioEnhancer

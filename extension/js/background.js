@@ -56,7 +56,7 @@ var debugLog = function(whatever){
 function showPageAction(tabID)
 {
     chrome.pageAction.show(tabID);
-    return {'message':'showing pageaction icon'};
+    return {'message':'showing pageaction on tabid ' + tabID};
 }
 
 function copyLyrics(lyrics)
@@ -331,9 +331,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     if (notificationType == "pandoraUI")
     {
 	// "syncs" pandora's UI player control state to notification window
-		chrome.extension.getViews({type:"notification"}).forEach(function(notification) {
-			notification.pandoraUIControl(request.action);
-		});
+	chrome.extension.getViews({type:"notification"}).forEach(function(notification) {
+		notification.pandoraUIControl(request.action);
+	});
     }
     
     if (notificationType == "lastDevMsg")
@@ -394,6 +394,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
     {
 	_gaq.push(['_trackPageview', msgParams.url]);
     }
+    
+    if(notificationType == "showPageAction")
+    {
+	returnStatus = showPageAction(sender.tab.id);
+    }
 
     if(!request.notificationType)
     {
@@ -416,24 +421,20 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	    }
 	}
 
-	if(request.showPageAction)
-	    {
-	    returnStatus = showPageAction(sender.tab.id);
-	}
-
 	if(request.copyLyrics)
-	    {
+	{
 	    returnStatus = copyLyrics(request.lyricText);
 	}
 
 	if (request.showSettings)
-	    {
+	{
 	    chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
 	}
     }
 
     sendResponse(returnStatus);
-});
+}); //onRequest
+
 
 $(function(){
     localStorageSettings();

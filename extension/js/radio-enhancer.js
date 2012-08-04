@@ -7,6 +7,8 @@
 //http://code.google.com/chrome/extensions/windows.html#tyre-Window
 //i forgot why that was something we wanted to detect in the first place...
 
+//todo: fix mute toggle
+
 //init
 chrome.extension.sendRequest({
     notificationType: 'showPageAction'
@@ -109,7 +111,7 @@ var oldAlbumArt = null;
 var newAlbumArt = null;
 var ads_hidden = 0;
 var song_skip_tries = 0;
-var volumeLevelBase = 35;
+var volumeLevelBase = 20;
 var volumeLevelIncrement = 0.82;
 var volumeLevelRestored = 100;
 var isMuted;
@@ -338,14 +340,15 @@ var playerControl = function(action)
 
 	//todo: mute/unmute toggle gradually lowers overall volume level. fix.
 	case "mute":
-	    if (jQuery(".volumeKnob").css("left") == "35px") return false;
+	    isMuted = true;
+	    
 	    volumeLevelRestored = jQuery(".volumeKnob").css("left");
 	    volumeLevelRestored = volumeLevelRestored.replace("px","");
 	    volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
-	    //volumeLevelRestored = Math.ceil((volumeLevelRestored - volumeLevelBase) / volumeLevelIncrement);            
-	    isMuted = true;
+	    
 	    jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
 	    debugLog("RadioEnhancer - Mute");
+	    
 	    chrome.extension.sendRequest({
 		notificationType:   'analytics',
 		msgParams: {
@@ -355,11 +358,11 @@ var playerControl = function(action)
 	    }, function(response) {});
 	    break;
 	case "unmute":
-	    //window.location.replace("http://www.pandora.com/#/volume/" + volumeLevelRestored);
+	    isMuted = false;
 	    jQuery('.volumeBackground').css('display', 'block');
 	    jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
-	    isMuted = false;
 	    debugLog("RadioEnhancer - Un-mute");
+	    
 	    chrome.extension.sendRequest({
 		notificationType:   'analytics',
 		msgParams: {
@@ -643,18 +646,18 @@ var appendHeaderConfig = function()
 
 
 jQuery.fn.center = function () {
-    this.css("position","absolute");
+    this.css("position","fixed");
     this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
     this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
     return this;
 }
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
-{
+{   
     //todo: make it marked as viewed only on the ok click
     jQuery.ajax({
-	    type: 	"get",
-	    url	:	"http://cbcoding.com/re.json",
+	    type:     "get",
+	    url	:     "http://cbcoding.com/re.json",
 	    dataType: "json",
 	    cache: false,
 	    success: function(r){
@@ -676,7 +679,7 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 		    //method 3 - on-page modal with overlay
 		    $("body").prepend(
 			//re-overlay
-			'<div id="RE-overlay" style="z-index:9998 !important;position:absolute;height:100%;width: 100%;margin:0 auto;background:#000;opacity:.7"></div>'
+			'<div id="RE-overlay" style="z-index:9998 !important;position:fixed;height:100%;width: 100%;margin:0 auto;background:#000;opacity:.7"></div>'
 			
 			//modal window
 			+'<div id="RE-modal" style="'
@@ -713,12 +716,12 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 				+'height:25%; width:250px;'
 				+'-webkit-border-radius: 8px;'
 				+'padding: 5px;'
-							+'margin-left: 85px;'
-							+'margin-top: 10px;'
+				+'margin-left: 85px;'
+				+'margin-top: 10px;'
 				+'font-weight: 900: font-size: 10pt;'
 			    +'">'
 				+'<span style="font-size:18pt;font-weight:900;color:#00317f;width:200px;">'
-				+'<img style="float:left;" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ bWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6 eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz NDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv IiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD cmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjk0RDJERDJGMDM0MzExRTFCRTZGQjZBRDkxREFENDM2IiB4bXBNTTpEb2N1bWVu dElEPSJ4bXAuZGlkOjk0RDJERDMwMDM0MzExRTFCRTZGQjZBRDkxREFENDM2Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OTREMkREMkQwMzQzMTFFMUJFNkZC NkFEOTFEQUQ0MzYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OTREMkREMkUwMzQzMTFFMUJFNkZCNkFEOTFEQUQ0MzYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1l dGE+IDw/eHBhY2tldCBlbmQ9InIiPz4wxeWBAAAIr0lEQVR42rxXa2wcVxX+5rEv73r9Wnv9qh3bSWM3L5JGaXARqZQIISEVof6paKtILRJUECEIggARUQkS0CKUH1EFoqAKBKhVQa2a0ggRp02VKkkV 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\">'
+				+'<img style="float:left;" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5MDI3OUQxQjQxMDNFMTExOTdEMUQ3OTk0QjdGN0VBMCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyMkRGM0MzMEFFNzYxMUUxQTdERUQwMDJCMzgyQUZDQSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyMkRGM0MyRkFFNzYxMUUxQTdERUQwMDJCMzgyQUZDQSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2OTA3QTJGNzc1QUVFMTExQjgwMjhEQ0M1MDBCQkU4RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MDI3OUQxQjQxMDNFMTExOTdEMUQ3OTk0QjdGN0VBMCIvPiA8L3JkZjpEZXNjcmlwdGlv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\">'
 				+'<div style="height: 32px;margin-top:1px;">RadioEnhancer</div></span>'
 			    +'</div>'
 			    
@@ -733,7 +736,7 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 			    +'</div>'
 			    
 			    
-			    +'<div id="RE-modal-close" style="'
+			    +'<div id="RE-modal-close" data-message-id="' + r.msgId + '" style="'
 				+'display: block;'
 				+'text-align: center;'
 				+'height:25%; width:100%;'
@@ -757,18 +760,12 @@ var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
 		    
 		    $("#RE-modal").center();
 		    
-		    r.msgId = (r.msgId == "reset") ? "0" : r.msgId;
-		    chrome.extension.sendRequest({
-			notificationType: 'lastDevMsg',
-			msgId:            r.msgId
-		    });
-		    
 		    //analytics
 		    chrome.extension.sendRequest({
 			notificationType:   'analytics',
 			msgParams: {
 			    event_name:     'RadioEnhancer',
-			    event_action:   'Checked for Message'
+			    event_action:   'Displayed Message'
 			}
 		    }, function(response) {});
 		}
@@ -781,14 +778,14 @@ jQuery(document).ready(function()
 {
     debugLog("RadioEnhancer loaded.");
     checkForMessageFromTheCoolDudesWhoMadeThisThing();
-
-	jQuery('.thumbDownButton, .thumbUpButton, .playButton, .pauseButton').live('mouseup', function(){
-		var button = jQuery(this);
-		chrome.extension.sendRequest({
-			notificationType: 'pandoraUI',
-			action: button.attr("class")
-		});
+    
+    jQuery('.thumbDownButton, .thumbUpButton, .playButton, .pauseButton, .volumeButton').on('mouseup', function(){
+	var button = jQuery(this);
+	chrome.extension.sendRequest({
+	    notificationType: 'pandoraUI',
+	    action: button.attr("class")
 	});
+    });
     
     //todo: wtf is the purpose of this?
     chrome.extension.sendRequest({
@@ -798,7 +795,7 @@ jQuery(document).ready(function()
 	}
     }, function(response) {});
 
-    jQuery(".showMoreLyrics").livequery('click', function(){
+    jQuery(".showMoreLyrics").on('click', function(){
 	setTimeout(function(){
 	    var lyricsHTML = jQuery(".lyricsText").html();
 	    decensorLyrics(lyricsHTML);
@@ -812,18 +809,19 @@ jQuery(document).ready(function()
 
     if(settings.re.remove_promobox != "false")
     {
-	jQuery("#promobox").live('DOMNodeInserted', function(){
+	jQuery("#promobox").on('DOMNodeInserted', function(){
 	    extendStationList();
 	});
 	extendStationList();
     }
 
-    jQuery(".volumeButton").live('click', function(){
-	playerControl("mute");
-    });
-
-    jQuery(".volumeButton.muted").live('click', function(){
-	playerControl("unmute");
+    jQuery(".volumeButton").on('click', function()
+    {
+	if ($(this).hasClass('muted')){
+	    playerControl('unmute');
+	} else {
+	    playerControl('mute');
+	}
     });
 
     jQuery("#RE-config-link").live('click', function(){
@@ -840,26 +838,31 @@ jQuery(document).ready(function()
     });
     
     jQuery("#RE-modal-close").live('click', function(){
-	console.log("closing modal");
+	var messageId = $(this).data('messageId');
+	
+	//save last seen message id
+	chrome.extension.sendRequest({
+	    notificationType: 'lastDevMsg',
+	    msgId:            (messageId == "reset") ? "0" : messageId
+	});
+	
 	jQuery("#RE-overlay, #RE-modal").remove();
     });
 
     if(settings.re.remove_ribbon != "false")
-	{
+    {
 	jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
 	    hideRibbon();
 	});
     }
 
     if(settings.re.header_config && settings.re.header_config != "false")
-	{
-	//jQuery(".stationChangeSelectorNoMenu").livequery(function(){
+    {
 	appendHeaderConfig();
-	//});
     }
 
     if(settings.re.notification_song_change != "false")
-	{
+    {
 	jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
 	    doSongChange();
 	});
@@ -869,11 +872,11 @@ jQuery(document).ready(function()
     {
 	jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
 	    if (jQuery('.still_listening').length > 0)
-		{
-		if(settings.re.notification_still_listening != "false")
-		{
+	    {
+		if(settings.re.notification_still_listening != "false"){
 		    showStillListeningNotification();
 		}
+		
 		setTimeout("totallyStillListening()", 5000);
 	    }
 	});
@@ -919,7 +922,7 @@ jQuery(document).ready(function()
     }
 
     if(settings.re.lastfm_love_with_like == 'true')
-	{
+    {
 	jQuery(".thumbUpButton > a").click(function(){
 	    debugLog("RadioEnhancer - Loving on Last.fm");
 	    scrobbleControl("loveTrack");

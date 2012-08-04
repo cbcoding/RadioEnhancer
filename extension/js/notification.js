@@ -13,21 +13,22 @@ var PEjs    = chrome.tabs.connect(songInfo.tabID);
 
 $("#playerControlContainer > div, #playerControlContainer > div img").live('click', function(){
     var action = $(this).prop("id");
+    
     switch (action)
     {
 	case "thumbs_up":
-		if (!$("#thumbs_up").hasClass('isLiked'))
-		{
-		    pandoraUIControl("thumbUpButton");
-		    bgPage.window.playerControl("thumbs_up");
-		}
+	    if (!$("#thumbs_up").hasClass('isLiked'))
+	    {
+		pandoraUIControl("thumbUpButton");
+		bgPage.window.playerControl("thumbs_up");
+	    }
 	break;
 	case "thumbs_down":
-		if (!$("#thumbs_down").hasClass('isLiked'))
-		{
-		    pandoraUIControl("thumbDownButton");
-		    bgPage.window.playerControl("thumbs_down");
-		}
+	    if (!$("#thumbs_down").hasClass('isLiked'))
+	    {
+		pandoraUIControl("thumbDownButton");
+		bgPage.window.playerControl("thumbs_down");
+	    }
 	    break;
 	case "play":
 	    pandoraUIControl("playButton");
@@ -56,29 +57,40 @@ $("#playerControlContainer > div, #playerControlContainer > div img").live('clic
 
 
 //6/1/2012 - i'm leaving this function name. it makes sense, and if we expand we know which site these are for.
-var pandoraUIControl = function(element){
-	switch (element)
-	{
-		case "thumbDownButton":
-			$("#thumbs_down").addClass('isLiked').removeClass('playerControl');
-		$("#thumbs_up").addClass('playerControl').removeClass('isLiked');
-			break;
-		
-		case "thumbUpButton":
-			$("#thumbs_up").addClass('isLiked').removeClass('playerControl');
-		$("#thumbs_down").addClass('playerControl').removeClass('isLiked');
-			break;
-		
-		case "playButton":
-			$("#play").hide();
-			$("#pause").show();
-			break;
-		
-		case "pauseButton":
-			$("#pause").hide();
-			$("#play").show();
-			break;
-	}
+var pandoraUIControl = function(element)
+{
+    switch (element)
+    {
+	case "thumbDownButton":
+	    $("#thumbs_down").addClass('isLiked').removeClass('playerControl');
+	    $("#thumbs_up").addClass('playerControl').removeClass('isLiked');
+	    break;
+	
+	case "thumbUpButton":
+	    $("#thumbs_up").addClass('isLiked').removeClass('playerControl');
+	    $("#thumbs_down").addClass('playerControl').removeClass('isLiked');
+	    break;
+	
+	case "playButton":
+	    $("#play").hide();
+	    $("#pause").show();
+	    break;
+	
+	case "pauseButton":
+	    $("#pause").hide();
+	    $("#play").show();
+	    break;
+	
+	case "volumeButton":
+	    $("#mute").hide();
+	    $("#unmute").show();
+	    break;
+	    
+	case "volumeButton muted":
+	    $("#unmute").hide();
+	    $("#mute").show();
+	    break;
+    }
 }
 
 $(document).ready(function()
