@@ -11,7 +11,7 @@ var updateNotificationStayOpen = function(type, stayOpen)
     openNotifications[type]['stayOpen'] = stayOpen;
     clearTimeout(timeouts[type]);
 
-    if(!stayOpen)
+    if (!stayOpen)
 	{
 	setTimeout(
 	(function(){
@@ -22,8 +22,8 @@ var updateNotificationStayOpen = function(type, stayOpen)
 
 var closeNotification = function(type, force)
 {
-    if(!openNotifications[type]) return;
-    if(openNotifications[type]['stayOpen'] && !force) return;
+    if (!openNotifications[type]) return;
+    if (openNotifications[type]['stayOpen'] && !force) return;
 
     openNotifications[type]['notification'].cancel();
     delete openNotifications[type];
@@ -35,7 +35,7 @@ var openNotification = function(type, notification, force)
     closeNotification(type, true);
 
     var stay = false;
-    if(localStorage['notification_always_show'] == "true" && !force)
+    if (localStorage['notification_always_show'] == "true" && !force)
     {
 	stay = true;
     }
@@ -49,7 +49,7 @@ var openNotification = function(type, notification, force)
 };
 
 var debugLog = function(whatever){
-    if(!localStorage['debug_mode'] || localStorage['debug_mode'] == "false") return;
+    if (!localStorage['debug_mode'] || localStorage['debug_mode'] == "false") return;
     console.log(whatever);
 };
 
@@ -87,7 +87,7 @@ function stillListeningNotification()
 
 function hideVideoAdNotification()
 {
-    if(localStorage["remove_videos"] != "false")
+    if (localStorage["remove_videos"] != "false")
     {
 	var notification = webkitNotifications.createNotification(
 	    'images/logo-32.png',
@@ -341,27 +341,27 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	returnStatus = lastDevMsg(request.msgId);
     }
 
-    if(notificationType == 'getLocalStorage')
+    if (notificationType == 'getLocalStorage')
     {
 	returnStatus = localStorageSettings();
     }
 
-    if(notificationType == 'showPageAction')
+    if (notificationType == 'showPageAction')
     {
 	returnStatus = showPageAction(sender.tab.id);
     }
 
-    if(notificationType == 'stillListening')
+    if (notificationType == 'stillListening')
     {
 	returnStatus = stillListeningNotification();
     }
 
-    if(notificationType == 'hideVideoAd')
+    if (notificationType == 'hideVideoAd')
     {
 	returnStatus = hideVideoAdNotification();
     }
 
-    if(notificationType == 'songChange')
+    if (notificationType == 'songChange')
     {
 	returnStatus = showSongChangeNotification({
 	    albumArt:   msgParams.albumArt,
@@ -371,7 +371,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	    isLiked:    msgParams.isLiked
 	});
 
-	if(localStorage["scrobble_session_key"] && localStorage["scrobble_session_key"] != 'null' && msgParams.songName != 'audioad')
+	if (localStorage["scrobble_session_key"] && localStorage["scrobble_session_key"] != 'null' && msgParams.songName != 'audioad')
 	{
 	    var dateNow = new Date();
 	    var timestamp = Math.round(dateNow.getTime()/1000);
@@ -395,14 +395,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	_gaq.push(['_trackPageview', msgParams.url]);
     }
     
-    if(notificationType == "showPageAction")
+    if (notificationType == "showPageAction")
     {
 	returnStatus = showPageAction(sender.tab.id);
     }
 
-    if(!request.notificationType)
+    if (!request.notificationType)
     {
-	if(request.lastfmAction)
+	if (request.lastfmAction)
 	{
 	    if (request.lastfmAction == 'love')
 	    {
@@ -421,7 +421,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	    }
 	}
 
-	if(request.copyLyrics)
+	if (request.copyLyrics)
 	{
 	    returnStatus = copyLyrics(request.lyricText);
 	}

@@ -17,7 +17,7 @@ chrome.extension.sendRequest({
 //debug & dispatched events
 var debugLog = function(text)
 {
-    if(settings.re.debug_mode == "false") return;
+    if (settings.re.debug_mode == "false") return;
     console.log(text);
 };
 
@@ -441,7 +441,7 @@ var extendStationList = function()
 var selectableLyrics = function()
 {
     //lol they went above and beyond to prevent this. so strange.
-    if(jQuery("#RE-copyLyrics").length == 0)
+    if (jQuery("#RE-copyLyrics").length == 0)
     {
 	jQuery(".item.lyrics > .heading").append(
 	    '<span id="RE-copyLyrics"> - Copy Lyrics to Clipboard</span>'
@@ -554,7 +554,7 @@ var doSongChange = function()
 
     if (currentAlbumArt == null || oldAlbumArt == newAlbumArt)
 	{
-	if(song_skip_tries < 20) //album art fix
+	if (song_skip_tries < 20) //album art fix
 	    {
 	    song_skip_tries++;
 	    setTimeout("doSongChange()", 100); //try again in 1/10 of second.
@@ -574,20 +574,20 @@ var showNewSongPopup = function()
 
     //idunno if it matters, but i prefer artist - song (album) //setting?
     var artistName  = jQuery(".playerBarArtist")[0].textContent,
-    songName	= jQuery(".playerBarSong")[0].textContent,
-    albumName	= jQuery(".playerBarAlbum")[0].textContent,
-    isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
+	songName    = jQuery(".playerBarSong")[0].textContent,
+	albumName   = jQuery(".playerBarAlbum")[0].textContent,
+	isLiked     = jQuery(".thumbUpButton").hasClass('indicator');
 
     var time = songTimeInfo();
 
-    if(songName == "ad")
+    if (songName == "ad")
 	{
 	hideVideoAd();
 	return false;
     }
 
-    if(songName == "audioad")
-	{
+    if (songName == "audioad")
+    {
 	//debugLog("RadioEnhancer - Muting audio ad.");
 	chrome.extension.sendRequest({
 	    notificationType: 'songChange',
@@ -600,16 +600,14 @@ var showNewSongPopup = function()
 	    }
 	}, function(response) {});
 
-	/*
 	chrome.extension.sendRequest({
-	notificationType:   'analytics',
-	msgParams: {
-	event_name:     'Ads Blocked',
-	event_action:   'audio'
-	}
+	    notificationType:   'analytics',
+	    msgParams: {
+		event_name:     'Ads Blocked',
+		event_action:   'audio'
+	    }
 	}, function(response) {});
-	*/
-
+	
 	return false;
     }
 
@@ -807,7 +805,7 @@ jQuery(document).ready(function()
 	scrobbleControl('showScrobbleStatus');
     }
 
-    if(settings.re.remove_promobox != "false")
+    if (settings.re.remove_promobox != "false")
     {
 	jQuery("#promobox").on('DOMNodeInserted', function(){
 	    extendStationList();
@@ -849,31 +847,31 @@ jQuery(document).ready(function()
 	jQuery("#RE-overlay, #RE-modal").remove();
     });
 
-    if(settings.re.remove_ribbon != "false")
+    if (settings.re.remove_ribbon != "false")
     {
 	jQuery(".pandoraRibbonContainer, .ribbonContent").live('DOMNodeInserted', function(){
 	    hideRibbon();
 	});
     }
 
-    if(settings.re.header_config && settings.re.header_config != "false")
+    if (settings.re.header_config && settings.re.header_config != "false")
     {
 	appendHeaderConfig();
     }
 
-    if(settings.re.notification_song_change != "false")
+    if (settings.re.notification_song_change != "false")
     {
 	jQuery('.stationSlides').live('DOMNodeInserted', function(event) {
 	    doSongChange();
 	});
     }
 
-    if(settings.re.remove_still_listening != "false")
+    if (settings.re.remove_still_listening != "false")
     {
 	jQuery('.still_listening_container').live('DOMNodeInserted', function(event) {
 	    if (jQuery('.still_listening').length > 0)
 	    {
-		if(settings.re.notification_still_listening != "false"){
+		if (settings.re.notification_still_listening != "false"){
 		    showStillListeningNotification();
 		}
 		
@@ -882,7 +880,7 @@ jQuery(document).ready(function()
 	});
     }
 
-    if(settings.re.remove_ads != "false")
+    if (settings.re.remove_ads != "false")
     {
 	jQuery("#mainContentContainer, #mainContainer").livequery(function(){
 	    hideAds();
@@ -903,7 +901,7 @@ jQuery(document).ready(function()
 	hideAds();
     }
 
-    if(settings.re.selectable_lyrics != "false")
+    if (settings.re.selectable_lyrics != "false")
     {
 	jQuery(".lyricsText").livequery(function(){
 	    selectableLyrics();
@@ -914,14 +912,14 @@ jQuery(document).ready(function()
 	});
     }
 
-    if(settings.re.remove_videos != "false")
+    if (settings.re.remove_videos != "false")
     {
 	jQuery("#videoPlayerContainer, #videoPlayer").live('DOMNodeInserted', function(event){
 	    (ads_hidden <= 6) ? ads_hidden++ : hideVideoAd(); //6 are blocked immediately
 	});
     }
 
-    if(settings.re.lastfm_love_with_like == 'true')
+    if (settings.re.lastfm_love_with_like == 'true')
     {
 	jQuery(".thumbUpButton > a").click(function(){
 	    debugLog("RadioEnhancer - Loving on Last.fm");

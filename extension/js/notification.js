@@ -109,7 +109,6 @@ $(document).ready(function()
     PEjs.onMessage.addListener(function(message){
 	if (message.timeInfo)
 	{
-	    //todo: we can do a p2 style detect active jPlayer object and look at jPlayer->status->currentPercentAbsolute
 	    var elapsedTime     = message.timeInfo.elapsedTime;
 	    var remainingTime   = message.timeInfo.remainingTime; //unused right now
 	    var totalTime       = message.timeInfo.totalTime; //sometimes this is wrong :-(
