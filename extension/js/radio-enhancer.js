@@ -7,8 +7,6 @@
 //http://code.google.com/chrome/extensions/windows.html#tyre-Window
 //i forgot why that was something we wanted to detect in the first place...
 
-//todo: fix mute toggle
-
 //init
 chrome.extension.sendRequest({
     notificationType: 'showPageAction'
@@ -651,8 +649,7 @@ jQuery.fn.center = function () {
 }
 
 var checkForMessageFromTheCoolDudesWhoMadeThisThing = function()
-{   
-    //todo: make it marked as viewed only on the ok click
+{
     jQuery.ajax({
 	    type:     "get",
 	    url	:     "http://cbcoding.com/re.json",
@@ -785,7 +782,7 @@ jQuery(document).ready(function()
 	});
     });
     
-    //todo: wtf is the purpose of this?
+    //wtf is the purpose of this?
     chrome.extension.sendRequest({
 	notificationType:   'analytics-pageview',
 	msgParams: {

@@ -1,30 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
-        <script src="js/jquery-1.6.4.min.js"></script>
-        <title>PandoraEnhancer - Authentication Successful</title>
-        <script>
-            var bgPage = chrome.extension.getBackgroundPage();
-            var token = window.location.search;
-            var tokenPieces = token.split('=');
-            bgPage.responseDispatcher('authenticated', tokenPieces[1]);
-        </script>
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<title>PandoraEnhancer - Authentication Successful</title>
+	<script>
+	    var bgPage = chrome.extension.getBackgroundPage();
+	    var token = window.location.search;
+	    var tokenPieces = token.split('=');
+	    bgPage.responseDispatcher('authenticated', tokenPieces[1]);
+	</script>
 
-        <style>
-            body {
-                font-family: helvetica, arial, sans-serif;
-                font-size: 10pt;
-                text-align: center;
-            }
+	<style>
+	    body {
+		font-family: helvetica, arial, sans-serif;
+		font-size: 10pt;
+		text-align: center;
+	    }
 
-            #success {
+	    #success {
 				clear: both;
-                padding: 5px;
-                border: 1px solid #d9e0ea;
-                -webkit-border-radius: 8px;
-                background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
-                width: 500px;
-            }
+		padding: 5px;
+		border: 1px solid #d9e0ea;
+		-webkit-border-radius: 8px;
+		background: -webkit-linear-gradient(top, #f0f4f7 0%,#d9e0ea 100%);
+		width: 500px;
+	    }
 
 			#successContainer{
 				margin-left: auto;
@@ -33,31 +33,31 @@
 			}
 
 			#text-logo{
-                width: 195px;
-                overflow: hidden;
-                font-size: 18pt;
-                font-weight: bold;
-                color: #082247;
-                line-height: 24px;
-                float: left;
+		width: 195px;
+		overflow: hidden;
+		font-size: 18pt;
+		font-weight: bold;
+		color: #082247;
+		line-height: 24px;
+		float: left;
 				text-align: left;
-            }
-            
-            #text-logo-span{
-                color: #0c3a6c;
-            }
-            
-            #text-logo img{
-                float: left;
-                padding: 0 5px 10px 0;
-            }
+	    }
+	    
+	    #text-logo-span{
+		color: #0c3a6c;
+	    }
+	    
+	    #text-logo img{
+		float: left;
+		padding: 0 5px 10px 0;
+	    }
 			#pageContainer{
 				margin: 0;
 				padding: 0;
 				position: relative;
 				width: 100%;
 			}
-        </style>
+	</style>
     </head>
     <body>
 		<div id="pageContainer">
