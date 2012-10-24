@@ -18,13 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.4.1 Changelog
+ ~ Internal: manifest_version 2 upgrade
  ~ Internal: Upgrade to jQuery 1.7.2.
  ~ Internal: PandoraUI -> notification controls now handles mute/unmute as well.
  ~ Internal: Check for message now marks as being read after clicking "Close" button, instead of immediately after display.
  - New: Auto-mute audio ads option (default enabled).
+ - Fix: RadioEnhancer icon in address bar no longer disappears.
  - Fix: Copy lyrics to clipboard works again.
  - Fix: Muting using the notification controls no longer restores to a lower volume level.
  - Fix: Clicking the "mute" icon on Pandora will again toggle muting.
+ - Fix: Song info now truncates in notification window, hover over to view full info if it's too long.
 
 1.4.0 Changelog
  - New name: RadioEnhancer

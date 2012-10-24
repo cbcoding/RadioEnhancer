@@ -49,6 +49,12 @@ body {
     text-shadow: 0 -1px 0 #111;
 }
 
+#artistInfo > div {
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
 #songName{
     font-weight: bold;
     text-shadow: 0 -1px 0 #111;

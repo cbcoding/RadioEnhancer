@@ -95,9 +95,9 @@ var pandoraUIControl = function(element)
 
 $(document).ready(function()
 {
-	$("#artistInfo > #songName").html(songInfo.songName);
-	$("#artistInfo > #albumName").html("on " + songInfo.albumName);
-	$("#artistInfo > #artistName").html("by " + songInfo.artistName);
+	$("#artistInfo > #songName").html(songInfo.songName).attr("title", songInfo.songName);
+	$("#artistInfo > #albumName").html("on " + songInfo.albumName).attr("title", songInfo.albumName);
+	$("#artistInfo > #artistName").html("by " + songInfo.artistName).attr("title", songInfo.artistName);
 	
 	var album_art = (songInfo.albumArt != "/images/no_album_art.jpg")
 		? '<img src="' + songInfo.albumArt + '" width="48" height="48" />'
