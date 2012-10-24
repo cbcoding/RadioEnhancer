@@ -34,6 +34,6 @@
 	"default_title": "RadioEnhancer",
 	"default_icon": "images/logo-16.png",
 	"default_popup": "settings.html"
-    }
+    },
     "content_security_policy": "object-src 'self'; script-src 'self' https://ssl.gstatic.com https://ssl.google-analytics.com https://platform.twitter.com https://*.google.com https://connect.facebook.net"
 }
