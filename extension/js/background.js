@@ -177,7 +177,7 @@ function showSongChangeNotification(info)
 
     openNotification('songChange', notification, false);
 
-    timeouts['songchange'] = setTimeout("closeNotification('songChange', false);", (localStorage["notification_timeout"]*1000));
+    timeouts['songchange'] = setTimeout(function(){closeNotification('songChange', false);}, (localStorage["notification_timeout"]*1000));
 
     return {'message':'PE Notification shown'};
 }
