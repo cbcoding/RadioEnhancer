@@ -1,9 +1,9 @@
 {
     "name": "RadioEnhancer",
     "version": "1.4.1",
-    "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora's awesome HTML5 interface.",
-    /* "background":  { "page": "background.html" }, */ //manifest 2
-    "background_page" : "background.html",
+    "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora&trade;'s awesome HTML5 interface.",
+    "background": { "page": "background.html" },  //manifest 2
+    //"background_page" : "background.html",
     "options_page":     "settings.html",
     "icons": {
 	"16": "images/logo-16.png",
@@ -26,6 +26,7 @@
 	    "run_at": "document_end"
 	}
     ],
+    "manifest_version": 2,
     "permissions": [
 	"notifications"
     ],
@@ -34,5 +35,5 @@
 	"default_icon": "images/logo-16.png",
 	"default_popup": "settings.html"
     }
-    /* "content_security_policy": "object-src 'self'; script-src 'self' https://ssl.gstatic.com https://ssl.google-analytics.com https://platform.twitter.com https://*.google.com https://connect.facebook.net" */
+    "content_security_policy": "object-src 'self'; script-src 'self' https://ssl.gstatic.com https://ssl.google-analytics.com https://platform.twitter.com https://*.google.com https://connect.facebook.net"
 }
