@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
 1.4.1 Changelog
- ~ Internal: manifest_version 2 upgrade
+ ~ Internal: manifest_version 2 upgrade.
  ~ Internal: Upgrade to jQuery 1.7.2.
  ~ Internal: PandoraUI -> notification controls now handles mute/unmute as well.
  ~ Internal: Check for message now marks as being read after clicking "Close" button, instead of immediately after display.
