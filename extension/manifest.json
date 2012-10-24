@@ -1,7 +1,7 @@
 {
     "name": "RadioEnhancer",
     "version": "1.4.1",
-    "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora&trade;'s awesome HTML5 interface.",
+    "description": "Removes ads, scrobbles to Last.fm, displays song change notifications, and improves Pandora's awesome HTML5 interface.",
     "background": { "page": "background.html" },  //manifest 2
     //"background_page" : "background.html",
     "options_page":     "settings.html",

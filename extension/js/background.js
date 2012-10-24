@@ -78,7 +78,7 @@ function stillListeningNotification()
 
     openNotification('stillListening', notification, true);
 
-    timeouts['stillListening'] = setTimeout("closeNotification('stillListening', false);", (localStorage["notification_timeout"]*1000));
+    timeouts['stillListening'] = setTimeout(function(){closeNotification('stillListening', false);}, (localStorage["notification_timeout"]*1000));
     
     _gaq.push(['_trackEvent', 'Notifications', 'Still Listening (standard)']);
 
@@ -97,7 +97,7 @@ function hideVideoAdNotification()
 
 	openNotification('hideVideoAd', notification, true);
 
-	timeouts['hideVideoAd'] = setTimeout("closeNotification('hideVideoAd', false);", (localStorage["notification_timeout"]*1000));
+	timeouts['hideVideoAd'] = setTimeout(function(){closeNotification('hideVideoAd', false);}, (localStorage["notification_timeout"]*1000));
 	
 	_gaq.push(['_trackEvent', 'Notifications', 'Video Ad Blocked (standard)']);
     }

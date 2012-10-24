@@ -96,7 +96,7 @@ var responseDispatcher = function (type, payload)
 
 	if (payload['elapsedTime'] < scrobbleDelay) //only scrobble if we haven't already done it.
 	{
-	    setTimeout("sendScrobble();", (parseInt(scrobbleDelay) + 1) * 1000);
+	    setTimeout(function(){sendScrobble();}, (parseInt(scrobbleDelay) + 1) * 1000);
 	}
 	return;
     }

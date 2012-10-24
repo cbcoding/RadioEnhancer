@@ -555,7 +555,7 @@ var doSongChange = function()
 	if (song_skip_tries < 20) //album art fix
 	    {
 	    song_skip_tries++;
-	    setTimeout("doSongChange()", 100); //try again in 1/10 of second.
+	    setTimeout(function(){doSongChange();}, 100); //try again in 1/10 of second.
 	    return;
 	}
     }
@@ -563,7 +563,7 @@ var doSongChange = function()
     debugLog('RadioEnhancer - Song changed.');
 
     song_skip_tries = 0;
-    setTimeout("showNewSongPopup()", 100);
+    setTimeout(function(){showNewSongPopup();}, 100);
 };
 
 var showNewSongPopup = function()
@@ -872,7 +872,7 @@ jQuery(document).ready(function()
 		    showStillListeningNotification();
 		}
 		
-		setTimeout("totallyStillListening()", 5000);
+		setTimeout(function(){totallyStillListening();}, 5000);
 	    }
 	});
     }
