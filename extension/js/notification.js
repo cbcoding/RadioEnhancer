@@ -167,16 +167,19 @@ $(document).ready(function()
 	$("#thumbs_up").addClass('isLiked');
 	$("#thumbs_up").removeClass('playerControl');
     }
-
+    
+    //in case you need to ever test with audio ads
+    //var simulateRandomAudioAd = (Math.floor(Math.random()*100) % 2 == 0) ? true : false;
+    //if (simulateRandomAudioAd)
     if (songInfo.autoMute && songInfo.songName == "Audio Ad")
     {
 	bgPage.window.setAudioAdStatus(true);
 	bgPage.window.playerControl("mute");
-    } else {
-	if (bgPage.window.getAudioAdStatus())
-	    bgPage.window.playerControl("unmute");
-
+    }
+    else if (bgPage.window.getAudioAdStatus())
+    {
 	bgPage.window.setAudioAdStatus(false);
+	bgPage.window.playerControl("unmute");
     }
 
     $('#notificationContainer').mouseenter(function(event){

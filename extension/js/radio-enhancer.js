@@ -338,36 +338,58 @@ var playerControl = function(action)
 
 	//todo: mute/unmute toggle gradually lowers overall volume level. fix.
 	case "mute":
-	    isMuted = true;
+	    var analyticsMessage = "mute",
+		analyticsName = "RE Player Control",
+		logMessage = "Mute",
+		isMuted = true;
 	    
-	    volumeLevelRestored = jQuery(".volumeKnob").css("left");
-	    volumeLevelRestored = volumeLevelRestored.replace("px","");
-	    volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
-	    
-	    jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
-	    debugLog("RadioEnhancer - Mute");
-	    
-	    chrome.extension.sendRequest({
-		notificationType:   'analytics',
-		msgParams: {
-		    event_name:     'RE Player Control',
-		    event_action:   'mute'
-		}
-	    }, function(response) {});
+	    chrome.extension.sendRequest({ autoMuteStatus: true }, function(response)
+	    {
+		analyticsMessage = (response) ? "auto mute (audio ad)" : analyticsMessage;
+		analyticsName = (response) ? "Ads Blocked" : analyticsName;
+		logMessage = (response) ? "Auto-Mute (audio ad)" : logMessage;
+		
+		volumeLevelRestored = jQuery(".volumeKnob").css("left");
+		volumeLevelRestored = volumeLevelRestored.replace("px","");
+		volumeLevelRestored = volumeLevelRestored - volumeLevelBase;
+		
+		jQuery('.volumeKnob').simulate("drag", {dx: -150, dy: 0});
+		
+		debugLog("RadioEnhancer - " + logMessage);
+		
+		chrome.extension.sendRequest({
+		    notificationType:   'analytics',
+		    msgParams: {
+			event_name:     analyticsName,
+			event_action:   analyticsMessage
+		    }
+		}, function(response) {});
+	    });
 	    break;
 	case "unmute":
-	    isMuted = false;
-	    jQuery('.volumeBackground').css('display', 'block');
-	    jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
-	    debugLog("RadioEnhancer - Un-mute");
+	    var logMessage = "Un-mute",
+		isMuted = false;
 	    
-	    chrome.extension.sendRequest({
-		notificationType:   'analytics',
-		msgParams: {
-		    event_name:     'RE Player Control',
-		    event_action:   'un-mute'
+	    chrome.extension.sendRequest({ autoMuteStatus: true }, function(response)
+	    {
+		logMessage = (!response) ? "Auto-Unmute (audio ad)" : logMessage;
+		
+		jQuery('.volumeBackground').css('display', 'block');
+		jQuery('.volumeKnob').simulate("drag", {dx: volumeLevelRestored, dy: 0});
+		
+		debugLog("RadioEnhancer - " + logMessage);
+		
+		//this should NOT send an analytics ping for auto-unmute
+		if (response) {
+		    chrome.extension.sendRequest({
+			notificationType:   'analytics',
+			msgParams: {
+			    event_name:     'RE Player Control',
+			    event_action:   'un-mute'
+			}
+		    }, function(response) {});
 		}
-	    }, function(response) {});
+	    });
 	    break;
 
 	default:

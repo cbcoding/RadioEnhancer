@@ -430,6 +430,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse)
 	{
 	    chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
 	}
+	
+	if (request.autoMuteStatus)
+	{
+	    returnStatus = getAudioAdStatus();
+	}
     }
 
     sendResponse(returnStatus);
