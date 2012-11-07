@@ -2,170 +2,162 @@ var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-26372393-2']);
 _gaq.push(['_trackPageview']);
 (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = 'https://ssl.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	var ga = document.createElement('script');
+	ga.type = 'text/javascript';
+	ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(ga, s);
 })();
 
 var bgPage = chrome.extension.getBackgroundPage();
-var debugLog = function(text)
-{
-    bgPage.debugLog(text);
-};
+var debugLog = function(text) {
+		bgPage.debugLog(text);
+	};
+
 function param(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+	var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
-var loadCurrentOptions = function()
-{
-    //load options and set values
-    $("form input").each(function(index){        
-	
-	var name = $(this).prop("name");
-	var value = localStorage[name];
-	
-	if (name == "donation_amount") return;
+var loadCurrentOptions = function() {
+		//load options and set values
+		$("form input").each(function(index) {
 
-	if (value != "true" || value != "false" && $(this).prop('type') != 'checkbox'){
-	    $(this).val(value);
-	} else if (value == "true"){
-	    $(this).prop('checked', true);
-	} else {
-	    $(this).prop("checked", false);
-	}             
-    });
+			var name = $(this).prop("name");
+			var value = localStorage[name];
 
-    if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null')
-    {
-	$('#scrobbleLoginButton').css('display', 'none');
-	$('#scrobbleTokenContainer').css('display', 'block');
-	$('#scrobbleToken').text('Logged in as ' + localStorage['scrobble_session_name']);// + ' (' + session['name'] + ')');
-    }
+			if(name == "donation_amount") return;
 
-    if (localStorage['notification_always_show'] == "true")
-    {
-	$("#notification_timeout").attr("disabled", "disabled");
-    }
-};
+			if(value != "true" || value != "false" && $(this).prop('type') != 'checkbox') {
+				$(this).val(value);
+			} else if(value == "true") {
+				$(this).prop('checked', true);
+			} else {
+				$(this).prop("checked", false);
+			}
+		});
 
-var saveCurrentOptions = function()
-{
-    if (isNaN($('input[name="notification_timeout"]').val()))
-	{
-	alert("Display length must be a number.");
-	$('input[name="notification_timeout"]').val('').focus();
-	return false;
-    } 
+		if(localStorage['scrobble_session_key'] && localStorage['scrobble_session_key'] != 'null') {
+			$('#scrobbleLoginButton').css('display', 'none');
+			$('#scrobbleTokenContainer').css('display', 'block');
+			$('#scrobbleToken').text('Logged in as ' + localStorage['scrobble_session_name']); // + ' (' + session['name'] + ')');
+		}
 
-    //load options and set values
-    $("input").each(function(index){
-	var name = $(this).prop("name");
-	var value = false;
+		if(localStorage['notification_always_show'] == "true") {
+			$("#notification_timeout").attr("disabled", "disabled");
+		}
+	};
 
-	if($(this).prop('type') == 'checkbox')
-	{
-	    value = $(this).prop('checked');
+var saveCurrentOptions = function() {
+		if(isNaN($('input[name="notification_timeout"]').val())) {
+			alert("Display length must be a number.");
+			$('input[name="notification_timeout"]').val('').focus();
+			return false;
+		}
+
+		//load options and set values
+		$("input").each(function(index) {
+			var name = $(this).prop("name");
+			var value = false;
+
+			if($(this).prop('type') == 'checkbox') {
+				value = $(this).prop('checked');
+			}
+
+			if($(this).prop('type') == 'text') {
+				value = $(this).val();
+			}
+
+			localStorage[name] = value;
+		});
+
+		return true;
+	};
+
+var enableSaveButton = function() {
+		$('#saveButton').prop('disabled', false);
+		$("#saveButton").click(function() {
+			var saved = saveCurrentOptions();
+
+			if(saved) {
+				debugLog("saved settings");
+				_gaq.push(['_trackEvent', 'Settings', 'saved settings']);
+				bgPage.window.refreshPandora();
+				window.close();
+			} else {
+				debugLog("did not save settings - uh oh!");
+			}
+		});
 	}
 
-	if($(this).prop('type') == 'text')
-	{
-	    value = $(this).val();
+var disableSaveButton = function() {
+		$('#saveButton').prop('disabled', true);
 	}
 
-	localStorage[name] = value;          
-    });
+$(document).ready(function() {
+	loadCurrentOptions();
+	var ext = chrome.app.getDetails();
 
-    return true;
-};
+	$(".setting_checkbox").live('change', function() {
+		enableSaveButton();
+	});
 
-var enableSaveButton = function()
-{
-    $('#saveButton').prop('disabled', false);
-    $("#saveButton").click(function(){
-	var saved = saveCurrentOptions();
+	$(".setting_textbox").keypress(function() {
+		enableSaveButton();
+	});
 
-	if(saved)
-	{
-	    debugLog("saved settings");
-	    _gaq.push(['_trackEvent', 'Settings', 'saved settings']);
-	    bgPage.window.refreshPandora();
-	    window.close();
-	} else {
-	    debugLog("did not save settings - uh oh!");
-	}
-    });
-}
+	$("#cancelButton").click(function() {
+		window.close();
+	});
 
-var disableSaveButton = function()
-{
-    $('#saveButton').prop('disabled', true);
-}
+	$(".RE-version").html(ext.version);
 
-$(document).ready(function()
-{
-    loadCurrentOptions();
-    var ext = chrome.app.getDetails();
+	$(".link").click(function() {
+		var person = $(this).prop("id");
+		bgPage.ourWebsites(person);
+	});
 
-    $(".setting_checkbox").live('change', function(){
-	enableSaveButton();
-    });
+	$('#scrobbleLoginButton').click(function() {
+		var username = $('#scrobble_username').val();
+		bgPage.responseDispatcher('requestAuthentication', username);
+	});
 
-    $(".setting_textbox").keypress(function(){
-	enableSaveButton();
-    });
+	$('#scrobbleLogoutButton').click(function() {
+		bgPage.responseDispatcher('scrobbleLogout');
 
-    $("#cancelButton").click(function(){
-	window.close();
-    });
+		$('#scrobbleTokenContainer').css('display', 'none');
+		$('#scrobbleToken').text('');
+		$('#scrobbleLoginButton').css('display', 'block');
+	});
 
-    $(".RE-version").html(ext.version);
+	$("ul.tabs > li").click(function() {
+		var tab = $(this).attr("id");
 
-    $(".link").click(function(){
-	var person = $(this).prop("id");
-	bgPage.ourWebsites(person);
-    });
+		if($(this).hasClass("selected")) {
+			return false;
+		}
 
-    $('#scrobbleLoginButton').click(function(){
-	var username = $('#scrobble_username').val();
-	bgPage.responseDispatcher('requestAuthentication', username);
-    });
+		//active tab
+		$("ul.tabs > li.selected").removeClass("selected");
+		$("ul.tabs > li#" + tab).addClass("selected");
 
-    $('#scrobbleLogoutButton').click(function(){
-	bgPage.responseDispatcher('scrobbleLogout');
+		//active content
+		$(".content > div.active").removeClass("active");
+		$(".content > div#" + tab).addClass("active");
+	});
 
-	$('#scrobbleTokenContainer').css('display', 'none');
-	$('#scrobbleToken').text('');
-	$('#scrobbleLoginButton').css('display', 'block');
-    });
+	$("#notification_always_show").click(function() {
+		if($(this).prop("checked")) {
+			$("#notification_timeout").attr("disabled", "disabled");
+		} else {
+			$("#notification_timeout").removeAttr("disabled");
+		}
+	});
 
-    $("ul.tabs > li").click(function(){
-	var tab = $(this).attr("id");
+	_gaq.push(['_trackPageview']);
 
-	if ($(this).hasClass("selected")){
-	    return false;
-	}
-
-	//active tab
-	$("ul.tabs > li.selected").removeClass("selected");
-	$("ul.tabs > li#"+tab).addClass("selected");
-
-	//active content
-	$(".content > div.active").removeClass("active");
-	$(".content > div#"+tab).addClass("active");
-    });
-
-    $("#notification_always_show").click(function(){
-	if ($(this).prop("checked")){
-	    $("#notification_timeout").attr("disabled", "disabled");
-	} else {
-	    $("#notification_timeout").removeAttr("disabled");
-	}
-    });
-    
-    _gaq.push(['_trackPageview']);
-    
-    /*$("#donation_amount").live('change', function(){
+	/*$("#donation_amount").live('change', function(){
 	var total = $(this).prop("value"),
 	    url   = $("#donation_link").attr("href"),
 	    we_get= total*(1 - (2.90/100))-0.30
@@ -188,30 +180,33 @@ $(document).ready(function()
 	$(".donation_amount.after_fees").html("$"+we_get.toFixed(2));
 	
     });*/
-    
-    setTimeout(function(){
-	(function() {
-	    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	    po.src = 'https://apis.google.com/js/plusone.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	})();
 
-	(function() {
-	    var po = document.createElement('script'); 
-	    po.type = 'text/javascript'; 
-	    po.async = true;
-	    po.src = 'https://platform.twitter.com/widgets.js';
-	    var s = document.getElementsByTagName('script')[0]; 
-	    s.parentNode.insertBefore(po, s);
-	})();
-	(function() {
-	    var po = document.createElement('script'); 
-	    po.type = 'text/javascript'; 
-	    po.async = true;
-	    po.src = 'https://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
-	    var s = document.getElementsByTagName('script')[0]; 
-	    s.parentNode.insertBefore(po, s);
-	}());
-    },100);
-    
+	setTimeout(function() {
+		(function() {
+			var po = document.createElement('script');
+			po.type = 'text/javascript';
+			po.async = true;
+			po.src = 'https://apis.google.com/js/plusone.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+
+		(function() {
+			var po = document.createElement('script');
+			po.type = 'text/javascript';
+			po.async = true;
+			po.src = 'https://platform.twitter.com/widgets.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+		(function() {
+			var po = document.createElement('script');
+			po.type = 'text/javascript';
+			po.async = true;
+			po.src = 'https://connect.facebook.net/en_US/all.js#xfbml=1&appId=139082510586';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(po, s);
+		}());
+	}, 100);
+
 });

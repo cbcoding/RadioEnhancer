@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------
 
+1.4.2 Changelog
+ ~ Internal: lol we weren't packing radio-enhancer.js properly. we are now.
+ ~ Internal: Analytics events and debugLog trigger for audio ad auto-mute.
+ - New: Enable Pandora's player controls during an audio ad.
+ - Fix: Last.fm authentication works again.
+
 1.4.1 Changelog
  ~ Internal: manifest_version 2 upgrade.
  ~ Internal: Upgrade to jQuery 1.7.2.
