@@ -147,7 +147,7 @@ var scrobbleControl = function(action) {
         var scrobbleImage = chrome.extension.getURL('images/scrobble.png');
 
         jQuery("#brandingBar > .leftcolumn > .logo").css("margin-right", "30px");
-        jQuery("#brandingBar > .leftcolumn").append('<span id="scrobbleDiv" style="">' + '<span style="">' + '<img src="' + scrobbleImage + '" style="float:left;"><span id="scrobbleStatus" class="rightcolumn" style="font-size:12px;float:left;margin-left:5px;padding:0 !important;left:-160px"></span>' + '</span></span>');
+        jQuery("#brandingBar > .leftcolumn").append('<span id="scrobbleDiv" style="">' + '<span style="">' + '<img src="' + scrobbleImage + '" style="float:left;"><a href="http://last.fm/user/'+settings.re.scrobble_session_name+'" target="_blank"><span id="scrobbleStatus" class="rightcolumn" style="font-size:12px;float:left;margin-left:5px;padding:0 !important;left:-160px"></span></a>' + '</span></span>');
 
         chrome.extension.sendRequest({
             notificationType: 'analytics',
@@ -305,7 +305,6 @@ var playerControl = function(action) {
         }, function(response) {});
         break;
 
-        //todo: mute/unmute toggle gradually lowers overall volume level. fix.
     case "mute":
         var analyticsMessage = "mute",
             analyticsName = "RE Player Control",
