@@ -138,8 +138,16 @@ function showSongChangeNotification(info) {
 			_gaq.push(['_trackEvent', 'Notifications', 'Song Change (standard)']);
 		}
 	} else {
-		//html notifications are the new shit
-		notification = webkitNotifications.createHTMLNotification('notification.html');
+		//html notifications = (window.navigator.userAgent.search(/Chrome\/28/) === -1) ? new Shit() : new Error(":(");
+		if(webkitNotifications.createHTMLNotification) {
+			notification = webkitNotifications.createHTMLNotification('notification.html');
+		} else {
+			notification = webkitNotifications.createNotification(
+				info.albumArt,
+				info.songName,
+				info.artistName + " - " + info.albumName
+			);
+		}
 		/*
 	notification = webkitNotifications.createHTMLNotification(
 	    'notification.html?'
