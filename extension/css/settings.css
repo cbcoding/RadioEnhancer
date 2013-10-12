@@ -121,7 +121,7 @@ label{
 }
 
 .tabBox .content {
-    height: 200px; /*should change if we add new settings*/
+    height: 220px; /*should change if we add new settings*/
     clear: left;
     position: relative;
     z-index: 2;
