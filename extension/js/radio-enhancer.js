@@ -599,6 +599,10 @@ var showNewSongPopup = function() {
 
     if(isMuted) playerControl("unmute");
 
+    if(settings.re.set_title) {
+        document.title = songName + " by " + artistName + " - Pandora";
+    }
+
     chrome.extension.sendRequest({
         notificationType: 'songChange',
         msgParams: {

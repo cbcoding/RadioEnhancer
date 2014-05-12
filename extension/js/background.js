@@ -216,6 +216,7 @@ function localStorageSettings() {
 		scrobble_delay: localStorage["scrobble_delay"],
 		scrobble_session_key: localStorage["scrobble_session_key"],
 		scrobble_session_name: localStorage["scrobble_session_name"],
+		set_title: localStorage["set_title"],
 		last_dev_message: localStorage["last_dev_message"]
 	};
 
@@ -242,6 +243,7 @@ function localStorageSettings() {
 		scrobble_delay: 30,
 		scrobble_session_key: null,
 		scrobble_session_name: null,
+		set_title: true,
 		last_dev_message: 0
 	};
 
